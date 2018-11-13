@@ -6,11 +6,12 @@ import sth.core.exception.BadEntryException;
 import sth.core.exception.NoSuchPersonIdException;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * School implementation.
  */
-public class School implements java.io.Serializable {
+public class School implements Serializable {
 
   /** Serial number for serialization. */
   private static final long serialVersionUID = 201810051538L;

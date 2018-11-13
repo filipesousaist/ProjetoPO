@@ -1,10 +1,12 @@
 package sth.core;
 
-// Imports aqui!!
+//FIXME imports
+import java.io.Serializable;
 
-public abstract class Person implements java.io.Serializable {
+public abstract class Person implements Serializable {
 	
 	/** Serial number for serialization. */
+	private static final long serialVersionUID = 201810051538L;
 	
 	private int _id;
 	private String _name;
@@ -31,6 +33,10 @@ public abstract class Person implements java.io.Serializable {
 	void changePhoneNumber(String newPhoneNumber) {
 		_phoneNumber = newPhoneNumber;
 	}
+
+	abstract String getType();
 	
-	public abstract String getType();
+	public String toString() {
+		return getType() + "|" + getId() + "|" + getPhoneNumber() + "|" + getName();
+	}
 }

@@ -1,14 +1,14 @@
 package sth.core;
 
-
-
-public class Student extends Person implements java.io.Serializable {
+public class Student extends Person {
 
 	/** Serial number for serialization */
+	private static final long serialVersionUID = 201810051538L;
 
-	boolean _isRepresentative;
+	private boolean _isRepresentative;
+	private ArrayList<Discipline> _disciplines;
 
-	public Student(int id, String name, String phoneNumber, boolean rep) {
+	Student(int id, String name, String phoneNumber, boolean rep) {
 		super(id, name, phoneNumber);
 		setRepresentative(rep);
 	}
@@ -17,7 +17,14 @@ public class Student extends Person implements java.io.Serializable {
 		_isRepresentative = rep;
 	}
 
+	String getType() {
+		return "ALUNO";
+	}
+
 	public String toString() {
-		super("ALUNO");
+		String s = super.toString();
+
+		for (Discipline d: _disciplines)
+			s += "\n* " + d.getCourse().toString() + " - " + d.toString();
 	}
 }
