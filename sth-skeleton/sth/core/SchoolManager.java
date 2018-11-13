@@ -88,7 +88,8 @@ public class SchoolManager {
   }
   
   public String getHeader(Person person) {
-	  return person.getType() + "|" + person.getId() + "|" + person.getPhoneNumber() + "|" + person.getName();
+	  return person.getType() + "|" + person.getId() + "|" + 
+      person.getPhoneNumber() + "|" + person.getName();
   }
   
   
