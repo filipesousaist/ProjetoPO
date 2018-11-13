@@ -17,9 +17,21 @@ public class School implements Serializable {
   private static final long serialVersionUID = 201810051538L;
 
   //FIXME define object fields (attributes and, possibly, associations)
-  private ArrayList<Person> _people;
+  private static final int START_ID = 100000;
+  
+  private String _name;
+  private int _nextPersonId;
+  
+  private Set<Person> _people;
+  private Set<Course> _courses;
+
 
   //FIXME implement constructors if needed
+  School(String name) {
+    _name = name;
+    _nextPersonId = START_ID;
+    _people = new HashSet<>();
+  }
   
   /**
    * @param filename
@@ -30,15 +42,33 @@ public class School implements Serializable {
     //FIXME implement text file reader
   }
   
+  void parseCourse()
   //FIXME implement other methods
-  public Collection<Person> getAllUsers(String str) {
-	  ArrayList<Person> retList = new ArrayList<>();
-	  for (Person p: _people) {
-		  String name = p.getName();
-		  if (name.contains(str)) 
-			  retList.add(p);
+
+  Person getPerson(int id) throws NoSuchPersonIdException {
+    if (_people.contains(person)) /* contains() is O(1) in a HashSet */
+      for (Person p: _people)
+        if (p.getId() == id)
+          return p;
+    throw new NoSuchPersonIdException(id);
+  }
+
+  List<Person> getAllUsers(String str) {
+	  List<Person> peopleList = new ArrayList<>(_people);
+    Iterator<Person> it = peopleList.iterator();
+	  while (it.hasNext()) {
+      Person p = it.next();
+		  if (! p.getName().contains(str))
+			  it.remove();
 	  }
-	  return retList;
+    Collections.sort(peopleList, 
+      new Comparator<Person>() {
+        public int compare(Person p1, Person p2) {
+          return p1.getId() - p2.getId();
+        }
+      } 
+    );
+	  return peopleList;
   }
 
 }

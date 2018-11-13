@@ -9,12 +9,20 @@ public class Course implements Serailizable {
 
 	private String _name;
 
-	private ArrayList<Student> _students;
-	private ArrayList<Teacher> _teachers;
-	private ArrayList<Discipline> _disciplines;
+	private Set<Student> _students;
+	private Set<Teacher> _teachers;
+	private Set<Discipline> _disciplines;
 
 	Course(String name) {
 		_name = name;
+	}
+
+	boolean addDiscipline(Discipline d) {
+		return _disciplines.add(d);
+	}
+
+	boolean addStudent(Student s) {
+		return _students.add(s);
 	}
 
 

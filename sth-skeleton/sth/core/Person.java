@@ -29,14 +29,31 @@ public abstract class Person implements Serializable {
 	public String getPhoneNumber() {
 		return _phoneNumber;
 	}
+
+	abstract String getPersonType();
 	
 	void changePhoneNumber(String newPhoneNumber) {
 		_phoneNumber = newPhoneNumber;
 	}
 
-	abstract String getType();
+	void parseContext(String context, School school) throws BadEntryException {
+    throw new BadEntryException("Should not have extra context: " + context);
+  }
 	
 	public String toString() {
-		return getType() + "|" + getId() + "|" + getPhoneNumber() + "|" + getName();
+		return getPersonType() + "|" + getId() + "|" + 
+			getPhoneNumber() + "|" + getName();
+	}
+
+	@Override
+	public int hashCode() {
+		return _id;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj != NULL && 
+			obj instanceof Person && 
+			_id == ((Person) obj).getId();
 	}
 }

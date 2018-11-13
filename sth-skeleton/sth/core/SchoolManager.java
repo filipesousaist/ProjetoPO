@@ -20,6 +20,8 @@ public class SchoolManager {
 
   private School _school;
 
+  private Person _loggedUser;
+
   //FIXME implement constructors if needed
   
   /**
@@ -30,7 +32,8 @@ public class SchoolManager {
   public void importFile(String datafile) throws ImportFileException {
     try {
       _school.importFile(datafile);
-    } catch (IOException | BadEntryException e) {
+    } 
+    catch (IOException | BadEntryException e) {
       throw new ImportFileException(e);
     }
   }
@@ -43,54 +46,48 @@ public class SchoolManager {
    */
   public void login(int id) throws NoSuchPersonIdException {
     //FIXME implement method
+      _loggedUser = _school.getPerson(id)
   }
 
   /**
    * @return true when the currently logged in person is an administrative
    */
   public boolean isLoggedUserAdministrative() {
-    //FIXME implement predicate
+    return _loggedUser.getPersonType() == "FUNCIONÁRIO";
   }
 
   /**
-   * @return true when the currently logged in person is a professor
+   * @return true when the currently logged in person is a teacher
    */
-  public boolean isLoggedUserProfessor() {
-    //FIXME implement predicate
+  public boolean isLoggedUserTeacher() {
+    return _loggedUser.getPersonType() == "DOCENTE";
   }
 
   /**
    * @return true when the currently logged in person is a student
    */
   public boolean isLoggedUserStudent() {
-    //FIXME implement predicate
+    return _loggedUser.getPersonType() == "ALUNO";
   }
 
   /**
    * @return true when the currently logged in person is a representative
    */
   public boolean isLoggedUserRepresentative() {
-    //FIXME implement predicate
+    return _loggedUser.getPersonType() == "DELEGADO";
   }
   
   //FIXME implement other methods (in general, one for each command in sth-app)
   
-  public void doChangePhoneNumber(Person person, String newPhoneNumber) {
+  public void changePhoneNumber(Person person, String newPhoneNumber) {
 	  person.changePhoneNumber(newPhoneNumber);
   }
   
-  public Collection<String> doSearchPerson(String str) {
-	  Collection<Person> peopleList = _school.getAllUsers(str);
-	  ArrayList<String> strList = new ArrayList<>();
+  public List<String> doSearchPerson(String str) {
+	  List<Person> peopleList = _school.getAllUsers(str);
+	  List<String> strList = new ArrayList<>();
 	  for (Person p: peopleList)
 		  strList.add(p.toString());
 	  return strList;
   }
-  
-  public String getHeader(Person person) {
-	  return person.getType() + "|" + person.getId() + "|" + 
-      person.getPhoneNumber() + "|" + person.getName();
-  }
-  
-  
 }

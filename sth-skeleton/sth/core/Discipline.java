@@ -6,11 +6,13 @@ public class Discipline implements Serializable {
 	/** Serial number for serialization */
 	private static final long serialVersionUID = 201810051538L;
 
+	private static final int MAX_STUDENTS = 30;
 	private String _name;
-	private ArrayList<Student> _students;
+	private Set<Student> _students;
 	private Course _course;
 	
 	Discipline(String name) {
+		_students = new HashSet<>();
 		_name = name;
 	}
 
@@ -18,7 +20,29 @@ public class Discipline implements Serializable {
 		return _name;
 	}
 
+	String getName() {
+		return _name;
+	}
+
 	Course getCourse() {
 		return _course;
+	}
+
+
+	void enrollStrudent(Student s) {
+		_students.add(s);
+
+	}
+
+	@Override
+	public int hashCode() {
+		return _name.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj != NULL && 
+			obj instanceof Discipline && 
+			_name.equals(((Discipline) obj)._name);
 	}
 }
