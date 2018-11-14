@@ -9,9 +9,9 @@ public class Course implements Serailizable {
 
 	private String _name;
 
-	private Set<Student> _students;
-	private Set<Teacher> _teachers;
-	private Set<Discipline> _disciplines;
+	private Set<Student> _students = new HashSet<>();
+	private Set<Teacher> _teachers = new HashSet<>();
+	private Set<Discipline> _disciplines = new HashSet<>();
 
 	Course(String name) {
 		_name = name;
@@ -21,8 +21,22 @@ public class Course implements Serailizable {
 		return _disciplines.add(d);
 	}
 
-	boolean addStudent(Student s) {
-		return _students.add(s);
+	void addStudent(Student s) {
+		_students.add(s);
+	}
+
+	Discipline parseDiscipline(String disciplineName) {
+    for (Discipline d: _disciplines)
+      if (d.getName().equals(disciplineName))
+        return d;
+
+    Discipline newDiscipline = new Discipline(disciplineName);
+    addDiscipline(newDiscipline);
+    return newDiscipline;
+  }
+
+	public String getName() {
+		return _name;
 	}
 
 

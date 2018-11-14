@@ -8,11 +8,10 @@ public class Discipline implements Serializable {
 
 	private static final int MAX_STUDENTS = 30;
 	private String _name;
-	private Set<Student> _students;
+	private Set<Student> _students = new HashSet<>();
 	private Course _course;
 	
 	Discipline(String name) {
-		_students = new HashSet<>();
 		_name = name;
 	}
 
@@ -28,10 +27,9 @@ public class Discipline implements Serializable {
 		return _course;
 	}
 
-
 	void enrollStrudent(Student s) {
 		_students.add(s);
-
+		s.addDiscipline(this);
 	}
 
 	@Override

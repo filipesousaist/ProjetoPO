@@ -46,7 +46,7 @@ public class SchoolManager {
    */
   public void login(int id) throws NoSuchPersonIdException {
     //FIXME implement method
-      _loggedUser = _school.getPerson(id)
+      _loggedUser = _school.getPerson(id);
   }
 
   /**
@@ -78,16 +78,13 @@ public class SchoolManager {
   }
   
   //FIXME implement other methods (in general, one for each command in sth-app)
+
   
   public void changePhoneNumber(Person person, String newPhoneNumber) {
 	  person.changePhoneNumber(newPhoneNumber);
   }
   
-  public List<String> doSearchPerson(String str) {
-	  List<Person> peopleList = _school.getAllUsers(str);
-	  List<String> strList = new ArrayList<>();
-	  for (Person p: peopleList)
-		  strList.add(p.toString());
-	  return strList;
+  public List<Person> searchPerson(String str) {
+	  return _school.getAllUsers(str);
   }
 }

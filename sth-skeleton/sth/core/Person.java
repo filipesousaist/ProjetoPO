@@ -52,7 +52,7 @@ public abstract class Person implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		return obj != NULL && 
+		return obj != NULL &&
 			obj instanceof Person && 
 			_id == ((Person) obj).getId();
 	}

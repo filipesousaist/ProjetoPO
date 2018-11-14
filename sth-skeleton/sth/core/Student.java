@@ -2,6 +2,8 @@ package sth.core;
 
 public class Student extends Person {
 	private boolean _isRepresentative;
+
+	private Course _course;
 	private Set<Discipline> _disciplines;
 
 	Student(int id, String phoneNumber, String name, boolean rep) {
@@ -12,6 +14,10 @@ public class Student extends Person {
 
 	void setRepresentative(boolean rep) {
 		_isRepresentative = rep;
+	}
+
+	void addDiscipline(Discipline d) {
+		_disciplines.add(d);
 	}
 
 	@Override

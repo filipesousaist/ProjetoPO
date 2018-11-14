@@ -43,8 +43,20 @@ public class School implements Serializable {
     p.parseFile(filename);
   }
   
-  void parseCourse()
+  Course parseCourse(String courseName) {
+    for (Course c: _courses)
+      if (c.getName().equals(courseName))
+        return c;
+
+    Course newCourse = new Course(courseName);
+    addCourse(newCourse);
+    return newCourse;
+  }
   //FIXME implement other methods
+
+  void addCourse(Course c) {
+    _courses.add(c);
+  }
 
   Person getPerson(int id) throws NoSuchPersonIdException {
     if (_people.contains(person)) /* contains() is O(1) in a HashSet */
