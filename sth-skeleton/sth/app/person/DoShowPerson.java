@@ -11,20 +11,20 @@ import sth.core.SchoolManager;
  */
 public class DoShowPerson extends Command<SchoolManager> {
 
-  //FIXME add input fields if needed
+	//FIXME add input fields if needed
 
-  /**
-   * @param receiver
-   */
-  public DoShowPerson(SchoolManager receiver) {
-    super(Label.SHOW_PERSON, receiver);
-    //FIXME initialize input fields if needed
-  }
+	/**
+	 * @param receiver
+	 */
+	public DoShowPerson(SchoolManager receiver) {
+		super(Label.SHOW_PERSON, receiver);
+		//FIXME initialize input fields if needed
+	}
 
-  /** @see pt.tecnico.po.ui.Command#execute() */
-  @Override
-  public final void execute() {
-    //FIXME implement command
-  }
+	/** @see pt.tecnico.po.ui.Command#execute() */
+	@Override
+	public final void execute() {
+		//FIXME implement command
+	}
 
 }

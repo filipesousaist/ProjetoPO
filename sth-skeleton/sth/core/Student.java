@@ -41,21 +41,21 @@ public class Student extends Person {
 	}
 
 	@Override
-  void parseContext(String lineContext, School school) throws BadEntryException {
-    String components[] =  lineContext.split("\\|");
+	void parseContext(String lineContext, School school) throws BadEntryException {
+		String components[] = lineContext.split("\\|");
 
-    if (components.length != 2)
-      throw new BadEntryException("Invalid line context " + lineContext);
+		if (components.length != 2)
+			throw new BadEntryException("Invalid line context " + lineContext);
 
-    if (_course == null) {
-      _course = school.parseCourse(components[0]);
-      _course.addStudent(this);
-    }
+		if (_course == null) {
+			_course = school.parseCourse(components[0]);
+			_course.addStudent(this);
+		}
 
-    Discipline dis = _course.parseDiscipline(components[1]);
+		Discipline dis = _course.parseDiscipline(components[1]);
 
-    dis.enrollStudent(this);
-  }
+		dis.enrollStudent(this);
+	}
 
 	@Override
 	public String toString() {

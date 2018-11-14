@@ -43,14 +43,14 @@ public class Course implements Serailizable {
 	}
 
 	Discipline parseDiscipline(String disciplineName) {
-    for (Discipline d: _disciplines)
-      if (d.getName().equals(disciplineName))
-        return d;
+		for (Discipline d: _disciplines)
+			if (d.getName().equals(disciplineName))
+				return d;
 
-    Discipline newDiscipline = new Discipline(disciplineName);
-    addDiscipline(newDiscipline);
-    return newDiscipline;
-  }
+		Discipline newDiscipline = new Discipline(disciplineName);
+		addDiscipline(newDiscipline);
+		return newDiscipline;
+	}	add
 
 	public String getName() {
 		return _name;

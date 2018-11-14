@@ -37,8 +37,8 @@ public abstract class Person implements Serializable {
 	}
 
 	void parseContext(String context, School school) throws BadEntryException {
-    throw new BadEntryException("Should not have extra context: " + context);
-  }
+		throw new BadEntryException("Should not have extra context: " + context);
+	}
 	
 	public String toString() {
 		return getPersonType() + "|" + getId() + "|" + 
