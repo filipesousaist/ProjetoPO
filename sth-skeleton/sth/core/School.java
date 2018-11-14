@@ -39,7 +39,8 @@ public class School implements Serializable {
    * @throws IOException
    */
   void importFile(String filename) throws IOException, BadEntryException {
-    //FIXME implement text file reader
+    Parser p = new Parser(this);
+    p.parseFile(filename);
   }
   
   void parseCourse()

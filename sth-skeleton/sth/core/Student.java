@@ -1,10 +1,6 @@
 package sth.core;
 
 public class Student extends Person {
-
-	/** Serial number for serialization */
-	private static final long serialVersionUID = 201810051538L;
-
 	private boolean _isRepresentative;
 	private Set<Discipline> _disciplines;
 
