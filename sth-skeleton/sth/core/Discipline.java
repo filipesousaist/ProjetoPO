@@ -39,7 +39,6 @@ public class Discipline implements Serializable {
 
 	void addTeacher(Teacher t) {
 		_teachers.add(t);
-		t.
 	}
 
 	@Override

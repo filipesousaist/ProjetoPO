@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Teacher extends Person implements Serializable {
 
-	_disciplines
+	private Set<Discipline> _disciplines = new HashSet<>();
 	
 	public Teacher(int id, String name, String phoneNumber) {
 		super(id, name, phoneNumber);
