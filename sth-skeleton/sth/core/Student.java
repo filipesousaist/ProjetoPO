@@ -3,6 +3,8 @@ package sth.core;
 public class Student extends Person {
 	private boolean _isRepresentative;
 
+	private static final int MAX_DISCIPLINES = 6;
+
 	private Course _course;
 	private Set<Discipline> _disciplines;
 
@@ -12,12 +14,25 @@ public class Student extends Person {
 		_disciplines = new HashSet<>();
 	}
 
-	void setRepresentative(boolean rep) {
+	boolean setRepresentative(boolean rep) {
 		_isRepresentative = rep;
+		if (rep)
+			_course.addRepresentative(this);
+		else
+			_course.removeRepresentative(this);
+
+	}
+
+	boolean isRepresentative() {
+		return _isRepresentative;
 	}
 
 	void addDiscipline(Discipline d) {
 		_disciplines.add(d);
+	}
+
+	boolean canEnrollDisciplines() {
+		return _disciplines.length() < MAX_DISCIPLINES;
 	}
 
 	@Override
@@ -47,7 +62,7 @@ public class Student extends Person {
 		String s = super.toString();
 
 		for (Discipline d: _disciplines)
-			s += "\n* " + d.getCourse().toString() + " - " + d.toString();
+			s += "\n* " + _course.toString() + " - " + d.toString();
 	}
 
 }

@@ -59,10 +59,9 @@ public class School implements Serializable {
   }
 
   Person getPerson(int id) throws NoSuchPersonIdException {
-    if (_people.contains(person)) /* contains() is O(1) in a HashSet */
-      for (Person p: _people)
-        if (p.getId() == id)
-          return p;
+    for (Person p: _people)
+      if (p.getId() == id)
+        return p;
     throw new NoSuchPersonIdException(id);
   }
 

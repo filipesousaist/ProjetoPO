@@ -6,17 +6,20 @@ public class Discipline implements Serializable {
 	/** Serial number for serialization */
 	private static final long serialVersionUID = 201810051538L;
 
-	private static final int MAX_STUDENTS = 30;
 	private String _name;
+	private int _capacity;
+
 	private Set<Student> _students = new HashSet<>();
+	private Set<Teacher> _teachers = new HashSet<>();
 	private Course _course;
 	
 	Discipline(String name) {
 		_name = name;
+		_capacity = -1; /* Unlimited */
 	}
 
-	public String toString() {
-		return _name;
+	Discipline(String name, int capacity) {
+		_capacity = capacity
 	}
 
 	String getName() {
@@ -27,9 +30,16 @@ public class Discipline implements Serializable {
 		return _course;
 	}
 
-	void enrollStrudent(Student s) {
-		_students.add(s);
-		s.addDiscipline(this);
+	void enrollStudent(Student s) {
+		if (_students.length() != _capacity && s.canEnrollDisciplines()) {
+			_students.add(s);
+			s.addDiscipline(this);
+		}
+	}
+
+	void addTeacher(Teacher t) {
+		_teachers.add(t);
+		t.
 	}
 
 	@Override

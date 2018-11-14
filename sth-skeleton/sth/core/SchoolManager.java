@@ -78,13 +78,19 @@ public class SchoolManager {
   }
   
   //FIXME implement other methods (in general, one for each command in sth-app)
+  public Person getLoggedUser() {
+    return _loggedUser;
+  }
 
+  public List<Person> getAllUsers() {
+    return _school.getAllUsers("");
+  }
   
   public void changePhoneNumber(Person person, String newPhoneNumber) {
 	  person.changePhoneNumber(newPhoneNumber);
   }
   
-  public List<Person> searchPerson(String str) {
+  public List<Person> getAllUsersStr(String str) {
 	  return _school.getAllUsers(str);
   }
 }
