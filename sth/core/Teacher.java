@@ -5,9 +5,7 @@ import sth.core.exception.BadEntryException;
 import java.util.Set;
 import java.util.HashSet;
 
-import java.io.Serializable;
-
-public class Teacher extends Person implements Serializable {
+public class Teacher extends Person {
 
 	private Set<Discipline> _disciplines = new HashSet<>();
 	

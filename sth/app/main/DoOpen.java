@@ -42,7 +42,7 @@ public class DoOpen extends Command<SchoolManager> {
 			String serialFilename = _serialFilenameInput.value();
 			ObjectInputStream objInp = new ObjectInputStream(
 				new FileInputStream(serialFilename));
-
+			
 			School newSchool = (School) objInp.readObject();
 			objInp.close();
 
