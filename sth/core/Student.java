@@ -64,7 +64,7 @@ public class Student extends Person {
 	public String toString() {
 		String s = super.toString();
 		for (Discipline d: _disciplines)
-			s += "\n* " + _course.toString() + " - " + d.toString();
+			s += "\n* " + _course.getName() + " - " + d.getName();
 		return s;
 	}
 

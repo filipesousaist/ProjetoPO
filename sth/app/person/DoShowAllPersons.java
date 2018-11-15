@@ -3,6 +3,7 @@ package sth.app.person;
 import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.Display;
 import sth.core.SchoolManager;
+import sth.core.Person;
 
 //FIXME import other classes if needed
 
@@ -25,6 +26,10 @@ public class DoShowAllPersons extends Command<SchoolManager> {
   @Override
   public final void execute() {
     //FIXME implement command
+    for (Person p: _receiver.getAllUsers())
+      _display.addLine(p.toString());
+
+    _display.display();
   }
 
 }

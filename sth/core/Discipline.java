@@ -22,6 +22,7 @@ public class Discipline implements Serializable {
 	}
 
 	Discipline(String name, int capacity) {
+		_name = name;
 		_capacity = capacity;
 	}
 
@@ -31,6 +32,10 @@ public class Discipline implements Serializable {
 
 	Course getCourse() {
 		return _course;
+	}
+
+	void setCourse(Course c) {
+		_course = c;
 	}
 
 	void enrollStudent(Student s) {
@@ -43,11 +48,6 @@ public class Discipline implements Serializable {
 	void addTeacher(Teacher t) {
 		_teachers.add(t);
 		t.addDiscipline(this);
-	}
-
-	@Override
-	public int hashCode() {
-		return _name.hashCode();
 	}
 
 	@Override

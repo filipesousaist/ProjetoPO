@@ -38,7 +38,7 @@ public class Teacher extends Person {
 	public String toString() {
 		String s = super.toString();
 		for (Discipline d: _disciplines)
-			s += "\n* " + d.getCourse().toString() + " - " + d.toString();
+			s += "\n* " + d.getCourse().getName() + " - " + d.getName();
 		return s;
 	}
 }

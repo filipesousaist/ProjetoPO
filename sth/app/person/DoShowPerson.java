@@ -25,6 +25,8 @@ public class DoShowPerson extends Command<SchoolManager> {
 	@Override
 	public final void execute() {
 		//FIXME implement command
+		_display.add(_receiver.getLoggedUser().toString());
+		_display.display();
 	}
 
 }

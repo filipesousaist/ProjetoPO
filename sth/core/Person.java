@@ -47,11 +47,6 @@ public abstract class Person implements Serializable {
 	}
 
 	@Override
-	public int hashCode() {
-		return _id;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		return obj != null &&
 			obj instanceof Person && 

@@ -23,8 +23,9 @@ public class Course implements Serializable {
 		_name = name;
 	}
 
-	boolean addDiscipline(Discipline d) {
-		return _disciplines.add(d);
+	void addDiscipline(Discipline d) {
+		_disciplines.add(d);
+		d.setCourse(this);
 	}
 
 	void addRepresentative(Student s) {
@@ -58,4 +59,12 @@ public class Course implements Serializable {
 	public String getName() {
 		return _name;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null && 
+			obj instanceof Course && 
+			_name.equals(((Course) obj)._name);
+	}
+
 }
