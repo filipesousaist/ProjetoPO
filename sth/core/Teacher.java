@@ -2,8 +2,12 @@ package sth.core;
 
 import sth.core.exception.BadEntryException;
 
+import sth.core.Discipline;
+import sth.core.Student;
+
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Collection;
 
 public class Teacher extends Person {
 
@@ -15,6 +19,18 @@ public class Teacher extends Person {
 
 	String getPersonType() {
 		return "DOCENTE";
+	}
+
+	void addDiscipline(Discipline d) {
+		_disciplines.add(d);
+	}
+
+	Collection<Student> getDiscStudents(String d){
+		for (Discipline disc: _disciplines){
+			if (disc.getName().equals(d))
+				return disc.getStudents();
+		}
+	return null;
 	}
 
 	@Override
@@ -30,15 +46,11 @@ public class Teacher extends Person {
 		discipline.addTeacher(this);
 	}
 
-	void addDiscipline(Discipline d) {
-		_disciplines.add(d);
-	}
-
 	@Override
 	public String toString() {
 		String s = super.toString();
 		for (Discipline d: _disciplines)
-			s += "\n* " + d.getCourse().getName() + " - " + d.getName();
+			s += "*" + d.getCourse().getName() + " - " + d.getName() + "\n";
 		return s;
 	}
 }

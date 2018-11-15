@@ -95,5 +95,4 @@ public class School implements Serializable {
 		}
 		return peopleList;
 	}
-
 }

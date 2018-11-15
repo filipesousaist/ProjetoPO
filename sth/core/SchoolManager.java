@@ -13,7 +13,7 @@ import java.io.FileNotFoundException;
 //FIXME import other classes if needed
 
 /**
- * The façade class.
+ * The façade class
  */
 public class SchoolManager {
 
@@ -122,5 +122,11 @@ public class SchoolManager {
 
 	public Collection<Person> getAllUsers(String str) {
 		return _school.getAllUsers(str);
+	}
+
+	public Collection<Student> getStudentsDisc(String discName){
+		Person discTeacher = this.getLoggedUser();
+		Teacher teacher = ((Teacher)discTeacher);
+		return teacher.getDiscStudents(discName);
 	}
 }

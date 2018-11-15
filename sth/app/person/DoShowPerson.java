@@ -28,5 +28,4 @@ public class DoShowPerson extends Command<SchoolManager> {
 		_display.add(_receiver.getLoggedUser().toString());
 		_display.display();
 	}
-
 }

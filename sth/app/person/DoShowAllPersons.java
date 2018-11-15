@@ -27,7 +27,7 @@ public class DoShowAllPersons extends Command<SchoolManager> {
   public final void execute() {
     //FIXME implement command
     for (Person p: _receiver.getAllUsers())
-      _display.addLine(p.toString());
+      _display.add(p.toString());
 
     _display.display();
   }

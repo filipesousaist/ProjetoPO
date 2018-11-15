@@ -2,6 +2,7 @@ package sth.core;
 
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Collection;
 
 import java.io.Serializable;
 
@@ -32,6 +33,10 @@ public class Discipline implements Serializable {
 
 	Course getCourse() {
 		return _course;
+	}
+
+	Collection<Student> getStudents(){
+		return _students;
 	}
 
 	void setCourse(Course c) {

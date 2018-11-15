@@ -31,7 +31,7 @@ public class DoSearchPerson extends Command<SchoolManager> {
     _form.parse();
     String personName = _personNameInput.value();
     for (Person p: _receiver.getAllUsers(personName))
-      _display.addLine(p.toString());
+      _display.add(p.toString());
 
     _display.display();
   }

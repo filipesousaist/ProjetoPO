@@ -1,3 +1,12 @@
+
+
+
+
+
+
+
+
+
 package sth.core;
 
 import sth.core.exception.BadEntryException;
@@ -43,7 +52,7 @@ public abstract class Person implements Serializable {
 	
 	public String toString() {
 		return getPersonType() + "|" + getId() + "|" + 
-			getPhoneNumber() + "|" + getName();
+			getPhoneNumber() + "|" + getName() + "\n";
 	}
 
 	@Override
