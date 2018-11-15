@@ -1,6 +1,7 @@
 package sth.core;
 
 import sth.core.exception.BadEntryException;
+import sth.app.exception.NoSuchDisciplineException;
 
 import sth.core.Discipline;
 import sth.core.Student;
