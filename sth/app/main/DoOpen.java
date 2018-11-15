@@ -8,8 +8,12 @@ import java.io.IOException;
 import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
+
 import sth.core.SchoolManager;
 import sth.core.School;
+import sth.core.exception.NoSuchPersonIdException;
+
+import sth.app.exception.NoSuchPersonException;
 
 //FIXME import other classes if needed
 
@@ -31,19 +35,21 @@ public class DoOpen extends Command<SchoolManager> {
 
 	/** @see pt.tecnico.po.ui.Command#execute() */
 	@Override
-	public final void execute() throws DialogException {
+	public final void execute() throws DialogException, NoSuchPersonException {
+		School oldSchool = _receiver.getSchool();
 		try {
-			String _serialFilename;
-			if ((_serialFilename = _receiver.getSerialFilename()) == null) {
-				_form.parse();
-				_serialFilename = _serialFilenameInput.value();
-			}
-
+			_form.parse();
+			String serialFilename = _serialFilenameInput.value();
 			ObjectInputStream objInp = new ObjectInputStream(
-				new FileInputStream(_serialFilename));
+				new FileInputStream(serialFilename));
+
 			School newSchool = (School) objInp.readObject();
-			int userID = _receiver.getLoggedUserId().
-			if (_receiver)
+			objInp.close();
+
+			int userID = _receiver.getLoggedUserId();
+			_receiver.setSchool(newSchool);
+			_receiver.login(userID);
+
 		} 
 		catch (FileNotFoundException fnfe) {
 			_display.popup(Message.fileNotFound());
@@ -51,6 +57,12 @@ public class DoOpen extends Command<SchoolManager> {
 		catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
+
+		catch (NoSuchPersonIdException nspie) {
+			_receiver.setSchool(oldSchool);
+			throw new NoSuchPersonException(nspie.getId());
+		}
+
 	}
 
 }

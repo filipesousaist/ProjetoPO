@@ -4,7 +4,7 @@ import sth.core.exception.BadEntryException;
 import sth.core.exception.ImportFileException;
 import sth.core.exception.NoSuchPersonIdException;
 
-import java.util.List;
+import java.util.Collection;
 
 import java.io.IOException;
 import java.io.FileNotFoundException;
@@ -24,6 +24,10 @@ public class SchoolManager {
 	private String _serialFilename;
 
 	//FIXME implement constructors if needed
+
+	public SchoolManager() {
+		_school = new School("Universidade");
+	}
 	
 	/**
 	 * @param datafile
@@ -39,12 +43,20 @@ public class SchoolManager {
 		}
 	}
 
-	public String getSerialFileName() {
+	public String getSerialFilename() {
 		return _serialFilename;
 	}
 
-	public String setSerialFilename(String fn) {
+	public void setSerialFilename(String fn) {
 		_serialFilename = fn;
+	}
+
+	public School getSchool() {
+		return _school;
+	}
+
+	public void setSchool(School s) {
+		_school = s;
 	}
 
 	/**
@@ -55,7 +67,7 @@ public class SchoolManager {
 	 */
 	public void login(int id) throws NoSuchPersonIdException {
 		//FIXME implement method
-			_loggedUser = _school.getPerson(id);
+		_loggedUser = _school.getPerson(id);
 	}
 
 	/**
@@ -76,14 +88,15 @@ public class SchoolManager {
 	 * @return true when the currently logged in person is a student
 	 */
 	public boolean isLoggedUserStudent() {
-		return _loggedUser.getPersonType() == "ALUNO";
+		return _loggedUser.getPersonType() == "ALUNO" ||
+			_loggedUser.getPersonType() == "DELEGADO";
 	}
 
 	/**
 	 * @return true when the currently logged in person is a representative
 	 */
 	public boolean isLoggedUserRepresentative() {
-		return _loggedUser.getPersonType() == "DELEGADO";
+		return _loggedUser.getPersonType() == "DELEGADO" ;
 	}
 
 	public int getLoggedUserId() {
@@ -91,10 +104,7 @@ public class SchoolManager {
 	}
 
 	public boolean idExists(int id) {
-		for (Person p: _school.getAllUsers(""))
-			if (p.getId() == id)
-				return true;
-		return false;
+		return _school.idExists(id);
 	}
 	
 	//FIXME implement other methods (in general, one for each command in sth-app)
@@ -102,15 +112,15 @@ public class SchoolManager {
 		return _loggedUser;
 	}
 
-	public List<Person> getAllUsers() {
-		return _school.getAllUsers("");
-	}
-	
 	public void changePhoneNumber(Person person, String newPhoneNumber) {
 		person.changePhoneNumber(newPhoneNumber);
 	}
 	
-	public List<Person> getAllUsersStr(String str) {
+	public Collection<Person> getAllUsers() {
+		return _school.getAllUsers();
+	}
+
+	public Collection<Person> getAllUsers(String str) {
 		return _school.getAllUsers(str);
 	}
 }

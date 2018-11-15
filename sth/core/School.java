@@ -5,11 +5,13 @@ package sth.core;
 import sth.core.exception.BadEntryException;
 import sth.core.exception.NoSuchPersonIdException;
 
-import java.util.Collections;
+import java.util.Collection;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Comparator;
 
@@ -30,7 +32,7 @@ public class School implements Serializable {
 	private String _name;
 	private int _nextPersonId;
 	
-	private Set<Person> _people = new HashSet<>();
+	private Map<Integer, Person> _people = new HashMap<>();
 	private Set<Course> _courses = new HashSet<>();
 
 
@@ -66,31 +68,31 @@ public class School implements Serializable {
 	}
 
 	void addPerson(Person p) {
-		_people.add(p);
+		_people.put(p.getId(), p);
+	}
+
+	boolean idExists(int id) {
+		return _people.containsKey(id);
 	}
 
 	Person getPerson(int id) throws NoSuchPersonIdException {
-		for (Person p: _people)
-			if (p.getId() == id)
-				return p;
+		if (idExists(id))
+			return _people.get(id);
 		throw new NoSuchPersonIdException(id);
 	}
 
-	List<Person> getAllUsers(String str) {
-		List<Person> peopleList = new ArrayList<>(_people);
+	Collection<Person> getAllUsers() {
+		return _people.values();
+	}
+
+	Collection<Person> getAllUsers(String str) {
+		Collection<Person> peopleList = _people.values();
 		Iterator<Person> it = peopleList.iterator();
 		while (it.hasNext()) {
 			Person p = it.next();
 			if (! p.getName().contains(str))
 				it.remove();
 		}
-		Collections.sort(peopleList, 
-			new Comparator<Person>() {
-				public int compare(Person p1, Person p2) {
-					return p1.getId() - p2.getId();
-				}
-			} 
-		);
 		return peopleList;
 	}
 

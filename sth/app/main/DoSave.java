@@ -1,5 +1,7 @@
 package sth.app.main;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.io.IOException;
 
 import pt.tecnico.po.ui.Command;
@@ -12,20 +14,32 @@ import sth.core.SchoolManager;
  * 4.1.1. Save to file under current name (if unnamed, query for name).
  */
 public class DoSave extends Command<SchoolManager> {
-  //FIXME add input fields if needed
+	//FIXME add input fields if needed
+	private Input<String> _serialFilenameInput;
+	/**
+	 * @param receiver
+	 */
+	public DoSave(SchoolManager receiver) {
+		super(Label.SAVE, receiver);
+		//FIXME initialize input fields if needed
+		_serialFilenameInput = _form.addStringInput(Message.newSaveAs());
+	}
 
-  /**
-   * @param receiver
-   */
-  public DoSave(SchoolManager receiver) {
-    super(Label.SAVE, receiver);
-    //FIXME initialize input fields if needed
-  }
-
-  /** @see pt.tecnico.po.ui.Command#execute() */
-  @Override
-  public final void execute() {
-    //FIXME implement command
-  }
-
+	/** @see pt.tecnico.po.ui.Command#execute() */
+	@Override
+	public final void execute() {
+		try {
+			if (_receiver.getSerialFilename() == null) {
+				_form.parse();
+				_receiver.setSerialFilename(_serialFilenameInput.value());
+			}
+			ObjectOutputStream objOutput = new ObjectOutputStream(
+					new FileOutputStream(_receiver.getSerialFilename()));
+			objOutput.writeObject(_receiver.getSchool());
+			objOutput.close();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

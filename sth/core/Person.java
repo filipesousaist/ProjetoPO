@@ -27,7 +27,7 @@ public abstract class Person implements Serializable {
 		return _name;
 	}
 	
-	public String getPhoneNumber() {
+	String getPhoneNumber() {
 		return _phoneNumber;
 	}
 
