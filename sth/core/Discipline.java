@@ -81,13 +81,16 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 
 	@Override
 	public boolean equals(Object obj) {
-		return obj != null && 
-			obj instanceof Discipline && 
-			_name.equals(((Discipline) obj)._name);
+		if (obj == null || ! (obj instanceof Discipline))
+			return false;
+		Discipline d = (Discipline) obj;
+		return _name.equals(d._name) && _course.equals(d._course);
 	}
 
 	@Override
 	public int compareTo(Discipline disc) {
-		return _name.compareTo(disc._name);
+		if (_course.equals(disc._course))
+			return _name.compareTo(disc._name);
+		return _course.compareTo(disc._course);
 	} 
 }

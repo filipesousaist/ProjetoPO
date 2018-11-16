@@ -25,37 +25,38 @@ public class School implements Serializable {
 	/** Serial number for serialization. */
 	private static final long serialVersionUID = 201810051538L;
 
-	/** Starting id for the school's people */
+	/** Starting id for the school's people. */
 	private static final int START_ID = 100000;
 	
-	/** School name */
+	/** School name. */
 	private String _name;
-	/** Id of the next person to be added to the school */
+	/** Id of the next person to be added to the school. */
 	private int _nextPersonId;
-	/** Collection of all the people in the school */
+	/** Collection of all the people in the school. */
 	private Map<Integer, Person> _people = new HashMap<>();
-	/** Collection of all courses of the school */
+	/** Collection of all courses of the school. */
 	private Set<Course> _courses = new HashSet<>();
 
-	/** School constructor */
+	/** School constructor. */
 	School(String name) {
 		_name = name;
 		_nextPersonId = START_ID;
 	}
 	
-	/** Imports the file with the given name 
+	/** Imports the file with the given name. 
 	 * @param filename Name of the file to import
-	 * @throws BadEntryException 
-	 * @throws IOException
+	 * @throws BadEntryException if file has formatting errors 
+	 * @throws IOException if an input/output exception occurs
 	 */
 	void importFile(String filename) throws IOException, BadEntryException {
 		Parser p = new Parser(this);
 		p.parseFile(filename);
 	}
 	
-	/** Parses a course with a given name
+	/** Checks if a course with a given name exists in the school and 
+	 * creates one if it doesn't.
 	 * @param courseName Name of the course to parse
-	 * @return new course if it doesn't exists or the existing course
+	 * @return course with the given name
 	 */
 	Course parseCourse(String courseName) {
 		for (Course c: _courses)
@@ -67,21 +68,21 @@ public class School implements Serializable {
 		return newCourse;
 	}
 
-	/** Adds a course to the school
+	/** Adds a course to the school.
 	 * @param c Course to add
 	 */
 	void addCourse(Course c) {
 		_courses.add(c);
 	}
 
-	/** Adds a person to the school
+	/** Adds a person to the school.
 	 * @param p Person to add
 	 */
 	void addPerson(Person p) {
 		_people.put(p.getId(), p);
 	}
 
-	/** Adds a employee to the school
+	/** Adds an employee to the school.
 	 * @param name Name of the employee
 	 * @param phoneNumber Phone number of the employee
 	 */
@@ -92,7 +93,7 @@ public class School implements Serializable {
 		_nextPersonId ++;
 	}
 
-	/** Adds a teacher to the school
+	/** Adds a teacher to the school.
 	 * @param name Name of the teacher
 	 * @param phoneNumber Phone number of the teacher
 	 */
@@ -103,7 +104,7 @@ public class School implements Serializable {
 		_nextPersonId ++;
 	}
 
-	/** Adds a student to the school
+	/** Adds a student to the school.
 	 * @param name Name of the student
 	 * @param phoneNumber Phone number of the student
 	 */
@@ -114,7 +115,7 @@ public class School implements Serializable {
 		_nextPersonId ++;
 	}
 
-	/** Adds a representative to the school
+	/** Adds a representative to the school.
 	 * @param name Name of the representative
 	 * @param phoneNumber Phone number of the representative
 	 */
@@ -125,7 +126,7 @@ public class School implements Serializable {
 		_nextPersonId ++;
 	}
 
-	/** Checks if exists in the school a person with the given id
+	/** Checks if a person with a given id exists in the school.
 	 * @param id Id of the person to search
 	 * @return true when a person with the given id exists in the school
 	 */
@@ -133,11 +134,11 @@ public class School implements Serializable {
 		return _people.containsKey(id);
 	}
 
-	/** Gets the person with the given id
+	/** Gets the person with a given id.
 	 * @param id Id of the person
 	 * @throws NoSuchPersonIdException if no person with the given id 
 	 * exists in the school
-	 * @return the person registered with the given id
+	 * @return the person in the school with the given id
 	 */
 	Person getPerson(int id) throws NoSuchPersonIdException {
 		if (idExists(id))
@@ -145,16 +146,17 @@ public class School implements Serializable {
 		throw new NoSuchPersonIdException(id);
 	}
 
-	/** Gets all people registered in the school
+	/** Gets all people registered in the school.
 	 * @return all people registered in the school
 	 */
 	Collection<Person> getAllUsers() {
 		return Collections.unmodifiableCollection(_people.values());
 	}
 
-	/** Gets all people which contain a given string in their name
+	/** Gets all people whose name contains a given string.
 	 * @param str String to search in people's name
-	 * @return all people in school whose name cointains the given string
+	 * @return a collection of all people in school 
+	 * whose name cointains the given string
 	 */
 	Collection<Person> getAllUsers(String str) {
 		Collection<Person> peopleList = new HashSet<>(_people.values());

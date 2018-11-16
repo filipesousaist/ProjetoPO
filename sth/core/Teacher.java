@@ -6,13 +6,16 @@ import sth.core.exception.NoSuchDisciplineIdException;
 import sth.core.Discipline;
 import sth.core.Student;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Collections;
 import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 public class Teacher extends Person {
 
-	private Set<Discipline> _disciplines = new TreeSet<>();
+	private Set<Discipline> _disciplines = new HashSet<>();
 	
 	public Teacher(int id, String name, String phoneNumber) {
 		super(id, name, phoneNumber);
@@ -62,7 +65,9 @@ public class Teacher extends Person {
 	@Override
 	public String toString() {
 		String s = super.toString();
-		for (Discipline d: _disciplines)
+		List<Discipline> sortedDisciplines = new ArrayList<>(_disciplines);
+		Collections.sort(sortedDisciplines);
+		for (Discipline d: sortedDisciplines)
 			s += "* " + d.getCourse().getName() + " - " + d.getName() + "\n";
 		return s;
 	}

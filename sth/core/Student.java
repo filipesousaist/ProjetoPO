@@ -2,8 +2,11 @@ package sth.core;
 
 import sth.core.exception.BadEntryException;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
-import java.util.TreeSet;
+import java.util.HashSet;
 
 public class Student extends Person {
 	private boolean _isRepresentative;
@@ -11,7 +14,7 @@ public class Student extends Person {
 	private static final int MAX_DISCIPLINES = 6;
 
 	private Course _course;
-	private Set<Discipline> _disciplines = new TreeSet<>();
+	private Set<Discipline> _disciplines = new HashSet<>();
 
 	Student(int id, String name, String phoneNumber, boolean rep) {
 		super(id, name, phoneNumber);
@@ -68,7 +71,9 @@ public class Student extends Person {
 	@Override
 	public String toString() {
 		String s = super.toString();
-		for (Discipline d: _disciplines)
+		List<Discipline> sortedDisciplines = new ArrayList<>(_disciplines);
+		Collections.sort(sortedDisciplines);
+		for (Discipline d: sortedDisciplines)
 			s += "* " + _course.getName() + " - " + d.getName() + "\n";
 		return s;
 	}
