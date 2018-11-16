@@ -18,4 +18,9 @@ import java.io.Serializable;
 		_name = name;
 		_isOpen = true;
 	}
+
+	public Project(String name, String descr) {
+		this(name);
+		_description = descr;
+	}
 }

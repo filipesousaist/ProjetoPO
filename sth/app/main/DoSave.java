@@ -28,15 +28,14 @@ public class DoSave extends Command<SchoolManager> {
 	/** @see pt.tecnico.po.ui.Command#execute() */
 	@Override
 	public final void execute() {
-		try {
-			if (_receiver.getSerialFilename() == null) {
-				_form.parse();
-				_receiver.setSerialFilename(_serialFilenameInput.value());
-			}
-			ObjectOutputStream objOutput = new ObjectOutputStream(
-					new FileOutputStream(_receiver.getSerialFilename()));
+		if (_receiver.getSerialFilename() == null) {
+			_form.parse();
+			_receiver.setSerialFilename(_serialFilenameInput.value());
+		}
+		try (ObjectOutputStream objOutput = new ObjectOutputStream(
+			new FileOutputStream(_receiver.getSerialFilename()))) {
+			
 			objOutput.writeObject(_receiver.getSchool());
-			objOutput.close();
 		}
 		catch (IOException e) {
 			e.printStackTrace();

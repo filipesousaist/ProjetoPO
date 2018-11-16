@@ -5,15 +5,13 @@ package sth.core;
 import sth.core.exception.BadEntryException;
 import sth.core.exception.NoSuchPersonIdException;
 
+import java.util.Collections;
 import java.util.Collection;
 import java.util.Set;
 import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Comparator;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -71,6 +69,34 @@ public class School implements Serializable {
 		_people.put(p.getId(), p);
 	}
 
+	void addEmployee(String name, String phoneNumber) {
+		while (idExists(_nextPersonId))
+			_nextPersonId ++;
+		addPerson(new Employee(_nextPersonId, name, phoneNumber));
+		_nextPersonId ++;
+	}
+
+	void addTeacher(String name, String phoneNumber) {
+		while (idExists(_nextPersonId))
+			_nextPersonId ++;
+		addPerson(new Teacher(_nextPersonId, name, phoneNumber));
+		_nextPersonId ++;
+	}
+
+	void addStudent(String name, String phoneNumber) {
+		while (idExists(_nextPersonId))
+			_nextPersonId ++;
+		addPerson(new Student(_nextPersonId, name, phoneNumber, false));
+		_nextPersonId ++;
+	}
+
+	void addRepresentative(String name, String phoneNumber) {
+		while (idExists(_nextPersonId))
+			_nextPersonId ++;
+		addPerson(new Student(_nextPersonId, name, phoneNumber, true));
+		_nextPersonId ++;
+	}
+
 	boolean idExists(int id) {
 		return _people.containsKey(id);
 	}
@@ -82,11 +108,11 @@ public class School implements Serializable {
 	}
 
 	Collection<Person> getAllUsers() {
-		return _people.values();
+		return Collections.unmodifiableCollection(_people.values());
 	}
 
 	Collection<Person> getAllUsers(String str) {
-		Collection<Person> peopleList = _people.values();
+		Collection<Person> peopleList = new HashSet<>(_people.values());
 		Iterator<Person> it = peopleList.iterator();
 		while (it.hasNext()) {
 			Person p = it.next();

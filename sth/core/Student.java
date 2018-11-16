@@ -13,7 +13,7 @@ public class Student extends Person {
 	private Course _course;
 	private Set<Discipline> _disciplines = new HashSet<>();
 
-	Student(int id, String phoneNumber, String name, boolean rep) {
+	Student(int id, String name, String phoneNumber, boolean rep) {
 		super(id, name, phoneNumber);
 		_isRepresentative = rep;
 	}
@@ -39,8 +39,13 @@ public class Student extends Person {
 	}
 
 	@Override
-	String getPersonType() {
+	String getPersonStr() {
 		return _isRepresentative ? "DELEGADO" : "ALUNO";
+	}
+
+	@Override
+	PersonType getPersonType() {
+		return PersonType.STUDENT;
 	}
 
 	@Override
@@ -64,7 +69,7 @@ public class Student extends Person {
 	public String toString() {
 		String s = super.toString();
 		for (Discipline d: _disciplines)
-			s += "*" + _course.getName() + " - " + d.getName() + "\n";
+			s += "* " + _course.getName() + " - " + d.getName() + "\n";
 		return s;
 	}
 

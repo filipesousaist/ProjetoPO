@@ -3,6 +3,7 @@ package sth.core;
 import sth.core.exception.BadEntryException;
 import sth.core.exception.ImportFileException;
 import sth.core.exception.NoSuchPersonIdException;
+import sth.core.exception.NoSuchDisciplineIdException;
 
 import java.util.Collection;
 
@@ -55,8 +56,12 @@ public class SchoolManager {
 		return _school;
 	}
 
-	public void setSchool(School s) {
-		_school = s;
+	public void updateSchool(School newSchool) throws NoSuchPersonIdException {
+		int userId = getLoggedUser().getId();
+		if (! newSchool.idExists(userId))
+			throw new NoSuchPersonIdException(userId);
+		_school = newSchool;
+		login(userId);
 	}
 
 	/**
@@ -74,33 +79,29 @@ public class SchoolManager {
 	 * @return true when the currently logged in person is an administrative
 	 */
 	public boolean isLoggedUserAdministrative() {
-		return _loggedUser.getPersonType() == "FUNCIONÁRIO";
+		return _loggedUser.getPersonType() == PersonType.EMPLOYEE;
 	}
 
 	/**
 	 * @return true when the currently logged in person is a professor
 	 */
 	public boolean isLoggedUserProfessor() {
-		return _loggedUser.getPersonType() == "DOCENTE";
+		return _loggedUser.getPersonType() == PersonType.TEACHER;
 	}
 
 	/**
 	 * @return true when the currently logged in person is a student
 	 */
 	public boolean isLoggedUserStudent() {
-		return _loggedUser.getPersonType() == "ALUNO" ||
-			_loggedUser.getPersonType() == "DELEGADO";
+		return _loggedUser.getPersonType() == PersonType.STUDENT;
 	}
 
 	/**
 	 * @return true when the currently logged in person is a representative
 	 */
 	public boolean isLoggedUserRepresentative() {
-		return _loggedUser.getPersonType() == "DELEGADO" ;
-	}
-
-	public int getLoggedUserId() {
-		return _loggedUser.getId();
+		return isLoggedUserStudent() && 
+			((Student) _loggedUser).isRepresentative();
 	}
 
 	public boolean idExists(int id) {
@@ -124,9 +125,9 @@ public class SchoolManager {
 		return _school.getAllUsers(str);
 	}
 
-	public Collection<Student> getStudentsDisc(String discName){
-		Person discTeacher = this.getLoggedUser();
-		Teacher teacher = ((Teacher)discTeacher);
-		return teacher.getDiscStudents(discName);
+	public Collection<Student> getStudents(String disciplineName) 
+		throws NoSuchDisciplineIdException {
+		//FIXME throw WrongPersonTypeException
+		return ((Teacher) getLoggedUser()).getStudents(disciplineName);
 	}
 }

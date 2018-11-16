@@ -1,19 +1,10 @@
-
-
-
-
-
-
-
-
-
 package sth.core;
 
 import sth.core.exception.BadEntryException;
 
 import java.io.Serializable;
 
-public abstract class Person implements Serializable {
+public abstract class Person implements Serializable, Comparable<Person> {
 	
 	/** Serial number for serialization. */
 	private static final long serialVersionUID = 201810051538L;
@@ -40,7 +31,9 @@ public abstract class Person implements Serializable {
 		return _phoneNumber;
 	}
 
-	abstract String getPersonType();
+	abstract PersonType getPersonType();
+
+	abstract String getPersonStr();
 	
 	void changePhoneNumber(String newPhoneNumber) {
 		_phoneNumber = newPhoneNumber;
@@ -50,8 +43,9 @@ public abstract class Person implements Serializable {
 		throw new BadEntryException("Should not have extra context: " + context);
 	}
 	
+	@Override
 	public String toString() {
-		return getPersonType() + "|" + getId() + "|" + 
+		return getPersonStr() + "|" + getId() + "|" + 
 			getPhoneNumber() + "|" + getName() + "\n";
 	}
 
@@ -60,5 +54,9 @@ public abstract class Person implements Serializable {
 		return obj != null &&
 			obj instanceof Person && 
 			_id == ((Person) obj).getId();
+	}
+
+	public int compareTo(Person p) {
+		return _id - p._id;
 	}
 }

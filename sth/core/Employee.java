@@ -8,7 +8,13 @@ public class Employee extends Person {
 		super(id, name, phoneNumber);
 	}
 
-	String getPersonType() {
-		return "FUNCIONÁRIO";
+	@Override 
+	String getPersonStr() {
+		return "EMPLOYEE";
+	}
+
+	@Override
+	PersonType getPersonType() {
+		return PersonType.EMPLOYEE;
 	}
 }

@@ -1,7 +1,7 @@
 package sth.core;
 
 import sth.core.exception.BadEntryException;
-import sth.app.exception.NoSuchDisciplineException;
+import sth.core.exception.NoSuchDisciplineIdException;
 
 import sth.core.Discipline;
 import sth.core.Student;
@@ -18,20 +18,27 @@ public class Teacher extends Person {
 		super(id, name, phoneNumber);
 	}
 
-	String getPersonType() {
+	@Override 
+	String getPersonStr() {
 		return "DOCENTE";
+	}
+
+	@Override
+	PersonType getPersonType() {
+		return PersonType.TEACHER;
 	}
 
 	void addDiscipline(Discipline d) {
 		_disciplines.add(d);
 	}
 
-	Collection<Student> getDiscStudents(String d){
+	Collection<Student> getStudents(String disciplineName) 
+		throws NoSuchDisciplineIdException {
 		for (Discipline disc: _disciplines){
-			if (disc.getName().equals(d))
+			if (disc.getName().equals(disciplineName))
 				return disc.getStudents();
 		}
-	return null;
+		throw new NoSuchDisciplineIdException(disciplineName);
 	}
 
 	@Override
@@ -51,7 +58,7 @@ public class Teacher extends Person {
 	public String toString() {
 		String s = super.toString();
 		for (Discipline d: _disciplines)
-			s += "*" + d.getCourse().getName() + " - " + d.getName() + "\n";
+			s += "* " + d.getCourse().getName() + " - " + d.getName() + "\n";
 		return s;
 	}
 }
