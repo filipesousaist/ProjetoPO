@@ -1,2 +1,0 @@
-# ProjetoPO
-  Já Executa (Kinda)
