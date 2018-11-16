@@ -22,7 +22,10 @@ public class DoCloseProject extends sth.app.common.ProjectCommand {
   /** @see sth.app.common.ProjectCommand#myExecute() */
   @Override
   public final void myExecute() throws DialogException, NoSuchDisciplineIdException, NoSuchProjectIdException {
-    //FIXME implement command
+    String disciplineName = _discipline.value();
+    String projectName = _project.value();
+
+    _receiver.closeProject(disciplineName, projectName);
   }
 
 }

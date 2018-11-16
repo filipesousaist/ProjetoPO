@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.HashSet;
 
 import sth.core.Project;
+import sth.core.exception.NoSuchProjectIdException;
 
 import java.io.Serializable;
 
@@ -62,6 +63,18 @@ public class Discipline implements Serializable {
 	void addProject(String projName){
 		Project p = new Project(projName);
 		_projects.add(p);
+	}
+
+	void closeProject(String projName)
+		throws NoSuchProjectIdException{
+
+		for (Project p: _projects){
+			if (p.getName().equals(projName)){
+				p.closeProject();
+				return;
+			}
+		}
+		throw new NoSuchProjectIdException(projName);
 	}
 
 	@Override

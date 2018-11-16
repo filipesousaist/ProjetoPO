@@ -32,17 +32,18 @@ public class Teacher extends Person {
 		_disciplines.add(d);
 	}
 
-	Collection<Student> getStudents(String disciplineName) 
+	Discipline getDiscipline(String disciplineName)
 		throws NoSuchDisciplineIdException {
-		for (Discipline disc: _disciplines){
+
+		for (Discipline disc: _disciplines)
 			if (disc.getName().equals(disciplineName))
-				return disc.getStudents();
-		}
+				return disc;
 		throw new NoSuchDisciplineIdException(disciplineName);
 	}
 
-	Collection<Student> getDiscStudents(String d){
-		return this.getStrDiscipline(d).getStudents();
+	Collection<Student> getStudents(String disciplineName) 
+		throws NoSuchDisciplineIdException {
+			return getDiscipline(disciplineName).getStudents();
 	}
 
 	@Override

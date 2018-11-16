@@ -13,9 +13,6 @@ import sth.core.exception.NoSuchProjectIdException;
  */
 public class DoCreateProject extends sth.app.common.ProjectCommand {
 
-	private Input<String> _disciplineNameInput;
-	private Input<String> _projectNameInput;
-
 	/**
 	 * @param receiver
 	 */

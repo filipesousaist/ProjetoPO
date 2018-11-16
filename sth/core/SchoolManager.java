@@ -4,6 +4,7 @@ import sth.core.exception.BadEntryException;
 import sth.core.exception.ImportFileException;
 import sth.core.exception.NoSuchPersonIdException;
 import sth.core.exception.NoSuchDisciplineIdException;
+import sth.core.exception.NoSuchProjectIdException;
 
 import java.util.Collection;
 
@@ -131,9 +132,13 @@ public class SchoolManager {
 		return ((Teacher) getLoggedUser()).getStudents(disciplineName);
 	}
 
-	public void createNewProject(String disc, String proj){
-		Person p = this.getLoggedUser();
-		Teacher teacher = ((Teacher)p);
-		teacher.getDiscipline(disc).addProject(proj);
+	public void createNewProject(String disc, String proj)
+		throws NoSuchDisciplineIdException {
+		((Teacher) getLoggedUser()).getDiscipline(disc).addProject(proj);
 	}
+
+	public void closeProject(String disc, String proj)
+		throws NoSuchDisciplineIdException, NoSuchProjectIdException {
+			((Teacher) getLoggedUser()).getDiscipline(disc).closeProject(proj);
+		}
 }
