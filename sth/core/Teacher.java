@@ -41,6 +41,10 @@ public class Teacher extends Person {
 		throw new NoSuchDisciplineIdException(disciplineName);
 	}
 
+	Collection<Student> getDiscStudents(String d){
+		return this.getStrDiscipline(d).getStudents();
+	}
+
 	@Override
 	void parseContext(String lineContext, School school) throws BadEntryException {
 		String components[] = lineContext.split("\\|");

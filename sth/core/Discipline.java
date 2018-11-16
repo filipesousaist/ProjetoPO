@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.HashSet;
 
+import sth.core.Project;
+
 import java.io.Serializable;
 
 public class Discipline implements Serializable {
@@ -16,6 +18,7 @@ public class Discipline implements Serializable {
 
 	private Set<Student> _students = new HashSet<>();
 	private Set<Teacher> _teachers = new HashSet<>();
+	private Set<Project> _projects = new HashSet<>();
 	private Course _course;
 	
 	Discipline(String name) {
@@ -54,6 +57,11 @@ public class Discipline implements Serializable {
 	void addTeacher(Teacher t) {
 		_teachers.add(t);
 		t.addDiscipline(this);
+	}
+
+	void addProject(String projName){
+		Project p = new Project(projName);
+		_projects.add(p);
 	}
 
 	@Override

@@ -23,4 +23,23 @@ import java.io.Serializable;
 		this(name);
 		_description = descr;
 	}
+
+	public String getName() {
+		return _name;
+	}
+
+	public boolean isOpen(){
+		return _isOpen;
+	}
+
+	public void closeProject(){
+		_isOpen = false;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null && 
+			obj instanceof Project && 
+			_name.equals(((Project) obj)._name);
+	}
 }

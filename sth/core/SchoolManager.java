@@ -130,4 +130,10 @@ public class SchoolManager {
 		//FIXME throw WrongPersonTypeException
 		return ((Teacher) getLoggedUser()).getStudents(disciplineName);
 	}
+
+	public void createNewProject(String disc, String proj){
+		Person p = this.getLoggedUser();
+		Teacher teacher = ((Teacher)p);
+		teacher.getDiscipline(disc).addProject(proj);
+	}
 }
