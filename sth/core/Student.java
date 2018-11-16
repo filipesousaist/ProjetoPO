@@ -3,7 +3,7 @@ package sth.core;
 import sth.core.exception.BadEntryException;
 
 import java.util.Set;
-import java.util.HashSet;
+import java.util.TreeSet;
 
 public class Student extends Person {
 	private boolean _isRepresentative;
@@ -11,7 +11,7 @@ public class Student extends Person {
 	private static final int MAX_DISCIPLINES = 6;
 
 	private Course _course;
-	private Set<Discipline> _disciplines = new HashSet<>();
+	private Set<Discipline> _disciplines = new TreeSet<>();
 
 	Student(int id, String name, String phoneNumber, boolean rep) {
 		super(id, name, phoneNumber);

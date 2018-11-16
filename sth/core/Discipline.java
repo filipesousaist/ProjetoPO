@@ -5,12 +5,14 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.HashSet;
 
+import java.lang.Comparable;
+
 import sth.core.Project;
 import sth.core.exception.NoSuchProjectIdException;
 
 import java.io.Serializable;
 
-public class Discipline implements Serializable {
+public class Discipline implements Serializable, Comparable<Discipline> {
 	/** Serial number for serialization */
 	private static final long serialVersionUID = 201810051538L;
 
@@ -83,4 +85,9 @@ public class Discipline implements Serializable {
 			obj instanceof Discipline && 
 			_name.equals(((Discipline) obj)._name);
 	}
+
+	@Override
+	public int compareTo(Discipline disc) {
+		return _name.compareTo(disc._name);
+	} 
 }

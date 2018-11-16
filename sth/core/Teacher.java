@@ -7,12 +7,12 @@ import sth.core.Discipline;
 import sth.core.Student;
 
 import java.util.Set;
-import java.util.HashSet;
+import java.util.TreeSet;
 import java.util.Collection;
 
 public class Teacher extends Person {
 
-	private Set<Discipline> _disciplines = new HashSet<>();
+	private Set<Discipline> _disciplines = new TreeSet<>();
 	
 	public Teacher(int id, String name, String phoneNumber) {
 		super(id, name, phoneNumber);

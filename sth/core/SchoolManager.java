@@ -11,21 +11,14 @@ import java.util.Collection;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 
-
-//FIXME import other classes if needed
-
 /**
  * The façade class
  */
 public class SchoolManager {
 
-	//FIXME add object attributes if needed
-
 	private School _school;
 	private Person _loggedUser;
 	private String _serialFilename;
-
-	//FIXME implement constructors if needed
 
 	public SchoolManager() {
 		_school = new School("Universidade");
@@ -69,10 +62,9 @@ public class SchoolManager {
 	 * Do the login of the user with the given identifier.
 
 	 * @param id identifier of the user to login
-	 * @throws NoSuchPersonIdException if there is no uers with the given identifier
+	 * @throws NoSuchPersonIdException if there is no users with the given identifier
 	 */
 	public void login(int id) throws NoSuchPersonIdException {
-		//FIXME implement method
 		_loggedUser = _school.getPerson(id);
 	}
 
@@ -109,7 +101,6 @@ public class SchoolManager {
 		return _school.idExists(id);
 	}
 	
-	//FIXME implement other methods (in general, one for each command in sth-app)
 	public Person getLoggedUser() {
 		return _loggedUser;
 	}
@@ -128,7 +119,7 @@ public class SchoolManager {
 
 	public Collection<Student> getStudents(String disciplineName) 
 		throws NoSuchDisciplineIdException {
-		//FIXME throw WrongPersonTypeException
+			
 		return ((Teacher) getLoggedUser()).getStudents(disciplineName);
 	}
 

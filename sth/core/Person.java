@@ -56,6 +56,7 @@ public abstract class Person implements Serializable, Comparable<Person> {
 			_id == ((Person) obj).getId();
 	}
 
+	@Override
 	public int compareTo(Person p) {
 		return _id - p._id;
 	}

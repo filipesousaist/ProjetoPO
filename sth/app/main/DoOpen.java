@@ -15,8 +15,6 @@ import sth.core.exception.NoSuchPersonIdException;
 
 import sth.app.exception.NoSuchPersonException;
 
-//FIXME import other classes if needed
-
 /**
  * 4.1.1. Open existing document.
  */

@@ -10,7 +10,7 @@ public class Employee extends Person {
 
 	@Override 
 	String getPersonStr() {
-		return "EMPLOYEE";
+		return "FUNCIONÁRIO";
 	}
 
 	@Override
