@@ -1,12 +1,14 @@
 package sth.core;
 
-import sth.core.exception.BadEntryException;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
+
+import sth.core.exception.BadEntryException;
+import sth.core.exception.other.MaxDisciplinesException;
+import sth.core.exception.other.MaxRepresentativesException;
 
 public class Student extends Person {
 	private boolean _isRepresentative;
@@ -21,24 +23,31 @@ public class Student extends Person {
 		_isRepresentative = rep;
 	}
 
-	void setRepresentative(boolean rep) {
-		_isRepresentative = rep;
-		if (rep)
-			_course.addRepresentative(this);
-		else
-			_course.removeRepresentative(this);
+	boolean setRepresentative(boolean rep) {
+		boolean result;
+		try {
+			if (rep)
+				result = _course.addRepresentative(this);
+			else
+				result = _course.removeRepresentative(this);
+			if (result)
+				_isRepresentative = rep;
+			return result;
+		}
+		catch (MaxRepresentativesException rlre) {
+			System.out.println(rlre.getMessage());
+			return false;
+		}
 	}
 
 	boolean isRepresentative() {
 		return _isRepresentative;
 	}
 
-	void addDiscipline(Discipline d) {
+	void addDiscipline(Discipline d) throws MaxDisciplinesException {
+		if (_disciplines.size() >= MAX_DISCIPLINES)
+			throw new MaxDisciplinesException(super.getName());
 		_disciplines.add(d);
-	}
-
-	boolean canEnrollDisciplines() {
-		return _disciplines.size() < MAX_DISCIPLINES;
 	}
 
 	@Override

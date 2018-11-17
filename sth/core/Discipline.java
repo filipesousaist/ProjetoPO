@@ -9,6 +9,9 @@ import java.lang.Comparable;
 
 import sth.core.Project;
 import sth.core.exception.NoSuchProjectIdException;
+import sth.core.exception.other.DuplicateProjectIdException;
+import sth.core.exception.other.MaxStudentsException;
+import sth.core.exception.other.MaxDisciplinesException;
 
 import java.io.Serializable;
 
@@ -51,10 +54,19 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 	}
 
 	void enrollStudent(Student s) {
-		if (_students.size() != _capacity && s.canEnrollDisciplines()) {
-			_students.add(s);
+		try {
+			addStudent(s);
 			s.addDiscipline(this);
 		}
+		catch (MaxStudentsException | MaxDisciplinesException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	void addStudent(Student s) throws MaxStudentsException {
+		if (_students.size() == _capacity)
+			throw new MaxStudentsException(_name);
+		_students.add(s);
 	}
 
 	void addTeacher(Teacher t) {
@@ -62,13 +74,15 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 		t.addDiscipline(this);
 	}
 
-	void addProject(String projName){
-		Project p = new Project(projName);
-		_projects.add(p);
+	void addProject(String projName) throws DuplicateProjectIdException {
+		for (Project p: _projects)
+			if (p.getName().equals(projName))
+				throw new DuplicateProjectIdException(_name, projName);
+		_projects.add(new Project(projName));
 	}
 
 	void closeProject(String projName)
-		throws NoSuchProjectIdException{
+		throws NoSuchProjectIdException {
 
 		for (Project p: _projects){
 			if (p.getName().equals(projName)){

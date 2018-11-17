@@ -5,6 +5,7 @@ import sth.core.exception.ImportFileException;
 import sth.core.exception.NoSuchPersonIdException;
 import sth.core.exception.NoSuchDisciplineIdException;
 import sth.core.exception.NoSuchProjectIdException;
+import sth.core.exception.other.DuplicateProjectIdException;
 
 import java.util.Collection;
 
@@ -124,12 +125,12 @@ public class SchoolManager {
 	}
 
 	public void createNewProject(String disc, String proj)
-		throws NoSuchDisciplineIdException {
+		throws NoSuchDisciplineIdException, DuplicateProjectIdException {
 		((Teacher) getLoggedUser()).getDiscipline(disc).addProject(proj);
 	}
 
 	public void closeProject(String disc, String proj)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException {
-			((Teacher) getLoggedUser()).getDiscipline(disc).closeProject(proj);
-		}
+		((Teacher) getLoggedUser()).getDiscipline(disc).closeProject(proj);
+	}
 }

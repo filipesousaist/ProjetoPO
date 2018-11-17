@@ -14,25 +14,25 @@ import java.io.Serializable;
 	private String _description;
 	private boolean _isOpen;
 
-	public Project(String name) {
+	Project(String name) {
 		_name = name;
 		_isOpen = true;
 	}
 
-	public Project(String name, String descr) {
+	Project(String name, String descr) {
 		this(name);
 		_description = descr;
 	}
 
-	public String getName() {
+	String getName() {
 		return _name;
 	}
 
-	public boolean isOpen(){
+	boolean isOpen(){
 		return _isOpen;
 	}
 
-	public void closeProject(){
+	void closeProject(){
 		_isOpen = false;
 	}
 

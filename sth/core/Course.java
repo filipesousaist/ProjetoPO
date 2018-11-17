@@ -9,6 +9,9 @@ import java.lang.Comparable;
 
 import java.io.Serializable;
 
+import sth.core.exception.other.WrongCourseException;
+import sth.core.exception.other.MaxRepresentativesException;
+
 public class Course implements Serializable, Comparable<Course> {
 
 	/** Serial number for serialization */
@@ -31,27 +34,43 @@ public class Course implements Serializable, Comparable<Course> {
 		return _name;
 	}
 
-	void addDiscipline(Discipline d) {
+	void addDiscipline(Discipline d) throws WrongCourseException {
+		Course c = d.getCourse();
+		if (c == null)
+			d.setCourse(this);
+		else if (! (equals(c))) {
+			throw new WrongCourseException(d.getName(), c.getName(), _name);
+		}
 		_disciplines.add(d);
-		d.setCourse(this);
 	}
 
-	void addRepresentative(Student s) {
-		_representatives.add(s);
+	boolean addRepresentative(Student s) 
+		throws MaxRepresentativesException {
+
+		if (_representatives.size() >= MAX_REPRESENTATIVES)
+			throw new MaxRepresentativesException(_name);
+		if (!_representatives.contains(s)) {
+			_representatives.add(s);
+			return true;
+		}
+		return false;
 	}
 
-	void removeRepresentative(Student s) {
-		_representatives.remove(s);
+	boolean removeRepresentative(Student s) {
+		return _representatives.remove(s);
 	}
 
 	void enrollStudent(Student s) {
-		if (s.isRepresentative())
-			if (_representatives.size() < MAX_REPRESENTATIVES) {
+		if (s.isRepresentative()) {
+			try {
 				addRepresentative(s);
-				_students.add(s);
 			}
-		else
-			_students.add(s);
+			catch (MaxRepresentativesException mre) {
+				System.out.println(mre.getMessage());
+				return;
+			}
+		}
+		_students.add(s);
 	}
 
 	Discipline parseDiscipline(String disciplineName) {
@@ -60,7 +79,13 @@ public class Course implements Serializable, Comparable<Course> {
 				return d;
 
 		Discipline newDiscipline = new Discipline(disciplineName);
-		addDiscipline(newDiscipline);
+		try {
+			addDiscipline(newDiscipline);
+		}
+		catch (WrongCourseException wce) {
+			System.out.println(wce.getMessage());
+			return null;
+		}
 		return newDiscipline;
 	}
 

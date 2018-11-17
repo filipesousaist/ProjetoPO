@@ -7,6 +7,8 @@ import sth.core.SchoolManager;
 
 import sth.core.exception.NoSuchDisciplineIdException;
 import sth.core.exception.NoSuchProjectIdException;
+import sth.core.exception.other.DuplicateProjectIdException;
+import sth.app.exception.DuplicateProjectException;
 
 /**
  * 4.4.1. Create project.
@@ -22,10 +24,17 @@ public class DoCreateProject extends sth.app.common.ProjectCommand {
 
 	/** @see pt.tecnico.po.ui.Command#execute() */
 	@Override
-	public final void myExecute() throws DialogException, NoSuchDisciplineIdException, NoSuchProjectIdException {
+	public final void myExecute() throws DialogException, 
+		NoSuchDisciplineIdException, NoSuchProjectIdException {
+
 		String disciplineName = _discipline.value();
 		String projectName = _project.value();
-
-		_receiver.createNewProject(disciplineName, projectName);
+		try {
+			_receiver.createNewProject(disciplineName, projectName);
+		}
+		catch (DuplicateProjectIdException dpie) {
+			throw new DuplicateProjectException(dpie.getDiscName(), 
+				dpie.getProjName());
+		}
 	}
 }
