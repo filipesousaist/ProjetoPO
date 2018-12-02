@@ -1,12 +1,18 @@
 package sth.app.teaching;
 
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.ArrayList;
+
 import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
+
 import sth.core.SchoolManager;
 import sth.core.Student;
+
 import sth.app.exception.NoSuchDisciplineException;
+
 import sth.core.exception.NoSuchDisciplineIdException;
 
 /**
@@ -31,7 +37,11 @@ public class DoShowDisciplineStudents extends Command<SchoolManager> {
 		try {
 			_form.parse();
 			String discName = _disciplineInput.value();
-			for (Student s: _receiver.getStudents(discName))
+			List<Student> students = 
+				new ArrayList<>(_receiver.getStudents(discName));
+
+			Collections.sort(students);
+			for (Student s: students)
 				_display.add(s.toString());
 			_display.display();
 		}

@@ -30,14 +30,19 @@ public class School implements Serializable {
 	
 	/** School name. */
 	private String _name;
+
 	/** Id of the next person to be added to the school. */
 	private int _nextPersonId;
+
 	/** Collection of all the people in the school. */
 	private Map<Integer, Person> _people = new HashMap<>();
+
 	/** Collection of all courses of the school. */
 	private Set<Course> _courses = new HashSet<>();
 
-	/** School constructor. */
+	/** School constructor.
+	 * @param name Name of the school
+	 */
 	School(String name) {
 		_name = name;
 		_nextPersonId = START_ID;
