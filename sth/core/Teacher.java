@@ -2,6 +2,8 @@ package sth.core;
 
 import sth.core.exception.BadEntryException;
 import sth.core.exception.NoSuchDisciplineIdException;
+import sth.core.exception.NoSuchProjectIdException;
+import sth.core.exception.other.DuplicateProjectIdException;
 
 import sth.core.Discipline;
 import sth.core.Student;
@@ -10,29 +12,26 @@ import java.util.Collections;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.HashSet;
 
 public class Teacher extends Person {
 
-	private Set<Discipline> _disciplines = new HashSet<>();
+	private List<Discipline> _disciplines = new ArrayList<>();
 	
 	public Teacher(int id, String name, String phoneNumber) {
 		super(id, name, phoneNumber);
 	}
 
-	@Override 
 	String getPersonStr() {
 		return "DOCENTE";
 	}
 
-	@Override
 	PersonType getPersonType() {
 		return PersonType.TEACHER;
 	}
 
 	void addDiscipline(Discipline d) {
-		_disciplines.add(d);
+		if (! _disciplines.contains(d))
+			_disciplines.add(d);
 	}
 
 	Discipline getDiscipline(String disciplineName)
@@ -46,7 +45,20 @@ public class Teacher extends Person {
 
 	Collection<Student> getStudents(String disciplineName) 
 		throws NoSuchDisciplineIdException {
-			return getDiscipline(disciplineName).getStudents();
+		
+		return getDiscipline(disciplineName).getStudents();
+	}
+
+	void createProject(String disciplineName, String projectName)
+		throws NoSuchDisciplineIdException, DuplicateProjectIdException {
+
+		getDiscipline(disciplineName).addProject(projectName);
+	}
+
+	void closeProject(String disciplineName, String projectName)
+		throws NoSuchDisciplineIdException, NoSuchProjectIdException {
+		
+		getDiscipline(disciplineName).closeProject(projectName);
 	}
 
 	@Override
@@ -65,10 +77,11 @@ public class Teacher extends Person {
 	@Override
 	public String toString() {
 		String s = super.toString();
-		List<Discipline> sortedDisciplines = new ArrayList<>(_disciplines);
-		Collections.sort(sortedDisciplines);
-		for (Discipline d: sortedDisciplines)
-			s += "* " + d.getCourse().getName() + " - " + d.getName() + "\n";
+
+		Collections.sort(_disciplines);
+
+		for (Discipline d: _disciplines)
+			s += "\n* " + d.getCourse().getName() + " - " + d.getName();
 		return s;
 	}
 }

@@ -7,7 +7,8 @@ import java.util.HashSet;
 
 import java.lang.Comparable;
 
-import sth.core.Project;
+import sth.core.project.Project;
+
 import sth.core.exception.NoSuchProjectIdException;
 import sth.core.exception.other.DuplicateProjectIdException;
 import sth.core.exception.other.MaxStudentsException;
@@ -22,17 +23,19 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 	private String _name;
 	private int _capacity;
 
+	private Course _course;
 	private Set<Student> _students = new HashSet<>();
 	private Set<Teacher> _teachers = new HashSet<>();
 	private Set<Project> _projects = new HashSet<>();
-	private Course _course;
 	
-	Discipline(String name) {
+	Discipline(Course course, String name) {
+		_course = course;
 		_name = name;
 		_capacity = -1; /* Unlimited */
 	}
 
-	Discipline(String name, int capacity) {
+	Discipline(Course course, String name, int capacity) {
+		_course = course;
 		_name = name;
 		_capacity = capacity;
 	}
@@ -47,10 +50,6 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 
 	Collection<Student> getStudents() {
 		return Collections.unmodifiableSet(_students);
-	}
-
-	void setCourse(Course c) {
-		_course = c;
 	}
 
 	void enrollStudent(Student s) {
@@ -75,18 +74,14 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 	}
 
 	void addProject(String projName) throws DuplicateProjectIdException {
-		for (Project p: _projects)
-			if (p.getName().equals(projName))
-				throw new DuplicateProjectIdException(_name, projName);
-		_projects.add(new Project(projName));
+		if (! _projects.add(new Project(projName)))
+			throw new DuplicateProjectIdException(_name, projName);
 	}
 
-	void closeProject(String projName)
-		throws NoSuchProjectIdException {
-
+	void closeProject(String projName) throws NoSuchProjectIdException {
 		for (Project p: _projects){
 			if (p.getName().equals(projName)){
-				p.closeProject();
+				p.close();
 				return;
 			}
 		}
@@ -99,6 +94,11 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 			return false;
 		Discipline d = (Discipline) obj;
 		return _name.equals(d._name) && _course.equals(d._course);
+	}
+
+	@Override
+	public int hashCode() {
+		return _name.hashCode();
 	}
 
 	@Override

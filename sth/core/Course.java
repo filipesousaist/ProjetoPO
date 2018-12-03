@@ -9,7 +9,6 @@ import java.lang.Comparable;
 
 import java.io.Serializable;
 
-import sth.core.exception.other.WrongCourseException;
 import sth.core.exception.other.MaxRepresentativesException;
 
 public class Course implements Serializable, Comparable<Course> {
@@ -34,13 +33,7 @@ public class Course implements Serializable, Comparable<Course> {
 		return _name;
 	}
 
-	void addDiscipline(Discipline d) throws WrongCourseException {
-		Course c = d.getCourse();
-		if (c == null)
-			d.setCourse(this);
-		else if (! (equals(c))) {
-			throw new WrongCourseException(d.getName(), c.getName(), _name);
-		}
+	void addDiscipline(Discipline d) {
 		_disciplines.add(d);
 	}
 
@@ -77,15 +70,9 @@ public class Course implements Serializable, Comparable<Course> {
 		for (Discipline d: _disciplines)
 			if (d.getName().equals(disciplineName))
 				return d;
-
-		Discipline newDiscipline = new Discipline(disciplineName);
-		try {
-			addDiscipline(newDiscipline);
-		}
-		catch (WrongCourseException wce) {
-			System.out.println(wce.getMessage());
-			return null;
-		}
+		
+		Discipline newDiscipline = new Discipline(this, disciplineName);
+		addDiscipline(newDiscipline);
 		return newDiscipline;
 	}
 
@@ -94,6 +81,11 @@ public class Course implements Serializable, Comparable<Course> {
 		return obj != null && 
 			obj instanceof Course && 
 			_name.equals(((Course) obj)._name);
+	}
+
+	@Override
+	public int hashCode() {
+		return _name.hashCode();
 	}
 
 	@Override

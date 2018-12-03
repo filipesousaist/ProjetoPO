@@ -34,7 +34,7 @@ public class DoSearchPerson extends Command<SchoolManager> {
 		
 		List<Person> matchingUsers = new ArrayList<>(_receiver.getAllUsers(str));
 		Collections.sort(matchingUsers, 
-			new Comparator<>() {
+			new Comparator<Person>() {
 				public int compare(Person p1, Person p2) {
 					return p1.getName().compareTo(p2.getName());
 				}
@@ -42,7 +42,7 @@ public class DoSearchPerson extends Command<SchoolManager> {
 		);
 
 		for (Person p: matchingUsers)
-			_display.add(p.toString());
+			_display.addLine(p.toString());
 		_display.display();
 	}
 }

@@ -42,7 +42,7 @@ public class DoShowDisciplineStudents extends Command<SchoolManager> {
 
 			Collections.sort(students);
 			for (Student s: students)
-				_display.add(s.toString());
+				_display.addLine(s.toString());
 			_display.display();
 		}
 		catch (NoSuchDisciplineIdException nsdie) {

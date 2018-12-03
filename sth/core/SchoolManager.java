@@ -124,13 +124,23 @@ public class SchoolManager {
 		return ((Teacher) getLoggedUser()).getStudents(disciplineName);
 	}
 
-	public void createNewProject(String disc, String proj)
+	public void createProject(String disc, String proj)
 		throws NoSuchDisciplineIdException, DuplicateProjectIdException {
-		((Teacher) getLoggedUser()).getDiscipline(disc).addProject(proj);
+
+		((Teacher) getLoggedUser()).createProject(disc, proj);
 	}
 
 	public void closeProject(String disc, String proj)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException {
-		((Teacher) getLoggedUser()).getDiscipline(disc).closeProject(proj);
+
+		((Teacher) getLoggedUser()).closeProject(disc, proj);
 	}
+
+	public void deliverProject(String disc, String proj, String message)
+		throws NoSuchDisciplineIdException, NoSuchProjectIdException {
+
+		((Student) getLoggedUser()).deliverProject(disc, proj, message);
+	}
+
+
 }

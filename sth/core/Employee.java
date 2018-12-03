@@ -8,12 +8,10 @@ public class Employee extends Person {
 		super(id, name, phoneNumber);
 	}
 
-	@Override 
 	String getPersonStr() {
 		return "FUNCIONÁRIO";
 	}
 
-	@Override
 	PersonType getPersonType() {
 		return PersonType.EMPLOYEE;
 	}

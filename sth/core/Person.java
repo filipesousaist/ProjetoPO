@@ -46,7 +46,7 @@ public abstract class Person implements Serializable, Comparable<Person> {
 	@Override
 	public String toString() {
 		return getPersonStr() + "|" + getId() + "|" + 
-			getPhoneNumber() + "|" + getName() + "\n";
+			getPhoneNumber() + "|" + getName();
 	}
 
 	@Override
@@ -54,6 +54,11 @@ public abstract class Person implements Serializable, Comparable<Person> {
 		return obj != null &&
 			obj instanceof Person && 
 			_id == ((Person) obj).getId();
+	}
+
+	@Override
+	public int hashCode() {
+		return _id;
 	}
 
 	@Override

@@ -30,7 +30,7 @@ public class DoCreateProject extends sth.app.common.ProjectCommand {
 		String disciplineName = _discipline.value();
 		String projectName = _project.value();
 		try {
-			_receiver.createNewProject(disciplineName, projectName);
+			_receiver.createProject(disciplineName, projectName);
 		}
 		catch (DuplicateProjectIdException dpie) {
 			throw new DuplicateProjectException(dpie.getDiscName(), 

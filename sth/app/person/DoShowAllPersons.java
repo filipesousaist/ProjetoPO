@@ -28,7 +28,7 @@ public class DoShowAllPersons extends Command<SchoolManager> {
     Collections.sort(people);
 
     for (Person p: people)
-      _display.add(p.toString());
+      _display.addLine(p.toString());
 
     _display.display();
   }
