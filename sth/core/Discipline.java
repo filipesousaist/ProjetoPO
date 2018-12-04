@@ -73,19 +73,31 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 		t.addDiscipline(this);
 	}
 
-	void addProject(String projName) throws DuplicateProjectIdException {
-		if (! _projects.add(new Project(projName)))
-			throw new DuplicateProjectIdException(_name, projName);
+	void addProject(String projectName) throws DuplicateProjectIdException {
+		if (! _projects.add(new Project(projectName)))
+			throw new DuplicateProjectIdException(_name, projectName);
 	}
 
-	void closeProject(String projName) throws NoSuchProjectIdException {
+	void closeProject(String projectName) throws NoSuchProjectIdException {
 		for (Project p: _projects){
-			if (p.getName().equals(projName)){
+			if (p.getName().equals(projectName)){
 				p.close();
 				return;
 			}
 		}
-		throw new NoSuchProjectIdException(projName);
+		throw new NoSuchProjectIdException(projectName);
+	}
+
+	void deliverProject(Student s, String projectName, String message)
+		throws NoSuchProjectIdException {
+
+		for (Project p: _projects) {
+			if (p.getName().equals(projectName)) {
+				p.addSubmission(s, message);
+			}
+		}
+	throw new NoSuchProjectIdException(projectName);
+
 	}
 
 	@Override

@@ -26,7 +26,8 @@ public class DoDeliverProject extends sth.app.common.ProjectCommand {
 	public final void myExecute() throws NoSuchProjectIdException, NoSuchDisciplineIdException, DialogException {
 		String deliveryMessage = _deliveryInput.value();
 
-		_receiver.DeliverProject(_discipline, _project, deliveryMessage);
+		_receiver.deliverProject(_discipline.value(), _project.value(), 
+			deliveryMessage);
 	}
 
 }

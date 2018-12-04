@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 import sth.core.exception.BadEntryException;
+import sth.core.exception.NoSuchProjectIdException;
+import sth.core.exception.NoSuchDisciplineIdException;
 import sth.core.exception.other.MaxDisciplinesException;
 import sth.core.exception.other.MaxRepresentativesException;
 
@@ -61,10 +63,16 @@ public class Student extends Person {
 		return PersonType.STUDENT;
 	}
 
-	void deliverProject(String disc, String proj, String message)
+	void deliverProject(String disciplineName, String projectName, String message)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException {
 
-		((Student) getLoggedUser()).deliverProject(disc, proj, message);
+		for (Discipline d: _disciplines)
+			if (d.getName().equals(disciplineName)) {
+				d.deliverProject(this, projectName, message);
+				return;
+			}
+		throw new NoSuchDisciplineIdException(disciplineName);
+
 	}
 
 	@Override

@@ -3,10 +3,13 @@ package sth.core.project;
 import java.io.Serializable;
 
 import java.util.Collections;
+import java.util.Collection;
 import java.util.Set;
 import java.util.HashSet;
 
 import sth.core.Student;
+
+import sth.core.exception.NoSuchProjectIdException;
 
  public class Project implements Serializable {
 	/** Serial number for serialization */
@@ -36,19 +39,19 @@ import sth.core.Student;
 		_closed = true;
 	}
 
-	public void addSubmission(Student s, String message) 
+	public void addSubmission(Student student, String message) 
 		throws NoSuchProjectIdException {
 
 		if (_closed)
 			throw new NoSuchProjectIdException(_name);
 
-		Submission s = new Submission(s, message);
-		_submissions.remove(s);
-		_submissions.add(s);
+		Submission submission = new Submission(student, message);
+		_submissions.remove(submission);
+		_submissions.add(submission);
 	}
 
 	public Collection<Submission> getSubmissions() {
-		return new Collections.unmodifiableSet(_submissions);
+		return Collections.unmodifiableSet(_submissions);
 	}
 
 	@Override
