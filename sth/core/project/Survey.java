@@ -10,22 +10,35 @@ public class Survey{
 	private Set<Student> _students = new HashSet<>();
 	private List<Answer> _answers = new ArrayList<>();
 
-	SurveyState _surveyState = new CreatedSurvey();
+	private SurveyState _surveyState = new CreatedSurvey();
+	private Project _project;
 
-	public void open(){
-		_surveyState.open();
+	Survey(Project project) {
+		_project = project;
 	}
 
-	public void close() {
-		_surveyState.close();
+	Project getProject() {
+		return _project;
 	}
 
-	public void finalize() {
-		_surveyState.finalize();
+	void addAnswer(Student student, int hours, String message) {
+		
 	}
 
-	public void setState(){
-		return _surveyState;
+	void open() {
+		_surveyState = _surveyState.open();
+	}
+
+	void close() {
+		_surveyState = _surveyState.close();
+	}
+
+	void finish() {
+		_ surveyState = _surveyState.finish();
+	}
+
+	boolean isEmpty() {
+		return _answers.isEmpty(); 
 	}
 
 }

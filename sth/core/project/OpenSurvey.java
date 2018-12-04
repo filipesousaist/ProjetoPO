@@ -1,1 +1,0 @@
-package sth.core.project;

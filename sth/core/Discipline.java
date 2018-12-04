@@ -74,7 +74,7 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 	}
 
 	void addProject(String projectName) throws DuplicateProjectIdException {
-		if (! _projects.add(new Project(projectName)))
+		if (! _projects.add(new Project(this, projectName)))
 			throw new DuplicateProjectIdException(_name, projectName);
 	}
 
