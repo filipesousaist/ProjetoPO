@@ -32,7 +32,7 @@ public class DoSearchPerson extends Command<SchoolManager> {
 		_form.parse();
 		String str = _strInput.value();
 		
-		List<Person> matchingUsers = new ArrayList<Person>(_receiver.getAllUsers(str));
+		List<Person> matchingUsers = new ArrayList<>(_receiver.getAllUsers(str));
 		Collections.sort(matchingUsers, 
 			new Comparator<Person>() {
 				public int compare(Person p1, Person p2) {
