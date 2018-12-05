@@ -1,4 +1,4 @@
-package sth.core.project;
+package sth.core;
 
 import java.io.Serializable;
 
@@ -12,8 +12,10 @@ import sth.core.Discipline;
 import sth.core.Survey;
 
 import sth.core.exception.NoSuchProjectIdException;
+
 import sth.core.exception.survey.CoreNoSurveyException;
 import sth.core.exception.survey.CoreNonEmptySurveyException;
+import sth.core.exception.survey.CoreDuplicateSurveyException;
 
  public class Project implements Serializable {
 	/** Serial number for serialization */
@@ -24,7 +26,7 @@ import sth.core.exception.survey.CoreNonEmptySurveyException;
 	private boolean _closed;
 
 	private Discipline _discipline;
-	private Survey _survey = new NullSurvey();
+	private Survey _survey;
 
 	private Set<Submission> _submissions = new HashSet<>();
 
@@ -44,7 +46,7 @@ import sth.core.exception.survey.CoreNonEmptySurveyException;
 	}
 
 	public String getName() {
-		return _name;
+		return _name;-
 	}
 
 	private Survey getSurvey() throws CoreNoSurveyException {
@@ -53,14 +55,11 @@ import sth.core.exception.survey.CoreNonEmptySurveyException;
 		return _survey;
 	}
 
-	public void close() {
+	public void close() throws CoreOpeningSurveyException {
 		_closed = true;
-		try {
+		if (_survey != null)
 			_survey.open();
-		}
-		catch (CoreNoSurveyException cnse) {
-			/* Do nothing */
-		}
+		
 	}
 
 	boolean isOpen() {
@@ -82,14 +81,40 @@ import sth.core.exception.survey.CoreNonEmptySurveyException;
 		return Collections.unmodifiableSet(_submissions);
 	}
 
+	void createSurvey() throws CoreDuplicateSurveyException {
+		if (_survey != null)
+			throw new CoreDuplicateSurveyException();
+		_survey = new Survey(this);
+	}
+
+	void openSurvey() throws CoreNoSurveyException {
+		if(_survey == null)
+			throw new CoreNoSurveyException();
+		_survey.open();
+	}
+
+	void closeSurvey() throws CoreNoSurveyException {
+		if(_survey == null)
+			throw new CoreNoSurveyException();
+		_survey.close();
+	}
+
+	void finishSurvey() throws CoreNoSurveyException {
+		if(_survey == null)
+			throw new CoreNoSurveyException();
+		_survey.finish();
+	}
+
 	void cancelSurvey() throws CoreNoSurveyException, 
 		CoreNonEmptySurveyException {
 
+		if(_survey == null)
+			throw new CoreNoSurveyException();
 		_survey.cancel();
 	}
 
 	void deleteSurvey() {
-		_survey = new NullSurvey();
+		_survey = null;
 	}
 
 	@Override

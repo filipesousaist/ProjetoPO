@@ -7,12 +7,13 @@ import java.util.HashSet;
 
 import java.lang.Comparable;
 
-import sth.core.project.Project;
-
 import sth.core.exception.NoSuchProjectIdException;
 import sth.core.exception.other.DuplicateProjectIdException;
 import sth.core.exception.other.MaxStudentsException;
 import sth.core.exception.other.MaxDisciplinesException;
+
+import sth.core.exception.survey.CoreDuplicateSurveyException;
+import sth.core.exception.survey.CoreNoSurveyException;
 
 import java.io.Serializable;
 
@@ -54,6 +55,15 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 
 	Collection<Teacher> getTeachers() {
 		return Collections.unmodifiableSet(_teachers);
+	}
+
+	private Project getProject(String projectName) 
+		throws NoSuchProjectIdException {
+
+		for (Project p: _projects)
+			if (p.getName().equals(projectName))
+				return p;
+		throw new NoSuchProjectIdException(projectName);
 	}
 
 	void enrollStudent(Student s) {
@@ -102,6 +112,43 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 		}
 		throw new NoSuchProjectIdException(projectName);
 
+	}
+
+	void createSurvey(String projectName) throws NoSuchProjectIdException,
+		CoreDuplicateSurveyException {
+			
+		getProject(projectName).createSurvey();
+	}
+
+	void openSurvey(String projectName) throws NoSuchProjectIdException,
+		CoreNoSurveyException {
+
+		getProject(projectName).openSurvey();
+	}
+
+	void closeSurvey(String projectName) throws NoSuchProjectIdException,
+		CoreNoSurveyException {
+
+		getProject(projectName).closeSurvey();
+	}
+
+	void finishSurvey(String projectName) throws NoSuchProjectIdException,
+		CoreNoSurveyException {
+
+		getProject(projectName).finishSurvey();
+	}
+
+	void cancelSurvey(String projectName) throws NoSuchProjectIdException,
+		CoreNoSurveyException {
+
+		getProject(projectName).cancelSurvey();
+	}
+
+	Collection<Survey> getSurveys() throws CoreNoSurveyException {
+		List<Survey> _surveys = new ArrayList<>();
+		for(Project p: _projects) {
+			_surveys.add(p.getSurvey());
+		}
 	}
 
 	@Override

@@ -7,6 +7,8 @@ import sth.core.SchoolManager;
 import sth.core.exception.NoSuchDisciplineIdException;
 import sth.core.exception.NoSuchProjectIdException;
 
+import sth.core.exception.survey.CoreNoSurveyException;
+
 /**
  * 4.5.2. Cancel survey.
  */
@@ -17,13 +19,19 @@ public class DoCancelSurvey extends sth.app.common.ProjectCommand {
    */
   public DoCancelSurvey(SchoolManager receiver) {
     super(Label.CANCEL_SURVEY, receiver);
-    //FIXME initialize input fields if needed
   }
 
   /** @see sth.app.common.ProjectCommand#myExecute() */
   @Override
   public final void myExecute() throws NoSuchProjectIdException, NoSuchDisciplineIdException, DialogException {
-    //FIXME implement command
+    String disciplineName = _discipline.value();
+    String projectName = _project.value();
+    try {
+      _receiver.cancelSurvey(disciplineName, projectName);
+    }
+    catch (CoreNoSurveyException cnse) {
+      throw new NoSurveyException(disciplineName, projectName);
+    }
   }
 
 }

@@ -48,8 +48,8 @@ public abstract class Person implements Serializable, Comparable<Person>,
 		throw new BadEntryException("Should not have extra context: " + context);
 	}
 	
-	void update(Subject subject) {
-		Survey survey = (Survey) subject
+	public void update(Subject subject) {
+		Survey survey = (Survey) subject;
 		_notifications.add(survey.getNotification());
 	}
 

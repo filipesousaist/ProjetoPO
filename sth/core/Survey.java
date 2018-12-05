@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.HashSet;
 import java.util.ArrayList;
 
-import sth.core.project.Project;
-
 import sth.core.exception.survey.CoreOpeningSurveyException;
 import sth.core.exception.survey.CoreClosingSurveyException;
 import sth.core.exception.survey.CoreFinishingSurveyException;
@@ -32,7 +30,7 @@ public class Survey extends Subject {
 		Discipline d = _project.getDiscipline();
 		List<Person> people = new ArrayList<>();
 		people.addAll(d.getStudents());
-		peope.addAll(d.getTeachers());
+		people.addAll(d.getTeachers());
 		
 		for (Person p: people)
 			attach(p);
@@ -68,23 +66,23 @@ public class Survey extends Subject {
 		_state.cancel();
 	}
 
-	private interface State {
-		void open() throws CoreOpeningSurveyException;
-		void close() throws CoreClosingSurveyException;
-		void finish() throws CoreFinishingSurveyException;
-		void cancel() throws CoreNonEmptySurveyException,
+	private abstract class State {
+		abstract void open() throws CoreOpeningSurveyException;
+		abstract void close() throws CoreClosingSurveyException;
+		abstract void finish() throws CoreFinishingSurveyException;
+		abstract void cancel() throws CoreNonEmptySurveyException,
 			CoreSurveyFinishedException;
-		void addAnswer(Student student, int hours, String message) throws
+		abstract void addAnswer(Student student, int hours, String message) throws
 			CoreNoSurveyException;
-		Notification getNotification();
+		abstract Notification getNotification();
 	}
 
-	private class Created implements State {
+	private class Created extends State {
 		void open() throws CoreOpeningSurveyException {
 			if (_project.isOpen())
 				throw new CoreOpeningSurveyException();
 			_state = _open;
-			notify();
+			notifyObserver();
 		}
 
 		void close() throws CoreClosingSurveyException {
@@ -103,7 +101,7 @@ public class Survey extends Subject {
 		
 	}
 
-	private class Open implements State {
+	private class Open extends State {
 		void open() throws CoreOpeningSurveyException {
 			throw new CoreOpeningSurveyException();
 		}
@@ -130,10 +128,10 @@ public class Survey extends Subject {
 		}
 	}
 
-	private class Closed implements State {
+	private class Closed extends State {
 		void open() {
 			_state = _open;
-			notify();
+			notifyObserver();
 		}
 
 		void close() {
@@ -142,16 +140,16 @@ public class Survey extends Subject {
 
 		void finish() {
 			_state = _finished;
-			notify();
+			notifyObserver();
 		}
 
 		void cancel() {
 			_state = _open;
-			notify();
+			notifyObserver();
 		}
 	}
 
-	private class Finished implements State {
+	private class Finished extends State {
 		void open() throws CoreOpeningSurveyException {
 			throw new CoreOpeningSurveyException();
 		}

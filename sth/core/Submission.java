@@ -1,4 +1,4 @@
-package sth.core.project;
+package sth.core;
 
 import java.io.Serializable;
 

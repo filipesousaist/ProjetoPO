@@ -5,7 +5,10 @@ import sth.core.exception.ImportFileException;
 import sth.core.exception.NoSuchPersonIdException;
 import sth.core.exception.NoSuchDisciplineIdException;
 import sth.core.exception.NoSuchProjectIdException;
+
 import sth.core.exception.other.DuplicateProjectIdException;
+
+import sth.core.exception.survey.CoreDuplicateSurveyException;
 
 import java.util.Collection;
 
@@ -142,5 +145,44 @@ public class SchoolManager {
 		((Student) getLoggedUser()).deliverProject(disc, proj, message);
 	}
 
+	public void createSurvey(String disciplineName, String projectName) 
+		throws NoSuchDisciplineIdException,	NoSuchProjectIdException,
+		CoreDuplicateSurveyException {
 
+		((Student) getLoggedUser()).createSurvey(disciplineName, projectName);
+	}
+
+	public void openSurvey(String disciplineName, String projectName)
+		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
+		CoreNoSurveyException {
+
+		((Student) getLoggedUser()).openSurvey(disciplineName, projectName);
+	}
+
+	public void closeSurvey(String disciplineName, String projectName)
+		throws NoSuchDisciplineIdException,	NoSuchProjectIdException,
+		CoreNoSurveyException {
+
+		((Student) getLoggedUser()).closeSurvey(disciplineName, projectName);
+	}
+
+	public void finishSurvey(String disciplineName, String projectName)
+		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
+		CoreNoSurveyException {
+
+		((Student) getLoggedUser()).finishSurvey(disciplineName, projectName);
+	}
+
+	public void cancelSurvey(String disciplineName, String projectName)
+		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
+		CoreNoSurveyException {
+
+		((Student) getLoggedUser()).cancelSurvey(disciplineName, projectName);
+	}
+
+	public Collection<Survey> getDisciplineSurveys(String disciplineName)
+		throws NoSuchDisciplineIdException {
+			
+		return ((Student) getLoggedUser()).getSurveys(disciplineName);
+	}
 }

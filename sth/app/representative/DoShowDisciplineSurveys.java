@@ -12,20 +12,31 @@ import sth.core.SchoolManager;
  */
 public class DoShowDisciplineSurveys extends Command<SchoolManager> {
 
-  //FIXME add input fields if needed
+  private Input<String> _disciplineNameInput;
 
   /**
    * @param receiver
    */
   public DoShowDisciplineSurveys(SchoolManager receiver) {
     super(Label.SHOW_DISCIPLINE_SURVEYS, receiver);
-    //FIXME initialize input fields if needed
+    _disciplineNameInput = _form.addStringInput(Message.requestDisciplineName());
   }
 
   /** @see pt.tecnico.po.ui.Command#execute() */
   @Override
   public final void execute() throws DialogException {
-    //FIXME implement command
+    _form.parse();
+    String disciplineName = _disciplineNameInput.value();
+    try {
+      List<Survey> surveys =
+      new ArrayList<>(_reciever.getDisciplineSurveys(disciplineName));
+    }
+    catch(NoSuchDisciplineIdException nsdie) {
+      throw new NoSuchDisciplineException(nsdie.getId());
+    }
+    for(Survey s: surveys){
+      _display.addLine(s.toString());
+      _display.display();
+    }
   }
-
 }

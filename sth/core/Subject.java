@@ -16,7 +16,7 @@ public abstract class Subject {
 		_observers.remove(p);
 	}
 
-	public void notify(){
+	public void notifyObserver(){
 		for (Observer o: _observers) 
 			o.update(this);
 	}
