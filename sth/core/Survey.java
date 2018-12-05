@@ -1,17 +1,20 @@
-package sth.core.project;
-
-import sth.core.Student;
+package sth.core;
 
 import java.util.Set;
+import java.util.List;
 import java.util.HashSet;
+import java.util.ArrayList;
+
+import sth.core.project.Project;
 
 import sth.core.exception.survey.CoreOpeningSurveyException;
 import sth.core.exception.survey.CoreClosingSurveyException;
 import sth.core.exception.survey.CoreFinishingSurveyException;
 import sth.core.exception.survey.CoreSurveyFinishedException;
 import sth.core.exception.survey.CoreNonEmptySurveyException;
+import sth.core.exception.survey.CoreNoSurveyException;
 
-public class Survey {
+public class Survey extends Subject {
 	private final Project _project;
 	private Set<Student> _students = new HashSet<>();
 	private List<Answer> _answers = new ArrayList<>();
@@ -21,14 +24,26 @@ public class Survey {
 	private final State _closed = new Closed();
 	private final State _finished = new Finished();
 
-	private SurveyState _state = _created;
+	private State _state = _created;
 
 	Survey(Project project) {
 		_project = project;
+
+		Discipline d = _project.getDiscipline();
+		List<Person> people = new ArrayList<>();
+		people.addAll(d.getStudents());
+		peope.addAll(d.getTeachers());
+		
+		for (Person p: people)
+			attach(p);
 	}
 
 	Project getProject() {
 		return _project;
+	}
+
+	Notification getNotification() {
+		_state.getNotification();
 	}
 
 	void addAnswer(Student student, int hours, String message) {
@@ -61,6 +76,7 @@ public class Survey {
 			CoreSurveyFinishedException;
 		void addAnswer(Student student, int hours, String message) throws
 			CoreNoSurveyException;
+		Notification getNotification();
 	}
 
 	private class Created implements State {
@@ -68,6 +84,7 @@ public class Survey {
 			if (_project.isOpen())
 				throw new CoreOpeningSurveyException();
 			_state = _open;
+			notify();
 		}
 
 		void close() throws CoreClosingSurveyException {
@@ -82,7 +99,7 @@ public class Survey {
 			_project.deleteSurvey();
 		}
 
-		void addAnswer(Student student, int hours, String message)
+		void addAnswer(Student student, int hours, String message);
 		
 	}
 
@@ -104,11 +121,19 @@ public class Survey {
 				throw new CoreNonEmptySurveyException();
 			_project.deleteSurvey();
 		}
+
+		Notification getNotification() {
+			Discipline d = _project.getDiscipline();
+
+			return new Notification("Pode preencher inquérito do projeto " + 
+				_project.getName() + " da disciplina " + d.getName());
+		}
 	}
 
 	private class Closed implements State {
 		void open() {
 			_state = _open;
+			notify();
 		}
 
 		void close() {
@@ -117,10 +142,12 @@ public class Survey {
 
 		void finish() {
 			_state = _finished;
+			notify();
 		}
 
 		void cancel() {
 			_state = _open;
+			notify();
 		}
 	}
 
@@ -139,6 +166,12 @@ public class Survey {
 		
 		void cancel() throws CoreSurveyFinishedException {
 			throw new CoreSurveyFinishedException();
+		}
+
+		Notification getNotification() {
+			Discipline d = _project.getDiscipline();
+			return new Notification("Resultados do inquérito do projeto " + 
+				_project.getName() + " da disciplina " + d.getName());
 		}
 	}
 }

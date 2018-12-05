@@ -52,6 +52,10 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 		return Collections.unmodifiableSet(_students);
 	}
 
+	Collection<Teacher> getTeachers() {
+		return Collections.unmodifiableSet(_teachers);
+	}
+
 	void enrollStudent(Student s) {
 		try {
 			addStudent(s);

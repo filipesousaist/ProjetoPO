@@ -9,6 +9,7 @@ import java.util.HashSet;
 
 import sth.core.Student;
 import sth.core.Discipline;
+import sth.core.Survey;
 
 import sth.core.exception.NoSuchProjectIdException;
 import sth.core.exception.survey.CoreNoSurveyException;

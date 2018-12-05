@@ -2,9 +2,13 @@ package sth.core;
 
 import sth.core.exception.BadEntryException;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import java.io.Serializable;
 
-public abstract class Person implements Serializable, Comparable<Person> {
+public abstract class Person implements Serializable, Comparable<Person>,
+	Observer {
 	
 	/** Serial number for serialization. */
 	private static final long serialVersionUID = 201810051538L;
@@ -12,6 +16,7 @@ public abstract class Person implements Serializable, Comparable<Person> {
 	private int _id;
 	private String _name;
 	private String _phoneNumber;
+	private List<Notification> _notifications = new ArrayList<>();
 	
 	Person(int id, String name, String phoneNumber){
 		_id = id;
@@ -43,6 +48,11 @@ public abstract class Person implements Serializable, Comparable<Person> {
 		throw new BadEntryException("Should not have extra context: " + context);
 	}
 	
+	void update(Subject subject) {
+		Survey survey = (Survey) subject
+		_notifications.add(survey.getNotification());
+	}
+
 	@Override
 	public String toString() {
 		return getPersonStr() + "|" + getId() + "|" + 
