@@ -23,7 +23,7 @@ import sth.core.exception.survey.CoreNonEmptySurveyException;
 	private boolean _closed;
 
 	private Discipline _discipline;
-	private Survey _survey;
+	private Survey _survey = new NullSurvey();
 
 	private Set<Submission> _submissions = new HashSet<>();
 
@@ -48,6 +48,16 @@ import sth.core.exception.survey.CoreNonEmptySurveyException;
 
 	public void close() {
 		_closed = true;
+		try {
+			_survey.open();
+		}
+		catch (CoreNoSurveyException cnse) {
+			/* Do nothing */
+		}
+	}
+
+	boolean isOpen() {
+		return (! _closed);
 	}
 
 	public void addSubmission(Student student, String message) 
@@ -65,17 +75,14 @@ import sth.core.exception.survey.CoreNonEmptySurveyException;
 		return Collections.unmodifiableSet(_submissions);
 	}
 
-	public void removeSurvey() throws CoreNoSurveyException, 
+	void cancelSurvey() throws CoreNoSurveyException, 
 		CoreNonEmptySurveyException {
 
-		if (_survey == null)
-			throw new CoreNoSurveyException(getDiscipline().getName(), 
-				getName());
-		else if (!_survey.isEmpty())
-			throw new CoreNonEmptySurveyException(getDiscipline().getName(), 
-				getName());
+		_survey.cancel();
+	}
 
-		_survey = null;
+	void deleteSurvey() {
+		_survey = new NullSurvey();
 	}
 
 	@Override

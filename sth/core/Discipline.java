@@ -96,7 +96,7 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 				p.addSubmission(s, message);
 			}
 		}
-	throw new NoSuchProjectIdException(projectName);
+		throw new NoSuchProjectIdException(projectName);
 
 	}
 
