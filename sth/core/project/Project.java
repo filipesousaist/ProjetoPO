@@ -46,6 +46,12 @@ import sth.core.exception.survey.CoreNonEmptySurveyException;
 		return _name;
 	}
 
+	private Survey getSurvey() throws CoreNoSurveyException {
+		if (_survey == null)
+			throw new CoreNoSurveyException();
+		return _survey;
+	}
+
 	public void close() {
 		_closed = true;
 		try {

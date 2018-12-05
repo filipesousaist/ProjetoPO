@@ -59,13 +59,15 @@ public class Survey {
 		void finish() throws CoreFinishingSurveyException;
 		void cancel() throws CoreNonEmptySurveyException,
 			CoreSurveyFinishedException;
+		void addAnswer(Student student, int hours, String message) throws
+			CoreNoSurveyException;
 	}
 
 	private class Created implements State {
 		void open() throws CoreOpeningSurveyException {
 			if (_project.isOpen())
 				throw new CoreOpeningSurveyException();
-			_surveyState = _open;
+			_state = _open;
 		}
 
 		void close() throws CoreClosingSurveyException {
@@ -79,6 +81,8 @@ public class Survey {
 		void cancel() {
 			_project.deleteSurvey();
 		}
+
+		void addAnswer(Student student, int hours, String message)
 		
 	}
 
@@ -88,7 +92,7 @@ public class Survey {
 		}
 
 		void close() {
-			_surveyState = _closed;
+			_state = _closed;
 		}
 
 		void finish() throws CoreFinishingSurveyException {
@@ -104,7 +108,7 @@ public class Survey {
 
 	private class Closed implements State {
 		void open() {
-			_surveyState = _open;
+			_state = _open;
 		}
 
 		void close() {
@@ -112,11 +116,11 @@ public class Survey {
 		}
 
 		void finish() {
-			_surveyState = _finished;
+			_state = _finished;
 		}
 
 		void cancel() {
-			_surveyState = _open;
+			_state = _open;
 		}
 	}
 
