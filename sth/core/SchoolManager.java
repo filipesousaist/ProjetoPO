@@ -155,6 +155,7 @@ public class SchoolManager {
 
 	/* REPRESENTATIVE menu */
 
+	/* 4.6.1 */
 	public void createSurvey(String disciplineName, String projectName) 
 		throws NoSuchDisciplineIdException,	NoSuchProjectIdException,
 		CoreDuplicateSurveyException {
@@ -162,35 +163,40 @@ public class SchoolManager {
 		((Student) getLoggedUser()).createSurvey(disciplineName, projectName);
 	}
 
-	public void openSurvey(String disciplineName, String projectName)
-		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
-		CoreNoSurveyException {
-
-		((Student) getLoggedUser()).openSurvey(disciplineName, projectName);
-	}
-
-	public void closeSurvey(String disciplineName, String projectName)
-		throws NoSuchDisciplineIdException,	NoSuchProjectIdException,
-		CoreNoSurveyException {
-
-		((Student) getLoggedUser()).closeSurvey(disciplineName, projectName);
-	}
-
-	public void finishSurvey(String disciplineName, String projectName)
-		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
-		CoreNoSurveyException {
-
-		((Student) getLoggedUser()).finishSurvey(disciplineName, projectName);
-	}
-
+	/* 4.6.2 */
 	public void cancelSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
-		CoreNoSurveyException {
+		CoreNoSurveyException, CoreNonEmptySurveyException
+		CoreSurveyFinishedException {
 
 		((Student) getLoggedUser()).cancelSurvey(disciplineName, projectName);
 	}
 
-	public Collection<Survey> getDisciplineSurveys(String disciplineName)
+	/* 4.6.3 */
+	public void openSurvey(String disciplineName, String projectName)
+		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
+		CoreNoSurveyException, CoreOpeningSurveyException {
+
+		((Student) getLoggedUser()).openSurvey(disciplineName, projectName);
+	}
+
+	/* 4.6.4 */
+	public void closeSurvey(String disciplineName, String projectName)
+		throws NoSuchDisciplineIdException,	NoSuchProjectIdException,
+		CoreNoSurveyException, CoreClosingSurveyException {
+
+		((Student) getLoggedUser()).closeSurvey(disciplineName, projectName);
+	}
+
+	/* 4.6.5 */
+	public void finishSurvey(String disciplineName, String projectName)
+		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
+		CoreNoSurveyException, CoreFinishingSurveyExceptionS {
+
+		((Student) getLoggedUser()).finishSurvey(disciplineName, projectName);
+	}
+
+	public Collection<Survey> showDisciplineSurveys(String disciplineName)
 		throws NoSuchDisciplineIdException {
 			
 		return ((Student) getLoggedUser()).getSurveys(disciplineName);

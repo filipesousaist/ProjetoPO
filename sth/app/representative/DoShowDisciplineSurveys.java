@@ -12,31 +12,34 @@ import sth.core.SchoolManager;
  */
 public class DoShowDisciplineSurveys extends Command<SchoolManager> {
 
-  private Input<String> _disciplineNameInput;
+	private Input<String> _disciplineNameInput;
 
-  /**
-   * @param receiver
-   */
-  public DoShowDisciplineSurveys(SchoolManager receiver) {
-    super(Label.SHOW_DISCIPLINE_SURVEYS, receiver);
-    _disciplineNameInput = _form.addStringInput(Message.requestDisciplineName());
-  }
+	/**
+	 * @param receiver
+	 */
+	public DoShowDisciplineSurveys(SchoolManager receiver) {
+		super(Label.SHOW_DISCIPLINE_SURVEYS, receiver);
+		_disciplineNameInput = 
+			_form.addStringInput(Message.requestDisciplineName());
+	}
 
-  /** @see pt.tecnico.po.ui.Command#execute() */
-  @Override
-  public final void execute() throws DialogException {
-    _form.parse();
-    String disciplineName = _disciplineNameInput.value();
-    try {
-      List<Survey> surveys =
-      new ArrayList<>(_reciever.getDisciplineSurveys(disciplineName));
-    }
-    catch(NoSuchDisciplineIdException nsdie) {
-      throw new NoSuchDisciplineException(nsdie.getId());
-    }
-    for(Survey s: surveys){
-      _display.addLine(s.toString());
-      _display.display();
-    }
-  }
+	/** @see pt.tecnico.po.ui.Command#execute() */
+	@Override
+	public final void execute() throws DialogException {
+		_form.parse();
+		String disciplineName = _disciplineNameInput.value();
+
+		try {
+			List<Survey> surveys =
+				new ArrayList<>(_receiver.getDisciplineSurveys(disciplineName));
+		}
+		catch(NoSuchDisciplineIdException nsdie) {
+			throw new NoSuchDisciplineException(nsdie.getId());
+		}
+
+		for (Survey s: surveys){
+			_display.addLine(s.toString());
+		}
+		_display.display()
+	}
 }
