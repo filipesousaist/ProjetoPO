@@ -104,6 +104,8 @@ public class SchoolManager {
 	public boolean idExists(int id) {
 		return _school.idExists(id);
 	}
+
+	/* PERSON menu */
 	
 	public Person getLoggedUser() {
 		return _loggedUser;
@@ -117,9 +119,11 @@ public class SchoolManager {
 		return _school.getAllUsers();
 	}
 
-	public Collection<Person> getAllUsers(String str) {
-		return _school.getAllUsers(str);
+	public Collection<Person> getAllUsers(String string) {
+		return _school.getAllUsers(string);
 	}
+
+	/* TEACHER menu */
 
 	public Collection<Student> getStudents(String disciplineName) 
 		throws NoSuchDisciplineIdException {
@@ -127,23 +131,29 @@ public class SchoolManager {
 		return ((Teacher) getLoggedUser()).getStudents(disciplineName);
 	}
 
-	public void createProject(String disc, String proj)
+	public void createProject(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, DuplicateProjectIdException {
 
-		((Teacher) getLoggedUser()).createProject(disc, proj);
+		((Teacher) getLoggedUser()).createProject(disciplineName, projectName);
 	}
 
-	public void closeProject(String disc, String proj)
+	public void closeProject(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException {
 
-		((Teacher) getLoggedUser()).closeProject(disc, proj);
+		((Teacher) getLoggedUser()).closeProject(disciplineName, projectName);
 	}
 
-	public void deliverProject(String disc, String proj, String message)
+	/* STUDENT menu */
+
+	public void deliverProject(
+		String disciplineName, String projectName, String message) 
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException {
 
-		((Student) getLoggedUser()).deliverProject(disc, proj, message);
+		((Student) getLoggedUser()).deliverProject(
+			disciplineName, projectName, message);
 	}
+
+	/* REPRESENTATIVE menu */
 
 	public void createSurvey(String disciplineName, String projectName) 
 		throws NoSuchDisciplineIdException,	NoSuchProjectIdException,

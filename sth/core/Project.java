@@ -30,23 +30,23 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 
 	private Set<Submission> _submissions = new HashSet<>();
 
-	public Project(Discipline discipline, String name) {
+	Project(Discipline discipline, String name) {
 		_discipline = discipline;
 		_name = name;
 		_closed = false;
 	}
 
-	public Project(Discipline discipline, String name, String descr) {
+	Project(Discipline discipline, String name, String descr) {
 		this(discipline, name);
 		_description = descr;
 	}
 
-	public Discipline getDiscipline(){
+	Discipline getDiscipline(){
 		return _discipline;
 	}
 
-	public String getName() {
-		return _name;-
+	String getName() {
+		return _name;
 	}
 
 	private Survey getSurvey() throws CoreNoSurveyException {
@@ -55,7 +55,7 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 		return _survey;
 	}
 
-	public void close() throws CoreOpeningSurveyException {
+	void close() throws CoreOpeningSurveyException {
 		_closed = true;
 		if (_survey != null)
 			_survey.open();
@@ -66,7 +66,7 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 		return (! _closed);
 	}
 
-	public void addSubmission(Student student, String message) 
+	void addSubmission(Student student, String message) 
 		throws NoSuchProjectIdException {
 
 		if (_closed)
@@ -77,7 +77,7 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 		_submissions.add(submission);
 	}
 
-	public Collection<Submission> getSubmissions() {
+	Collection<Submission> getSubmissions() {
 		return Collections.unmodifiableSet(_submissions);
 	}
 

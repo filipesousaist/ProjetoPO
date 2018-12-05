@@ -6,25 +6,42 @@ import sth.core.SchoolManager;
 
 import sth.core.exception.NoSuchProjectIdException;
 import sth.core.exception.NoSuchDisciplineIdException;
+
+import sth.core.exception.survey.CoreNoSurveyException;
+
+import sth.app.exception.NoSurveyException;
+
 /**
  * 4.5.2. Answer survey.
  */
 public class DoAnswerSurvey extends sth.app.common.ProjectCommand {
+	Input<Integer> _hoursInput;
+	Input<String> _commentInput;
 
-  //FIXME add input fields if needed
+	/**
+	 * @param receiver
+	 */
+	public DoAnswerSurvey(SchoolManager receiver) {
+		super(Label.ANSWER_SURVEY, receiver);
+		_hoursInput = _form.addIntegerInput(Message.RequestProjectHours());
+		_commentInput = _form.addStringInput(Message.RequestComment());
+	}
 
-  /**
-   * @param receiver
-   */
-  public DoAnswerSurvey(SchoolManager receiver) {
-    super(Label.ANSWER_SURVEY, receiver);
-    //FIXME initialize input fields if needed
-  }
+	/** @see sth.app.common.ProjectCommand#myExecute() */
+	@Override
+	public final void myExecute() throws NoSuchProjectIdException, NoSuchDisciplineIdException, DialogException {
+		String disciplineName = _discipline.value();
+		String projectName = _project.value();
+		int hours = _hoursInput.value();
+		String comment = _commentInput.value();
 
-  /** @see sth.app.common.ProjectCommand#myExecute() */
-  @Override
-  public final void myExecute() throws NoSuchProjectIdException, NoSuchDisciplineIdException, DialogException {
-    //FIXME implement command
-  }
+		try {
+			_receiver.answerSurvey(disciplineName, projectName, hours, comment);
+		}
+		catch (CoreNoSurveyException cnse) {
+			throw new NoSurveyException(disciplineName, projectName);
+		}
+
+	}
 
 }
