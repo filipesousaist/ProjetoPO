@@ -16,8 +16,12 @@ public class Submission implements Serializable {
 		_message = message;
 	}
 
-	public int getStudentId() {
-		return _student.getId();
+	Student getStudent() {
+		return _student;
+	}
+
+	String getMessage() {
+		return _message;
 	}
 
 	@Override

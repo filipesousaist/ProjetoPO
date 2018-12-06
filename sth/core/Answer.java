@@ -9,16 +9,16 @@ public class Answer implements Serializable {
 	private final int _hours;
 	private final String _message;
 
-	public Answer(int hours, String message) {
+	Answer(int hours, String message) {
 		_hours = hours;
 		_message = message;
 	}
 
-	public int getHours(){
+	int getHours(){
 		return _hours;
 	}
 
-	public String getMessage(){
+	String getMessage(){
 		return _message;
 	}
 }

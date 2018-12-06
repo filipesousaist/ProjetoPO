@@ -14,8 +14,6 @@ import java.util.ArrayList;
 
 import java.lang.Comparable;
 
-
-
 import sth.core.exception.NoSuchProjectIdException;
 import sth.core.exception.DuplicateProjectIdException;
 
@@ -158,6 +156,13 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 		CoreSurveyFinishedException {
 
 		getProject(projectName).cancelSurvey();
+	}
+
+	void answerSurvey(Student student, String projectName, 
+		int hours, String message) throws NoSuchProjectIdException, 
+		CoreNoSurveyException {
+
+		getProject(projectName).answerSurvey(student, hours, message);
 	}
 
 	Collection<Survey> getSurveys() {

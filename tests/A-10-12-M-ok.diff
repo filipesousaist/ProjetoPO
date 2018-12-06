@@ -1,0 +1,20 @@
+*** tests/A-10-12-M-ok.out	2018-11-28 22:12:32.000000000 +0000
+--- tests/A-10-12-M-ok.outhyp	2018-12-06 15:07:44.161628523 +0000
+***************
+*** 17,23 ****
+  2 - Preencher inquérito
+  3 - Ver resultados de inquérito
+  0 - Sair
+! Escolha uma opção: Nome da disciplina: Nome do projecto: Mensagem de entrega: Portal do Estudante
+  1 - Entregar projecto
+  2 - Preencher inquérito
+  3 - Ver resultados de inquérito
+--- 17,24 ----
+  2 - Preencher inquérito
+  3 - Ver resultados de inquérito
+  0 - Sair
+! Escolha uma opção: Nome da disciplina: Nome do projecto: Mensagem de entrega: Entregar projecto: Operação inválida: O projecto 'P1' não existe na disciplina 'D1'.
+! Portal do Estudante
+  1 - Entregar projecto
+  2 - Preencher inquérito
+  3 - Ver resultados de inquérito

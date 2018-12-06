@@ -1,0 +1,20 @@
+*** tests/A-10-44-M-ok.out	2018-11-30 09:27:13.000000000 +0000
+--- tests/A-10-44-M-ok.outhyp	2018-12-06 15:07:49.550038051 +0000
+***************
+*** 10,17 ****
+  2 - Preencher inquérito
+  3 - Ver resultados de inquérito
+  0 - Sair
+! Escolha uma opção: Nome da disciplina: Nome do projecto: Ver resultados de inquérito: Operação inválida: A disciplina 'D1' não existe ou não é válida para o utilizador em causa.
+! Portal do Estudante
+  1 - Entregar projecto
+  2 - Preencher inquérito
+  3 - Ver resultados de inquérito
+--- 10,16 ----
+  2 - Preencher inquérito
+  3 - Ver resultados de inquérito
+  0 - Sair
+! Escolha uma opção: Nome da disciplina: Nome do projecto: Portal do Estudante
+  1 - Entregar projecto
+  2 - Preencher inquérito
+  3 - Ver resultados de inquérito

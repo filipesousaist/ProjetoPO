@@ -162,8 +162,17 @@ public class SchoolManager {
 		String disciplineName, String projectName, int hours, String message)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
 		CoreNoSurveyException {
-			/* To DO */
-		}
+
+			((Student) getLoggedUser()).answerSurvey(
+				disciplineName, projectName, hours, message);
+	}
+
+	public Collection<Survey> showSurveyResults(
+		String disciplineName, String projectName) 
+		throws CoreNoSurveyException {
+			
+		return null;
+	}
 
 	/* REPRESENTATIVE menu */
 

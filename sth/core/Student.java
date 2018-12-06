@@ -136,6 +136,15 @@ public class Student extends Person {
 			d.cancelSurvey(projectName);
 	}
 
+	void answerSurvey(String disciplineName, 
+		String projectName, int hours, String message) 
+		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
+		CoreNoSurveyException {
+
+		Discipline d = getDiscipline(disciplineName);
+		d.answerSurvey(this, projectName, hours, message);
+	}
+
 	Collection<Survey> getDisciplineSurveys(String disciplineName)
 		throws NoSuchDisciplineIdException {
 

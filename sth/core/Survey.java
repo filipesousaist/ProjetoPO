@@ -17,7 +17,7 @@ import sth.core.exception.survey.CoreNoSurveyException;
 public class Survey extends Subject implements Serializable {
 
 	private static final long serialVersionUID = 201810051538L;
-	
+
 	private final Project _project;
 	private Set<Student> _students = new HashSet<>();
 	private List<Answer> _answers = new ArrayList<>();
@@ -64,11 +64,46 @@ public class Survey extends Subject implements Serializable {
 		_state.addAnswer(student, hours, message);
 	}
 
+	String getResultsFor(Person p) {
+		return _state.getResultsFor(p);
+	}
+
 	Notification getNotification() {
 		return _state.getNotification();
 	}
 
-	private abstract class State {
+	int getNumberOfAnswers() {
+		return _students.size();
+	}
+
+	int getAverageTime() {
+		int totalTime;
+		for (Answer a: _answers) 
+			totalTime += a.getHours();
+		return (int) totalTime / getNumberOfAnswers();
+	}
+
+	int getMinimumTimer() {
+		int minTime = _answers.get(0).getHours();
+		for (Answer a: _answers){
+			if (a.getHours() < minTime)
+				minTime = a.getHours();
+		}
+		return minTime;
+	}
+
+	int getMaximumTimer() {
+		int maxTime = _answers.get(0).getHours();
+		for (Answer a: _answers){
+			if (a.getHours() > maxTime)
+				maxTime = a.getHours();
+		}
+		return maxTime;
+	}
+
+	private abstract class State implements Serializable {
+		private static final long serialVersionUID = 201810051538L;
+
 		void open() throws CoreOpeningSurveyException {
 			_state = _open;
 		}
@@ -76,29 +111,35 @@ public class Survey extends Subject implements Serializable {
 		void close() throws CoreClosingSurveyException {
 			_state = _closed;
 		}
+
 		void finish() throws CoreFinishingSurveyException {
 			_state = _finished;
 		}
+
 		void cancel() throws CoreNonEmptySurveyException,
 			CoreSurveyFinishedException {
 
 			_project.deleteSurvey();
 		}
+
 		void addAnswer(Student student, int hours, String message) 
 			throws CoreNoSurveyException {
 
-			if (! _students.contains(student)) {
+			if (!_students.contains(student)) {
 				_students.add(student);
 				_answers.add(new Answer(hours, message));
 			}
 		}
 
-		Notification getNotification() {
-			return null;
+		String getResultsFor(Person p) {
+			Discipline d = _project.getDiscipline();
+			return d.getName() + " - " + _project.getName();
 		}
 	}
 
 	private class Created extends State {
+		private static final long serialVersionUID = 201810051538L;
+
 		@Override
 		void close() throws CoreClosingSurveyException {
 			throw new CoreClosingSurveyException();
@@ -115,10 +156,17 @@ public class Survey extends Subject implements Serializable {
 
 			throw new CoreNoSurveyException();
 		}
+
+		@Override 
+		String getResultsFor(Person p) {
+			return super.getResultsFor(p) + " (por abrir)";
+		}
 		
 	}
 
 	private class Open extends State {
+		private static final long serialVersionUID = 201810051538L;
+
 		@Override
 		void open() throws CoreOpeningSurveyException {
 			throw new CoreOpeningSurveyException();
@@ -136,6 +184,11 @@ public class Survey extends Subject implements Serializable {
 			_project.deleteSurvey();
 		}
 
+		@Override 
+		String getResultsFor(Person p) {
+			return super.getResultsFor(p) + " (aberto)";
+		}
+
 		Notification getNotification() {
 			Discipline d = _project.getDiscipline();
 
@@ -145,6 +198,8 @@ public class Survey extends Subject implements Serializable {
 	}
 
 	private class Closed extends State {
+		private static final long serialVersionUID = 201810051538L;
+
 		@Override
 		void open() {
 			_state = _open;
@@ -169,9 +224,16 @@ public class Survey extends Subject implements Serializable {
 
 			throw new CoreNoSurveyException();
 		}
+
+		@Override 
+		String getResultsFor(Person p) {
+			return super.getResultsFor(p) + " (fechado)";
+		}
 	}
 
 	private class Finished extends State {
+		private static final long serialVersionUID = 201810051538L;
+
 		@Override
 		void open() throws CoreOpeningSurveyException {
 			throw new CoreOpeningSurveyException();
@@ -192,6 +254,12 @@ public class Survey extends Subject implements Serializable {
 			throws CoreNoSurveyException {
 
 			throw new CoreNoSurveyException();
+		}
+
+		@Override 
+		String getResultsFor(Person p) {
+			return super.getResultsFor(p) + "\n" + 
+				p.getFinishedSurveyResults(_project);
 		}
 
 		Notification getNotification() {

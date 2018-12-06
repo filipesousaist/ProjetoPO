@@ -54,9 +54,13 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 		return _name;
 	}
 
-	Survey getSurvey() throws CoreNoSurveyException {
+	private Survey getCreatedSurvey() throws CoreNoSurveyException {
 		if (_survey == null)
 			throw new CoreNoSurveyException();
+		return _survey;
+	}
+
+	Survey getSurvey() throws CoreNoSurveyException {
 		return _survey;
 	}
 
@@ -101,7 +105,7 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 		throws CoreNoSurveyException, CoreNonEmptySurveyException,
 		CoreSurveyFinishedException {
 
-		getSurvey().cancel();
+		getCreatedSurvey().cancel();
 	}
 
 	void openSurvey()
@@ -109,7 +113,7 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 
 		if (! _closed)
 			throw new CoreOpeningSurveyException();
-		getSurvey().open();
+		getCreatedSurvey().open();
 	}
 
 	void closeSurvey() 
@@ -117,7 +121,7 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 
 		if (! _closed)
 			throw new CoreClosingSurveyException();
-		getSurvey().close();
+		getCreatedSurvey().close();
 	}
 
 	void finishSurvey()
@@ -125,11 +129,25 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 
 		if (! _closed)
 			throw new CoreFinishingSurveyException();
-		getSurvey().finish();
+		getCreatedSurvey().finish();
 	}
 
 	void deleteSurvey() {
 		_survey = null;
+	}
+
+	void answerSurvey(Student student, int hours, String message) 
+		throws NoSuchProjectIdException, CoreNoSurveyException {
+
+		boolean hasSubmitted = false;
+		for (Submission s: _submissions) 
+			if (s.getStudent().equals(student)) {
+				hasSubmitted = true;
+				break;
+			}
+		if (!hasSubmitted)
+			throw new NoSuchProjectIdException(getName());
+		_survey.addAnswer(student, hours, message);
 	}
 
 	@Override
