@@ -1,9 +1,11 @@
 package sth.core;
 
-import java.util.Collections;
-import java.util.Collection;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Collections;
+import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
 
 import java.lang.Comparable;
 
@@ -17,6 +19,8 @@ import sth.core.exception.survey.CoreOpeningSurveyException;
 import sth.core.exception.survey.CoreClosingSurveyException;
 import sth.core.exception.survey.CoreFinishingSurveyException;
 import sth.core.exception.survey.CoreDuplicateSurveyException;
+import sth.core.exception.survey.CoreSurveyFinishedException;
+import sth.core.exception.survey.CoreNonEmptySurveyException;
 import sth.core.exception.survey.CoreNoSurveyException;
 
 import java.io.Serializable;
@@ -145,16 +149,23 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 	}
 
 	void cancelSurvey(String projectName) throws NoSuchProjectIdException,
-		CoreNoSurveyException {
+		CoreNoSurveyException, CoreNonEmptySurveyException,
+		CoreSurveyFinishedException {
 
 		getProject(projectName).cancelSurvey();
 	}
 
-	Collection<Survey> getSurveys() throws CoreNoSurveyException {
-		List<Survey> _surveys = new ArrayList<>();
+	Collection<Survey> getSurveys() {
+		List<Survey> surveys = new ArrayList<>();
 		for(Project p: _projects) {
-			_surveys.add(p.getSurvey());
+			try {
+				surveys.add(p.getSurvey());
+			}
+			catch(CoreNoSurveyException cnse){
+				/* Do Nothing */
+			}
 		}
+		return surveys;
 	}
 
 	@Override

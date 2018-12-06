@@ -11,6 +11,8 @@ import sth.core.exception.survey.CoreOpeningSurveyException;
 import sth.core.exception.survey.CoreClosingSurveyException;
 import sth.core.exception.survey.CoreFinishingSurveyException;
 import sth.core.exception.survey.CoreDuplicateSurveyException;
+import sth.core.exception.survey.CoreSurveyFinishedException;
+import sth.core.exception.survey.CoreNonEmptySurveyException;
 import sth.core.exception.survey.CoreNoSurveyException;
 
 import java.util.Collection;
@@ -156,6 +158,13 @@ public class SchoolManager {
 			disciplineName, projectName, message);
 	}
 
+	public void answerSurvey(
+		String disciplineName, String projectName, int hours, String message)
+		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
+		CoreNoSurveyException {
+			/* To DO */
+		}
+
 	/* REPRESENTATIVE menu */
 
 	/* 4.6.1 */
@@ -194,7 +203,7 @@ public class SchoolManager {
 	/* 4.6.5 */
 	public void finishSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
-		CoreNoSurveyException, CoreFinishingSurveyExceptionS {
+		CoreNoSurveyException, CoreFinishingSurveyException {
 
 		((Student) getLoggedUser()).finishSurvey(disciplineName, projectName);
 	}
@@ -202,6 +211,6 @@ public class SchoolManager {
 	public Collection<Survey> showDisciplineSurveys(String disciplineName)
 		throws NoSuchDisciplineIdException {
 			
-		return ((Student) getLoggedUser()).getSurveys(disciplineName);
+		return ((Student) getLoggedUser()).getDisciplineSurveys(disciplineName);
 	}
 }

@@ -8,8 +8,8 @@ import sth.core.SchoolManager;
 import sth.core.exception.NoSuchProjectIdException;
 import sth.core.exception.NoSuchDisciplineIdException;
 
-import sth.core.survey.exception.CoreNoSurveyException;
-import sth.core.survey.exception.CoreOpeningSurveyException;
+import sth.core.exception.survey.CoreNoSurveyException;
+import sth.core.exception.survey.CoreOpeningSurveyException;
 
 import sth.app.exception.NoSurveyException;
 import sth.app.exception.OpeningSurveyException;

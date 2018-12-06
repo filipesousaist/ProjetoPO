@@ -13,13 +13,18 @@ import sth.core.exception.other.MaxRepresentativesException;
 
 import sth.core.exception.survey.CoreDuplicateSurveyException;
 import sth.core.exception.survey.CoreNoSurveyException;
+import sth.core.exception.survey.CoreOpeningSurveyException;
+import sth.core.exception.survey.CoreClosingSurveyException;
+import sth.core.exception.survey.CoreFinishingSurveyException;
+import sth.core.exception.survey.CoreNonEmptySurveyException;
+import sth.core.exception.survey.CoreSurveyFinishedException;
 
 public class Student extends Person {
 	private static final int MAX_DISCIPLINES = 6;
 	
 	private boolean _isRepresentative;
 
-	private final Course _course;
+	private Course _course;
 	private List<Discipline> _disciplines = new ArrayList<>();
 
 	Student(int id, String name, String phoneNumber, boolean rep) {
@@ -97,7 +102,7 @@ public class Student extends Person {
 
 	void openSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
-		CoreNoSurveyException {
+		CoreNoSurveyException, CoreOpeningSurveyException {
 
 			Discipline d = getDiscipline(disciplineName);
 			d.openSurvey(projectName);
@@ -105,7 +110,7 @@ public class Student extends Person {
 
 	void closeSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
-		CoreNoSurveyException {
+		CoreNoSurveyException, CoreClosingSurveyException {
 
 			Discipline d = getDiscipline(disciplineName);
 			d.closeSurvey(projectName);
@@ -113,7 +118,7 @@ public class Student extends Person {
 
 	void finishSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
-		CoreNoSurveyException {
+		CoreNoSurveyException, CoreFinishingSurveyException {
 
 			Discipline d = getDiscipline(disciplineName);
 			d.finishSurvey(projectName);
@@ -121,7 +126,8 @@ public class Student extends Person {
 
 	void cancelSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
-		CoreNoSurveyException {
+		CoreNoSurveyException, CoreNonEmptySurveyException,
+		CoreSurveyFinishedException {
 
 			Discipline d = getDiscipline(disciplineName);
 			d.cancelSurvey(projectName);

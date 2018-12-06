@@ -15,6 +15,9 @@ import sth.core.exception.survey.CoreNonEmptySurveyException;
 import sth.core.exception.survey.CoreNoSurveyException;
 
 public class Survey extends Subject implements Serializable {
+
+	private static final long serialVersionUID = 201810051538L;
+	
 	private final Project _project;
 	private Set<Student> _students = new HashSet<>();
 	private List<Answer> _answers = new ArrayList<>();
@@ -58,23 +61,23 @@ public class Survey extends Subject implements Serializable {
 
 	void addAnswer(Student student, int hours, String message) 
 		throws CoreNoSurveyException {
-		_state.addAnswer();
+		_state.addAnswer(student, hours, message);
 	}
 
 	Notification getNotification() {
-		_state.getNotification();
+		return _state.getNotification();
 	}
 
 	private abstract class State {
 		void open() throws CoreOpeningSurveyException {
-			_state = open;
+			_state = _open;
 		}
 
 		void close() throws CoreClosingSurveyException {
-			_state = closed;
+			_state = _closed;
 		}
 		void finish() throws CoreFinishingSurveyException {
-			_state = finished;
+			_state = _finished;
 		}
 		void cancel() throws CoreNonEmptySurveyException,
 			CoreSurveyFinishedException {
@@ -88,6 +91,10 @@ public class Survey extends Subject implements Serializable {
 				_students.add(student);
 				_answers.add(new Answer(hours, message));
 			}
+		}
+
+		Notification getNotification() {
+			return null;
 		}
 	}
 
@@ -103,7 +110,9 @@ public class Survey extends Subject implements Serializable {
 		}
 
 		@Override
-		void addAnswer(Student student, int hours, String message) {
+		void addAnswer(Student student, int hours, String message) 
+			throws CoreNoSurveyException {
+
 			throw new CoreNoSurveyException();
 		}
 		
@@ -124,7 +133,7 @@ public class Survey extends Subject implements Serializable {
 		void cancel() throws CoreNonEmptySurveyException {
 			if (! _answers.isEmpty())
 				throw new CoreNonEmptySurveyException();
-			super.cancel();
+			_project.deleteSurvey();
 		}
 
 		Notification getNotification() {
@@ -138,24 +147,26 @@ public class Survey extends Subject implements Serializable {
 	private class Closed extends State {
 		@Override
 		void open() {
-			super.open();
+			_state = _open;
 			notifyObserver();
 		}
 
 		@Override
 		void finish() {
-			super.finish();
+			_state = _finished;
 			notifyObserver();
 		}
 
 		@Override
 		void cancel() {
-			super.open();
+			_state = _open;
 			notifyObserver();
 		}
 
 		@Override
-		void addAnswer(Student student, int hours, String message) {
+		void addAnswer(Student student, int hours, String message) 
+			throws CoreNoSurveyException {
+
 			throw new CoreNoSurveyException();
 		}
 	}
@@ -177,7 +188,9 @@ public class Survey extends Subject implements Serializable {
 		}
 
 		@Override
-		void addAnswer(Student student, int hours, String message) {
+		void addAnswer(Student student, int hours, String message)
+			throws CoreNoSurveyException {
+
 			throw new CoreNoSurveyException();
 		}
 

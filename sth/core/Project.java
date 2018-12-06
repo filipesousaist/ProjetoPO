@@ -54,7 +54,7 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 		return _name;
 	}
 
-	private Survey getSurvey() throws CoreNoSurveyException {
+	Survey getSurvey() throws CoreNoSurveyException {
 		if (_survey == null)
 			throw new CoreNoSurveyException();
 		return _survey;
@@ -98,7 +98,8 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 	}
 
 	void cancelSurvey()
-		throws CoreNoSurveyException, CoreNonEmptySurveyException {
+		throws CoreNoSurveyException, CoreNonEmptySurveyException,
+		CoreSurveyFinishedException {
 
 		getSurvey().cancel();
 	}

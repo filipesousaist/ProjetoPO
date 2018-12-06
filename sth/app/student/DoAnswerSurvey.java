@@ -24,8 +24,8 @@ public class DoAnswerSurvey extends sth.app.common.ProjectCommand {
 	 */
 	public DoAnswerSurvey(SchoolManager receiver) {
 		super(Label.ANSWER_SURVEY, receiver);
-		_hoursInput = _form.addIntegerInput(Message.RequestProjectHours());
-		_commentInput = _form.addStringInput(Message.RequestComment());
+		_hoursInput = _form.addIntegerInput(Message.requestProjectHours());
+		_commentInput = _form.addStringInput(Message.requestComment());
 	}
 
 	/** @see sth.app.common.ProjectCommand#myExecute() */
