@@ -145,7 +145,7 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 				hasSubmitted = true;
 				break;
 			}
-		if (!hasSubmitted)
+		if (! hasSubmitted)
 			throw new NoSuchProjectIdException(getName());
 		_survey.addAnswer(student, hours, message);
 	}
