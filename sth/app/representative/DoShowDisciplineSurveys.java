@@ -4,6 +4,7 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -37,8 +38,10 @@ public class DoShowDisciplineSurveys extends Command<SchoolManager> {
 		String disciplineName = _disciplineNameInput.value();
 
 		try {
-			List<Survey> surveys =
-				new ArrayList<>(_receiver.showDisciplineSurveys(disciplineName));
+			List<Survey> surveys = new ArrayList<>(
+				_receiver.getDisciplineSurveys(disciplineName));
+
+			Collections.sort(surveys);
 
 			for (Survey s: surveys)
 				_display.addLine(s.toString());
@@ -47,7 +50,5 @@ public class DoShowDisciplineSurveys extends Command<SchoolManager> {
 		catch (NoSuchDisciplineIdException nsdie) {
 			throw new NoSuchDisciplineException(disciplineName);
 		}
-
-		
 	}
 }

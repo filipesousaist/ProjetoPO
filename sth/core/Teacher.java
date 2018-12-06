@@ -5,6 +5,8 @@ import sth.core.exception.NoSuchDisciplineIdException;
 import sth.core.exception.NoSuchProjectIdException;
 import sth.core.exception.DuplicateProjectIdException;
 
+import sth.core.exception.survey.CoreNoSurveyException;
+
 import sth.core.Discipline;
 import sth.core.Student;
 
@@ -61,6 +63,14 @@ public class Teacher extends Person {
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException {
 		
 		getDiscipline(disciplineName).closeProject(projectName);
+	}
+
+	String getSurveyResults(String disciplineName, String projectName) 
+		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
+		CoreNoSurveyException {
+
+		return getDiscipline(disciplineName).getSurveyResultsFor(
+			this, projectName);
 	}
 
 	String getFinishedSurveyResults(Project p) {

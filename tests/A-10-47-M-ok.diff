@@ -1,5 +1,5 @@
-*** tests/A-10-47-M-ok.out	2018-12-02 16:46:48.000000000 +0000
---- tests/A-10-47-M-ok.outhyp	2018-12-06 15:07:50.066077280 +0000
+*** tests/A-10-47-M-ok.out	2018-12-06 14:18:49.574235758 +0000
+--- tests/A-10-47-M-ok.outhyp	2018-12-06 17:57:30.816191042 +0000
 ***************
 *** 20,26 ****
   5 - Finalizar inquérito
@@ -13,7 +13,7 @@
   5 - Finalizar inquérito
   6 - Mostrar inquéritos de uma disciplina
   0 - Sair
-! Escolha uma opção: Nome da disciplina: sth.core.Survey@6193b845
+! Escolha uma opção: Nome da disciplina: sth.core.Survey@49c2faae
   Portal do Delegado
   1 - Criar inquérito
   2 - Cancelar inquérito

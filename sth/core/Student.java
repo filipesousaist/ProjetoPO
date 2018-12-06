@@ -148,8 +148,15 @@ public class Student extends Person {
 	Collection<Survey> getDisciplineSurveys(String disciplineName)
 		throws NoSuchDisciplineIdException {
 
-			Discipline d = getDiscipline(disciplineName);
-			return d.getSurveys();
+		return getDiscipline(disciplineName).getSurveys();
+	}
+
+	String getSurveyResults(String disciplineName, String projectName) 
+		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
+		CoreNoSurveyException {
+
+		return getDiscipline(disciplineName).getSurveyResultsFor(
+			this, projectName);
 	}
 
 	String getFinishedSurveyResults(Project p) {

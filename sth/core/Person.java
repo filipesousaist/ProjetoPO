@@ -1,6 +1,10 @@
 package sth.core;
 
 import sth.core.exception.BadEntryException;
+import sth.core.exception.NoSuchDisciplineIdException;
+import sth.core.exception.NoSuchProjectIdException;
+
+import sth.core.exception.survey.CoreNoSurveyException;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -52,6 +56,18 @@ public abstract class Person implements Serializable, Comparable<Person>,
 		Survey survey = (Survey) subject;
 		_notifications.add(survey.getNotification());
 	}
+
+	String getSurveyResults(String disciplineName, String projectName) 
+		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
+		CoreNoSurveyException {
+		
+		return null;
+	}
+
+	String getFinishedSurveyResults(Project p) {
+		return null;
+	}
+
 
 	@Override
 	public String toString() {

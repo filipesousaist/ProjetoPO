@@ -17,25 +17,28 @@ import sth.app.exception.NoSurveyException;
  */
 public class DoShowSurveyResults extends sth.app.common.ProjectCommand {
 
-  /**
-   * @param receiver
-   */
-  public DoShowSurveyResults(SchoolManager receiver) {
-    super(Label.SHOW_SURVEY_RESULTS, receiver);
-  }
+	/**
+	 * @param receiver
+	 */
+	public DoShowSurveyResults(SchoolManager receiver) {
+		super(Label.SHOW_SURVEY_RESULTS, receiver);
+	}
 
-  /** @see pt.tecnico.po.ui.Command#execute() */
-  @Override
-  public final void myExecute() throws NoSuchProjectIdException, NoSuchDisciplineIdException, NoSurveyException {
-    String disciplineName = _discipline.value();
-    String projectName = _project.value();
+	/** @see pt.tecnico.po.ui.Command#execute() */
+	@Override
+	public final void myExecute() throws NoSuchProjectIdException, 
+		NoSuchDisciplineIdException, NoSurveyException {
+		
+		String disciplineName = _discipline.value();
+		String projectName = _project.value();
 
-    try {
-      _receiver.showSurveyResults(disciplineName, projectName);
-    }
-    catch (CoreNoSurveyException cnse) {
-      throw new NoSurveyException(disciplineName, projectName);
-    }
-  }
-
+		try {
+			String results = _receiver.getSurveyResults(disciplineName, projectName);
+			_display.addLine(results);
+			_display.display();
+		}
+		catch (CoreNoSurveyException cnse) {
+			throw new NoSurveyException(disciplineName, projectName);
+		}
+	}
 }

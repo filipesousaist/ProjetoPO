@@ -2,6 +2,8 @@ package sth.core;
 
 import java.io.Serializable;
 
+import java.lang.Comparable;
+
 import java.util.Set;
 import java.util.List;
 import java.util.HashSet;
@@ -14,7 +16,8 @@ import sth.core.exception.survey.CoreSurveyFinishedException;
 import sth.core.exception.survey.CoreNonEmptySurveyException;
 import sth.core.exception.survey.CoreNoSurveyException;
 
-public class Survey extends Subject implements Serializable {
+public class Survey extends Subject 
+	implements Serializable, Comparable<Survey> {
 
 	private static final long serialVersionUID = 201810051538L;
 
@@ -137,6 +140,11 @@ public class Survey extends Subject implements Serializable {
 			Discipline d = _project.getDiscipline();
 			return d.getName() + " - " + _project.getName();
 		}
+
+		Notification getNotification() {
+			return null;
+		}
+
 	}
 
 	private class Created extends State {
@@ -163,7 +171,6 @@ public class Survey extends Subject implements Serializable {
 		String getResultsFor(Person p) {
 			return super.getResultsFor(p) + " (por abrir)";
 		}
-		
 	}
 
 	private class Open extends State {
@@ -269,5 +276,10 @@ public class Survey extends Subject implements Serializable {
 			return new Notification("Resultados do inquérito do projeto " + 
 				_project.getName() + " da disciplina " + d.getName());
 		}
+	}
+
+	@Override
+	public int compareTo(Survey s) {
+		return _project.getName().compareTo(s._project.getName());
 	}
 }

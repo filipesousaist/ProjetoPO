@@ -167,16 +167,13 @@ public class SchoolManager {
 				disciplineName, projectName, hours, message);
 	}
 
-	public Collection<Survey> showSurveyResults(
-		String disciplineName, String projectName) 
-		throws CoreNoSurveyException {
-			
-		return null;
+	public String getSurveyResults(String disciplineName, 
+		String projectName) throws NoSuchDisciplineIdException,
+		NoSuchProjectIdException, CoreNoSurveyException {
+
+		return getLoggedUser().getSurveyResults(disciplineName, projectName);
 	}
 
-	/* REPRESENTATIVE menu */
-
-	/* 4.6.1 */
 	public void createSurvey(String disciplineName, String projectName) 
 		throws NoSuchDisciplineIdException,	NoSuchProjectIdException,
 		CoreDuplicateSurveyException {
@@ -184,7 +181,6 @@ public class SchoolManager {
 		((Student) getLoggedUser()).createSurvey(disciplineName, projectName);
 	}
 
-	/* 4.6.2 */
 	public void cancelSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
 		CoreNoSurveyException, CoreNonEmptySurveyException,
@@ -193,7 +189,6 @@ public class SchoolManager {
 		((Student) getLoggedUser()).cancelSurvey(disciplineName, projectName);
 	}
 
-	/* 4.6.3 */
 	public void openSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
 		CoreNoSurveyException, CoreOpeningSurveyException {
@@ -201,7 +196,6 @@ public class SchoolManager {
 		((Student) getLoggedUser()).openSurvey(disciplineName, projectName);
 	}
 
-	/* 4.6.4 */
 	public void closeSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException,	NoSuchProjectIdException,
 		CoreNoSurveyException, CoreClosingSurveyException {
@@ -209,7 +203,6 @@ public class SchoolManager {
 		((Student) getLoggedUser()).closeSurvey(disciplineName, projectName);
 	}
 
-	/* 4.6.5 */
 	public void finishSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
 		CoreNoSurveyException, CoreFinishingSurveyException {
@@ -217,7 +210,7 @@ public class SchoolManager {
 		((Student) getLoggedUser()).finishSurvey(disciplineName, projectName);
 	}
 
-	public Collection<Survey> showDisciplineSurveys(String disciplineName)
+	public Collection<Survey> getDisciplineSurveys(String disciplineName)
 		throws NoSuchDisciplineIdException {
 			
 		return ((Student) getLoggedUser()).getDisciplineSurveys(disciplineName);

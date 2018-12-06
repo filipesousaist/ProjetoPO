@@ -54,13 +54,17 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 		return _name;
 	}
 
-	private Survey getCreatedSurvey() throws CoreNoSurveyException {
-		if (_survey == null)
+	public boolean hasSurvey() {
+		return _survey != null;
+	}
+
+	private Survey getExistingSurvey() throws CoreNoSurveyException {
+		if (! hasSurvey())
 			throw new CoreNoSurveyException();
 		return _survey;
 	}
 
-	Survey getSurvey() throws CoreNoSurveyException {
+	Survey getSurvey() {
 		return _survey;
 	}
 
@@ -105,7 +109,7 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 		throws CoreNoSurveyException, CoreNonEmptySurveyException,
 		CoreSurveyFinishedException {
 
-		getCreatedSurvey().cancel();
+		getExistingSurvey().cancel();
 	}
 
 	void openSurvey()
@@ -113,7 +117,7 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 
 		if (! _closed)
 			throw new CoreOpeningSurveyException();
-		getCreatedSurvey().open();
+		getExistingSurvey().open();
 	}
 
 	void closeSurvey() 
@@ -121,7 +125,7 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 
 		if (! _closed)
 			throw new CoreClosingSurveyException();
-		getCreatedSurvey().close();
+		getExistingSurvey().close();
 	}
 
 	void finishSurvey()
@@ -129,7 +133,7 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 
 		if (! _closed)
 			throw new CoreFinishingSurveyException();
-		getCreatedSurvey().finish();
+		getExistingSurvey().finish();
 	}
 
 	void deleteSurvey() {
@@ -145,13 +149,20 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 				hasSubmitted = true;
 				break;
 			}
+
 		if (! hasSubmitted)
 			throw new NoSuchProjectIdException(getName());
-		_survey.addAnswer(student, hours, message);
+		getExistingSurvey().addAnswer(student, hours, message);
 	}
 
 	int getNumberOfSubmissions() {
 		return _submissions.size();
+	}
+
+	String getSurveyResultsFor(Person person)
+		throws NoSuchProjectIdException, CoreNoSurveyException {
+
+		return getExistingSurvey().getResultsFor(person);
 	}
 
 	@Override

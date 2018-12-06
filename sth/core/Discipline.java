@@ -124,7 +124,6 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 			}
 		}
 		throw new NoSuchProjectIdException(projectName);
-
 	}
 
 	void createSurvey(String projectName) throws NoSuchProjectIdException,
@@ -167,15 +166,16 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 
 	Collection<Survey> getSurveys() {
 		List<Survey> surveys = new ArrayList<>();
-		for(Project p: _projects) {
-			try {
+		for(Project p: _projects)
+			if (p.hasSurvey())
 				surveys.add(p.getSurvey());
-			}
-			catch(CoreNoSurveyException cnse){
-				/* Do Nothing */
-			}
-		}
 		return surveys;
+	}
+
+	String getSurveyResultsFor(Person person, String projectName) 
+		throws NoSuchProjectIdException, CoreNoSurveyException {
+
+		return getProject(projectName).getSurveyResultsFor(person);
 	}
 
 	@Override

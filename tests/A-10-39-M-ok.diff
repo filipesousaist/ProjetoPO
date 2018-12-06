@@ -1,5 +1,5 @@
-*** tests/A-10-39-M-ok.out	2018-12-02 16:46:46.000000000 +0000
---- tests/A-10-39-M-ok.outhyp	2018-12-06 15:07:48.705973890 +0000
+*** tests/A-10-39-M-ok.out	2018-12-06 14:18:49.574235758 +0000
+--- tests/A-10-39-M-ok.outhyp	2018-12-06 17:57:26.044139423 +0000
 ***************
 *** 5,12 ****
   5 - Portal do Estudante
@@ -18,39 +18,3 @@
   1 - Abrir
   2 - Guardar
   3 - Portal Pessoal
-***************
-*** 55,62 ****
-  2 - Preencher inquérito
-  3 - Ver resultados de inquérito
-  0 - Sair
-! Escolha uma opção: Nome da disciplina: Nome do projecto: D1 - P1 (aberto)
-! Portal do Estudante
-  1 - Entregar projecto
-  2 - Preencher inquérito
-  3 - Ver resultados de inquérito
---- 54,60 ----
-  2 - Preencher inquérito
-  3 - Ver resultados de inquérito
-  0 - Sair
-! Escolha uma opção: Nome da disciplina: Nome do projecto: Portal do Estudante
-  1 - Entregar projecto
-  2 - Preencher inquérito
-  3 - Ver resultados de inquérito
-***************
-*** 97,104 ****
-  2 - Preencher inquérito
-  3 - Ver resultados de inquérito
-  0 - Sair
-! Escolha uma opção: Nome da disciplina: Nome do projecto: D1 - P1 (aberto)
-! Portal do Estudante
-  1 - Entregar projecto
-  2 - Preencher inquérito
-  3 - Ver resultados de inquérito
---- 95,101 ----
-  2 - Preencher inquérito
-  3 - Ver resultados de inquérito
-  0 - Sair
-! Escolha uma opção: Nome da disciplina: Nome do projecto: Portal do Estudante
-  1 - Entregar projecto
-  2 - Preencher inquérito
-  3 - Ver resultados de inquérito
