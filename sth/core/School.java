@@ -29,7 +29,7 @@ public class School implements Serializable {
 	private static final int START_ID = 100000;
 	
 	/** School name. */
-	private String _name;
+	private final String _name;
 
 	/** Id of the next person to be added to the school. */
 	private int _nextPersonId;

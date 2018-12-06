@@ -8,8 +8,8 @@ public class Submission implements Serializable {
 	/** Serial number for serialization */
 	private static final long serialVersionUID = 201810051538L;
 
-	private String _message;
-	private Student _student;
+	private final Student _student;
+	private final String _message;
 
 	Submission(Student student, String message) {
 		_student = student;

@@ -1,20 +1,24 @@
 package sth.core;
 
-public class Answer {
+import java.io.Serializable;
 
-	private String _message;
-	private int _hours;
+public class Answer implements Serializable {
+	/** Serial number for serialization */
+	private static final long serialVersionUID = 201810051538L;
 
-	public Answer(String message, int hours) {
-		_message = message;
+	private final int _hours;
+	private final String _message;
+
+	public Answer(int hours, String message) {
 		_hours = hours;
-	}
-
-	public String getMessage(){
-		return _message;
+		_message = message;
 	}
 
 	public int getHours(){
 		return _hours;
+	}
+
+	public String getMessage(){
+		return _message;
 	}
 }

@@ -1,10 +1,11 @@
 package sth.core;
 
+import java.io.Serializable;
+
 import java.util.List;
 import java.util.ArrayList;
 
-
-public abstract class Subject {
+public abstract class Subject implements Serializable {
 
 	private List<Observer> _observers = new ArrayList<>();
 

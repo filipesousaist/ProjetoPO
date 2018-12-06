@@ -18,7 +18,7 @@ public class Course implements Serializable, Comparable<Course> {
 
 	private static final int MAX_REPRESENTATIVES = 7;
 
-	private String _name;
+	private final String _name;
 
 	private Set<Student> _students = new HashSet<>();
 	private Set<Teacher> _teachers = new HashSet<>();

@@ -15,11 +15,11 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 import sth.core.exception.survey.CoreNoSurveyException;
 
 public class Student extends Person {
+	private static final int MAX_DISCIPLINES = 6;
+	
 	private boolean _isRepresentative;
 
-	private static final int MAX_DISCIPLINES = 6;
-
-	private Course _course;
+	private final Course _course;
 	private List<Discipline> _disciplines = new ArrayList<>();
 
 	Student(int id, String name, String phoneNumber, boolean rep) {

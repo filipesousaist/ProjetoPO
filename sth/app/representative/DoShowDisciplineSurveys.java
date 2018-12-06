@@ -3,9 +3,13 @@ package sth.app.representative;
 import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
-import sth.core.SchoolManager;
 
-//FIXME import other classes if needed
+import sth.core.SchoolManager;
+import sth.core.Survey;
+
+import sth.core.exception.NoSuchDisciplineIdException;
+
+import sth.app.exception.NoSuchDisciplineException;
 
 /**
  * 4.6.6. Show discipline surveys.
@@ -33,8 +37,8 @@ public class DoShowDisciplineSurveys extends Command<SchoolManager> {
 			List<Survey> surveys =
 				new ArrayList<>(_receiver.getDisciplineSurveys(disciplineName));
 		}
-		catch(NoSuchDisciplineIdException nsdie) {
-			throw new NoSuchDisciplineException(nsdie.getId());
+		catch (NoSuchDisciplineIdException nsdie) {
+			throw new NoSuchDisciplineException(disciplineName);
 		}
 
 		for (Survey s: surveys){

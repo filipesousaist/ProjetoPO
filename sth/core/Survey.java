@@ -1,5 +1,7 @@
 package sth.core;
 
+import java.io.Serializable;
+
 import java.util.Set;
 import java.util.List;
 import java.util.HashSet;
@@ -12,7 +14,7 @@ import sth.core.exception.survey.CoreSurveyFinishedException;
 import sth.core.exception.survey.CoreNonEmptySurveyException;
 import sth.core.exception.survey.CoreNoSurveyException;
 
-public class Survey extends Subject {
+public class Survey extends Subject implements Serializable {
 	private final Project _project;
 	private Set<Student> _students = new HashSet<>();
 	private List<Answer> _answers = new ArrayList<>();
@@ -36,18 +38,6 @@ public class Survey extends Subject {
 			attach(p);
 	}
 
-	Project getProject() {
-		return _project;
-	}
-
-	Notification getNotification() {
-		_state.getNotification();
-	}
-
-	void addAnswer(Student student, int hours, String message) {
-		
-	}
-
 	void open() throws CoreOpeningSurveyException {
 		_state.open();
 	}
@@ -60,64 +50,81 @@ public class Survey extends Subject {
 		_state.finish();
 	}
 
-	void cancel() throws CoreNonEmptySurveyException, CoreNoSurveyException,
+	void cancel() throws CoreNonEmptySurveyException, 
 		CoreSurveyFinishedException {
 
 		_state.cancel();
 	}
 
+	void addAnswer(Student student, int hours, String message) 
+		throws CoreNoSurveyException {
+		_state.addAnswer();
+	}
+
+	Notification getNotification() {
+		_state.getNotification();
+	}
+
 	private abstract class State {
-		abstract void open() throws CoreOpeningSurveyException;
-		abstract void close() throws CoreClosingSurveyException;
-		abstract void finish() throws CoreFinishingSurveyException;
-		abstract void cancel() throws CoreNonEmptySurveyException,
-			CoreSurveyFinishedException;
-		abstract void addAnswer(Student student, int hours, String message) throws
-			CoreNoSurveyException;
-		abstract Notification getNotification();
+		void open() throws CoreOpeningSurveyException {
+			_state = open;
+		}
+
+		void close() throws CoreClosingSurveyException {
+			_state = closed;
+		}
+		void finish() throws CoreFinishingSurveyException {
+			_state = finished;
+		}
+		void cancel() throws CoreNonEmptySurveyException,
+			CoreSurveyFinishedException {
+
+			_project.deleteSurvey();
+		}
+		void addAnswer(Student student, int hours, String message) 
+			throws CoreNoSurveyException {
+
+			if (! _students.contains(student)) {
+				_students.add(student);
+				_answers.add(new Answer(hours, message));
+			}
+		}
 	}
 
 	private class Created extends State {
-		void open() throws CoreOpeningSurveyException {
-			if (_project.isOpen())
-				throw new CoreOpeningSurveyException();
-			_state = _open;
-			notifyObserver();
-		}
-
+		@Override
 		void close() throws CoreClosingSurveyException {
 			throw new CoreClosingSurveyException();
 		}
 
+		@Override
 		void finish() throws CoreFinishingSurveyException {
 			throw new CoreFinishingSurveyException();
 		}
 
-		void cancel() {
-			_project.deleteSurvey();
+		@Override
+		void addAnswer(Student student, int hours, String message) {
+			throw new CoreNoSurveyException();
 		}
-
-		void addAnswer(Student student, int hours, String message);
 		
 	}
 
 	private class Open extends State {
+		@Override
 		void open() throws CoreOpeningSurveyException {
 			throw new CoreOpeningSurveyException();
 		}
 
-		void close() {
-			_state = _closed;
-		}
-
+		@Override
 		void finish() throws CoreFinishingSurveyException {
 			throw new CoreFinishingSurveyException();
 		}
 
+		@Override
 		void cancel() throws CoreNonEmptySurveyException {
 			if (! _answers.isEmpty())
 				throw new CoreNonEmptySurveyException();
-			_project.deleteSurvey();
+			super.cancel();
 		}
 
 		Notification getNotification() {
@@ -129,41 +136,49 @@ public class Survey extends Subject {
 	}
 
 	private class Closed extends State {
+		@Override
 		void open() {
-			_state = _open;
+			super.open();
 			notifyObserver();
 		}
 
-		void close() {
-			/* Do nothing */
-		}
-
+		@Override
 		void finish() {
-			_state = _finished;
+			super.finish();
 			notifyObserver();
 		}
 
+		@Override
 		void cancel() {
-			_state = _open;
+			super.open();
 			notifyObserver();
+		}
+
+		@Override
+		void addAnswer(Student student, int hours, String message) {
+			throw new CoreNoSurveyException();
 		}
 	}
 
 	private class Finished extends State {
+		@Override
 		void open() throws CoreOpeningSurveyException {
 			throw new CoreOpeningSurveyException();
 		}
 
+		@Override
 		void close() throws CoreClosingSurveyException {
 			throw new CoreClosingSurveyException();
 		}
-
-		void finish() {
-			/* Do nothing */
-		}
 		
+		@Override
 		void cancel() throws CoreSurveyFinishedException {
 			throw new CoreSurveyFinishedException();
+		}
+
+		@Override
+		void addAnswer(Student student, int hours, String message) {
+			throw new CoreNoSurveyException();
 		}
 
 		Notification getNotification() {

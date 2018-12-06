@@ -2,7 +2,7 @@ package sth.core;
 
 public class Notification {
 
-	private String _message;
+	private final String _message;
 
 	Notification(String message) {
 		_message = message;

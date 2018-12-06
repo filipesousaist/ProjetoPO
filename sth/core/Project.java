@@ -13,9 +13,14 @@ import sth.core.Survey;
 
 import sth.core.exception.NoSuchProjectIdException;
 
-import sth.core.exception.survey.CoreNoSurveyException;
+import sth.core.exception.survey.CoreOpeningSurveyException;
+import sth.core.exception.survey.CoreClosingSurveyException;
+import sth.core.exception.survey.CoreFinishingSurveyException;
+import sth.core.exception.survey.CoreSurveyFinishedException;
 import sth.core.exception.survey.CoreNonEmptySurveyException;
+import sth.core.exception.survey.CoreNoSurveyException;
 import sth.core.exception.survey.CoreDuplicateSurveyException;
+
 
  public class Project implements Serializable {
 	/** Serial number for serialization */
@@ -55,15 +60,15 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 		return _survey;
 	}
 
-	void close() throws CoreOpeningSurveyException {
+	void close() {
 		_closed = true;
-		if (_survey != null)
-			_survey.open();
-		
-	}
-
-	boolean isOpen() {
-		return (! _closed);
+		try {
+			if (_survey != null)
+				_survey.open();
+		}
+		catch (CoreOpeningSurveyException cose) {
+			cose.printStackTrace();
+		}
 	}
 
 	void addSubmission(Student student, String message) 
@@ -81,36 +86,45 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 		return Collections.unmodifiableSet(_submissions);
 	}
 
-	void createSurvey() throws CoreDuplicateSurveyException {
-		if (_survey != null)
+	void createSurvey() 
+		throws CoreDuplicateSurveyException, NoSuchProjectIdException {
+
+		if (_closed)
+			throw new NoSuchProjectIdException(_name);
+		else if (_survey != null)
 			throw new CoreDuplicateSurveyException();
+
 		_survey = new Survey(this);
 	}
 
-	void openSurvey() throws CoreNoSurveyException {
-		if(_survey == null)
-			throw new CoreNoSurveyException();
-		_survey.open();
+	void cancelSurvey()
+		throws CoreNoSurveyException, CoreNonEmptySurveyException {
+
+		getSurvey().cancel();
 	}
 
-	void closeSurvey() throws CoreNoSurveyException {
-		if(_survey == null)
-			throw new CoreNoSurveyException();
-		_survey.close();
+	void openSurvey()
+		throws CoreNoSurveyException, CoreOpeningSurveyException {
+
+		if (! _closed)
+			throw new CoreOpeningSurveyException();
+		getSurvey().open();
 	}
 
-	void finishSurvey() throws CoreNoSurveyException {
-		if(_survey == null)
-			throw new CoreNoSurveyException();
-		_survey.finish();
+	void closeSurvey() 
+		throws CoreNoSurveyException, CoreClosingSurveyException {
+
+		if (! _closed)
+			throw new CoreClosingSurveyException();
+		getSurvey().close();
 	}
 
-	void cancelSurvey() throws CoreNoSurveyException, 
-		CoreNonEmptySurveyException {
+	void finishSurvey()
+		throws CoreNoSurveyException, CoreFinishingSurveyException {
 
-		if(_survey == null)
-			throw new CoreNoSurveyException();
-		_survey.cancel();
+		if (! _closed)
+			throw new CoreFinishingSurveyException();
+		getSurvey().finish();
 	}
 
 	void deleteSurvey() {

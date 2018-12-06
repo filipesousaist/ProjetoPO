@@ -13,8 +13,8 @@ public abstract class Person implements Serializable, Comparable<Person>,
 	/** Serial number for serialization. */
 	private static final long serialVersionUID = 201810051538L;
 	
-	private int _id;
-	private String _name;
+	private final int _id;
+	private final String _name;
 	private String _phoneNumber;
 	private List<Notification> _notifications = new ArrayList<>();
 	

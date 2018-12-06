@@ -21,10 +21,10 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 	/** Serial number for serialization */
 	private static final long serialVersionUID = 201810051538L;
 
-	private String _name;
-	private int _capacity;
+	private final String _name;
+	private final int _capacity;
 
-	private Course _course;
+	private final Course _course;
 	private Set<Student> _students = new HashSet<>();
 	private Set<Teacher> _teachers = new HashSet<>();
 	private Set<Project> _projects = new HashSet<>();
@@ -121,19 +121,19 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 	}
 
 	void openSurvey(String projectName) throws NoSuchProjectIdException,
-		CoreNoSurveyException {
+		CoreNoSurveyException, CoreOpeningSurveyException {
 
 		getProject(projectName).openSurvey();
 	}
 
 	void closeSurvey(String projectName) throws NoSuchProjectIdException,
-		CoreNoSurveyException {
+		CoreNoSurveyException, CoreClosingSurveyException {
 
 		getProject(projectName).closeSurvey();
 	}
 
 	void finishSurvey(String projectName) throws NoSuchProjectIdException,
-		CoreNoSurveyException {
+		CoreNoSurveyException, CoreFinishingSurveyException {
 
 		getProject(projectName).finishSurvey();
 	}
