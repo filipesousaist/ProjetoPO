@@ -5,10 +5,13 @@ import sth.core.exception.ImportFileException;
 import sth.core.exception.NoSuchPersonIdException;
 import sth.core.exception.NoSuchDisciplineIdException;
 import sth.core.exception.NoSuchProjectIdException;
+import sth.core.exception.DuplicateProjectIdException;
 
-import sth.core.exception.other.DuplicateProjectIdException;
-
+import sth.core.exception.survey.CoreOpeningSurveyException;
+import sth.core.exception.survey.CoreClosingSurveyException;
+import sth.core.exception.survey.CoreFinishingSurveyException;
 import sth.core.exception.survey.CoreDuplicateSurveyException;
+import sth.core.exception.survey.CoreNoSurveyException;
 
 import java.util.Collection;
 
@@ -166,7 +169,7 @@ public class SchoolManager {
 	/* 4.6.2 */
 	public void cancelSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
-		CoreNoSurveyException, CoreNonEmptySurveyException
+		CoreNoSurveyException, CoreNonEmptySurveyException,
 		CoreSurveyFinishedException {
 
 		((Student) getLoggedUser()).cancelSurvey(disciplineName, projectName);

@@ -1,4 +1,4 @@
-package sth.core.exception.other;
+package sth.core.exception;
 
 public class DuplicateProjectIdException extends Exception {
   /** Class serial number. */

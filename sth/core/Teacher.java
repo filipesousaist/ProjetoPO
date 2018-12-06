@@ -3,7 +3,7 @@ package sth.core;
 import sth.core.exception.BadEntryException;
 import sth.core.exception.NoSuchDisciplineIdException;
 import sth.core.exception.NoSuchProjectIdException;
-import sth.core.exception.other.DuplicateProjectIdException;
+import sth.core.exception.DuplicateProjectIdException;
 
 import sth.core.Discipline;
 import sth.core.Student;

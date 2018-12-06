@@ -44,6 +44,6 @@ public class DoShowDisciplineSurveys extends Command<SchoolManager> {
 		for (Survey s: surveys){
 			_display.addLine(s.toString());
 		}
-		_display.display()
+		_display.display();
 	}
 }

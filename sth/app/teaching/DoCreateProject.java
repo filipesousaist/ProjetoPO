@@ -7,7 +7,8 @@ import sth.core.SchoolManager;
 
 import sth.core.exception.NoSuchDisciplineIdException;
 import sth.core.exception.NoSuchProjectIdException;
-import sth.core.exception.other.DuplicateProjectIdException;
+import sth.core.exception.DuplicateProjectIdException;
+
 import sth.app.exception.DuplicateProjectException;
 
 /**

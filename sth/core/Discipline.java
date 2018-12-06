@@ -8,10 +8,14 @@ import java.util.HashSet;
 import java.lang.Comparable;
 
 import sth.core.exception.NoSuchProjectIdException;
-import sth.core.exception.other.DuplicateProjectIdException;
+import sth.core.exception.DuplicateProjectIdException;
+
 import sth.core.exception.other.MaxStudentsException;
 import sth.core.exception.other.MaxDisciplinesException;
 
+import sth.core.exception.survey.CoreOpeningSurveyException;
+import sth.core.exception.survey.CoreClosingSurveyException;
+import sth.core.exception.survey.CoreFinishingSurveyException;
 import sth.core.exception.survey.CoreDuplicateSurveyException;
 import sth.core.exception.survey.CoreNoSurveyException;
 
@@ -66,13 +70,15 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 		throw new NoSuchProjectIdException(projectName);
 	}
 
-	void enrollStudent(Student s) {
+	boolean enrollStudent(Student s) {
 		try {
 			addStudent(s);
 			s.addDiscipline(this);
+			return true;
 		}
 		catch (MaxStudentsException | MaxDisciplinesException e) {
 			System.out.println(e.getMessage());
+			return false;
 		}
 	}
 
