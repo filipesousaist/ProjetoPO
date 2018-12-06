@@ -63,6 +63,14 @@ public class Teacher extends Person {
 		getDiscipline(disciplineName).closeProject(projectName);
 	}
 
+	String getFinishedSurveyResults(Project p) {
+		Survey s = p.getSurvey();
+		return " * Número de submissões: " + p.getNumberOfSubmissions() +
+			"\n * Número de respostas: " + s.getNumberOfAnswers() + 
+			"\n * Tempos de resolução (horas) (mínimo, médio, máximo): " + 
+			s.getMinimumTime() + s.getMaximumTime() + s.getAverageTime();
+	}
+
 	@Override
 	void parseContext(String lineContext, School school) throws BadEntryException {
 		String components[] = lineContext.split("\\|");

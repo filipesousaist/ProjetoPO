@@ -77,13 +77,15 @@ public class Survey extends Subject implements Serializable {
 	}
 
 	int getAverageTime() {
-		int totalTime;
+		int totalTime = 0;
 		for (Answer a: _answers) 
 			totalTime += a.getHours();
+		if (totalTime == 0) 
+			return totalTime;
 		return (int) totalTime / getNumberOfAnswers();
 	}
 
-	int getMinimumTimer() {
+	int getMinimumTime() {
 		int minTime = (_answers.size() != 0)?_answers.get(0).getHours() : 0;
 		for (Answer a: _answers){
 			if (a.getHours() < minTime)
@@ -92,8 +94,8 @@ public class Survey extends Subject implements Serializable {
 		return minTime;
 	}
 
-	int getMaximumTimer() {
-		int maxTime = _answers.get(0).getHours();
+	int getMaximumTime() {
+		int maxTime = (_answers.size() != 0)?_answers.get(0).getHours() : 0;
 		for (Answer a: _answers){
 			if (a.getHours() > maxTime)
 				maxTime = a.getHours();

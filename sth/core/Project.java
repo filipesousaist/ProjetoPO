@@ -150,6 +150,10 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 		_survey.addAnswer(student, hours, message);
 	}
 
+	int getNumberOfSubmissions() {
+		return _submissions.size();
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		return obj != null &&

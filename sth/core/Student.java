@@ -152,6 +152,12 @@ public class Student extends Person {
 			return d.getSurveys();
 	}
 
+	String getFinishedSurveyResults(Project p) {
+		Survey s = p.getSurvey();
+		return " * Número de respostas: " + s.getNumberOfAnswers() + 
+			"\n * Tempo médio (horas): " + s.getAverageTime();
+	}
+
 	@Override
 	void parseContext(String lineContext, School school) throws BadEntryException {
 		String components[] = lineContext.split("\\|");
