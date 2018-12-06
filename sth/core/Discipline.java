@@ -1,5 +1,10 @@
 package sth.core;
 
+import java.io.Serializable;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.io.IOException;
+
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Collections;
@@ -8,6 +13,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 import java.lang.Comparable;
+
+
 
 import sth.core.exception.NoSuchProjectIdException;
 import sth.core.exception.DuplicateProjectIdException;
@@ -23,16 +30,14 @@ import sth.core.exception.survey.CoreSurveyFinishedException;
 import sth.core.exception.survey.CoreNonEmptySurveyException;
 import sth.core.exception.survey.CoreNoSurveyException;
 
-import java.io.Serializable;
-
 public class Discipline implements Serializable, Comparable<Discipline> {
 	/** Serial number for serialization */
 	private static final long serialVersionUID = 201810051538L;
 
-	private final String _name;
-	private final int _capacity;
+	private String _name;
+	private int _capacity;
 
-	private final Course _course;
+	private Course _course;
 	private Set<Student> _students = new HashSet<>();
 	private Set<Teacher> _teachers = new HashSet<>();
 	private Set<Project> _projects = new HashSet<>();
@@ -186,5 +191,27 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 		if (_course.equals(disc._course))
 			return _name.compareTo(disc._name);
 		return _course.compareTo(disc._course);
-	} 
+	}
+
+
+	private void writeObject(ObjectOutputStream stream) throws IOException {
+		stream.writeObject(_name);
+		stream.writeInt(_capacity);
+		stream.writeObject(_course);
+		stream.writeObject(_students);
+		stream.writeObject(_teachers);
+		stream.writeObject(_projects);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void readObject(ObjectInputStream stream) 
+		throws IOException, ClassNotFoundException {
+
+		_name = (String) stream.readObject();
+		_capacity = stream.readInt();
+		_course = (Course) stream.readObject();
+		_students = (HashSet<Student>) stream.readObject();
+		_teachers = (HashSet<Teacher>) stream.readObject();
+		_projects = (HashSet<Project>) stream.readObject();
+	}
 }

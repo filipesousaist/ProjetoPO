@@ -20,6 +20,9 @@ import sth.core.exception.survey.CoreNonEmptySurveyException;
 import sth.core.exception.survey.CoreSurveyFinishedException;
 
 public class Student extends Person {
+	/** Serial number for serialization. */
+	private static final long serialVersionUID = 201810051538L;
+	
 	private static final int MAX_DISCIPLINES = 6;
 	
 	private boolean _isRepresentative;
