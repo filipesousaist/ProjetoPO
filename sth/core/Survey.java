@@ -84,7 +84,7 @@ public class Survey extends Subject implements Serializable {
 	}
 
 	int getMinimumTimer() {
-		int minTime = _answers.get(0).getHours();
+		int minTime = (_answers.size() != 0)?_answers.get(0).getHours() : 0;
 		for (Answer a: _answers){
 			if (a.getHours() < minTime)
 				minTime = a.getHours();
