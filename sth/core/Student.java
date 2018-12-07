@@ -94,28 +94,28 @@ public class Student extends Person {
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
 		CoreDuplicateSurveyException {
 
-		getDiscipline(disciplineName).createSurvey(projectName);
+		_course.getDiscipline(disciplineName).createSurvey(projectName);
 	}
 
 	void openSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
 		CoreNoSurveyException, CoreOpeningSurveyException {
 
-		getDiscipline(disciplineName).openSurvey(projectName);
+		_course.getDiscipline(disciplineName).openSurvey(projectName);
 	}
 
 	void closeSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
 		CoreNoSurveyException, CoreClosingSurveyException {
 
-		getDiscipline(disciplineName).closeSurvey(projectName);
+		_course.getDiscipline(disciplineName).closeSurvey(projectName);
 	}
 
 	void finishSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
 		CoreNoSurveyException, CoreFinishingSurveyException {
 
-		getDiscipline(disciplineName).finishSurvey(projectName);
+		_course.getDiscipline(disciplineName).finishSurvey(projectName);
 	}
 
 	void cancelSurvey(String disciplineName, String projectName)
@@ -123,7 +123,7 @@ public class Student extends Person {
 		CoreNoSurveyException, CoreNonEmptySurveyException,
 		CoreSurveyFinishedException {
 
-		getDiscipline(disciplineName).cancelSurvey(projectName);
+		_course.getDiscipline(disciplineName).cancelSurvey(projectName);
 	}
 
 	void answerSurvey(String disciplineName, 
@@ -138,7 +138,7 @@ public class Student extends Person {
 	Collection<String> getDisciplineSurveys(String disciplineName)
 		throws NoSuchDisciplineIdException {
 
-		return getDiscipline(disciplineName).getSurveyResultsFor(this);
+		return _course.getDiscipline(disciplineName).getSurveyResultsFor(this);
 	}
 
 	String getSurveyResults(String disciplineName, String projectName) 

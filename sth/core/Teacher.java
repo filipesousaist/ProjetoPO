@@ -84,7 +84,8 @@ public class Teacher extends Person {
 		return " * Número de submissões: " + p.getNumberOfSubmissions() +
 			"\n * Número de respostas: " + s.getNumberOfAnswers() + 
 			"\n * Tempos de resolução (horas) (mínimo, médio, máximo): " + 
-			s.getMinimumTime() + s.getMaximumTime() + s.getAverageTime();
+			s.getMinimumTime() + ", " + s.getMaximumTime() + ", " + 
+			s.getAverageTime();
 	}
 
 	@Override

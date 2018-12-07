@@ -36,6 +36,7 @@ public class Survey extends Subject implements Serializable {
 		List<Person> people = new ArrayList<>();
 		people.addAll(d.getStudents());
 		people.addAll(d.getTeachers());
+		people.addAll(d.getCourse().getRepresentatives());
 		
 		for (Person p: people)
 			attach(p);
@@ -78,9 +79,12 @@ public class Survey extends Subject implements Serializable {
 
 	int getAverageTime() {
 		int totalTime = 0;
-		for (Answer a: _answers) 
-			totalTime += a.getHours();
-		return (int) (totalTime / getNumberOfAnswers());
+		if (_answers.size() != 0) {
+			for (Answer a: _answers) 
+				totalTime += a.getHours();
+			return (int) (totalTime / getNumberOfAnswers());
+		}
+		return totalTime;
 	}
 
 	int getMinimumTime() {

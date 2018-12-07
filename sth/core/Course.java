@@ -4,12 +4,15 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Collection;
 
 import java.lang.Comparable;
 
 import java.io.Serializable;
 
 import sth.core.exception.other.MaxRepresentativesException;
+
+import sth.core.exception.NoSuchDisciplineIdException;
 
 public class Course implements Serializable, Comparable<Course> {
 
@@ -64,6 +67,19 @@ public class Course implements Serializable, Comparable<Course> {
 			}
 		}
 		_students.add(s);
+	}
+
+	Discipline getDiscipline(String disciplineName)
+		throws NoSuchDisciplineIdException {
+
+		for (Discipline d: _disciplines)
+			if (d.getName().equals(disciplineName))
+				return d;
+		throw new NoSuchDisciplineIdException(disciplineName);
+	}
+
+	Collection<Student> getRepresentatives() {
+		return new ArrayList<Student> (_representatives);
 	}
 
 	Discipline parseDiscipline(String disciplineName) {
