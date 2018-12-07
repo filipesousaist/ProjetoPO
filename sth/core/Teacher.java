@@ -38,19 +38,13 @@ public class Teacher extends Person {
 			_disciplines.add(d);
 	}
 
-	Discipline getDiscipline(String disciplineName)
+	private Discipline getDiscipline(String disciplineName)
 		throws NoSuchDisciplineIdException {
 
 		for (Discipline disc: _disciplines)
 			if (disc.getName().equals(disciplineName))
 				return disc;
 		throw new NoSuchDisciplineIdException(disciplineName);
-	}
-
-	Collection<Student> getStudents(String disciplineName) 
-		throws NoSuchDisciplineIdException {
-		
-		return getDiscipline(disciplineName).getStudents();
 	}
 
 	void createProject(String disciplineName, String projectName)
@@ -63,6 +57,18 @@ public class Teacher extends Person {
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException {
 		
 		getDiscipline(disciplineName).closeProject(projectName);
+	}
+
+	Project getProject(String disciplineName, String projectName)
+		throws NoSuchDisciplineIdException, NoSuchProjectIdException {
+
+		return getDiscipline(disciplineName).getProject(projectName);
+	}
+
+	Collection<Student> getStudents(String disciplineName) 
+		throws NoSuchDisciplineIdException {
+		
+		return getDiscipline(disciplineName).getStudents();
 	}
 
 	String getSurveyResults(String disciplineName, String projectName) 

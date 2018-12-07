@@ -2,9 +2,11 @@ package sth.core;
 
 import java.io.Serializable;
 
+import java.lang.Comparable;
+
 import sth.core.Student;
 
-public class Submission implements Serializable {
+public class Submission implements Serializable, Comparable<Submission> {
 	/** Serial number for serialization */
 	private static final long serialVersionUID = 201810051538L;
 
@@ -39,5 +41,10 @@ public class Submission implements Serializable {
 	@Override
 	public int hashCode() {
 		return _student.hashCode();
+	}
+
+	@Override
+	public int compareTo(Submission submission) {
+		return _student.compareTo(submission._student);
 	}
 }

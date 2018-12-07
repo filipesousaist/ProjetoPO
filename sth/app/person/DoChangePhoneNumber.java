@@ -24,11 +24,11 @@ public class DoChangePhoneNumber extends Command<SchoolManager> {
 	@Override
 	public final void execute() {
 		_form.parse();
+
 		String newPhoneNumber = _newPhoneNumberInput.value();
-		_receiver.changePhoneNumber(_receiver.getLoggedUser(), newPhoneNumber);
+		_receiver.changePhoneNumber(newPhoneNumber);
 		
 		_display.add(_receiver.getLoggedUser().toString());
 		_display.display();
 	}
-
 }

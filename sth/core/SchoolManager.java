@@ -16,6 +16,7 @@ import sth.core.exception.survey.CoreNonEmptySurveyException;
 import sth.core.exception.survey.CoreNoSurveyException;
 
 import java.util.Collection;
+import java.util.List;
 
 import java.io.IOException;
 import java.io.FileNotFoundException;
@@ -60,7 +61,7 @@ public class SchoolManager {
 	}
 
 	public void updateSchool(School newSchool) throws NoSuchPersonIdException {
-		int userId = getLoggedUser().getId();
+		int userId = _loggedUser.getId();
 		if (! newSchool.idExists(userId))
 			throw new NoSuchPersonIdException(userId);
 		_school = newSchool;
@@ -75,6 +76,10 @@ public class SchoolManager {
 	 */
 	public void login(int id) throws NoSuchPersonIdException {
 		_loggedUser = _school.getPerson(id);
+	}
+
+	public List<Notification> getNotifications() {
+		return _loggedUser.popNotifications();
 	}
 
 	/**
@@ -110,14 +115,12 @@ public class SchoolManager {
 		return _school.idExists(id);
 	}
 
-	/* PERSON menu */
-	
 	public Person getLoggedUser() {
 		return _loggedUser;
 	}
 
-	public void changePhoneNumber(Person person, String newPhoneNumber) {
-		person.changePhoneNumber(newPhoneNumber);
+	public void changePhoneNumber(String newPhoneNumber) {
+		_loggedUser.changePhoneNumber(newPhoneNumber);
 	}
 	
 	public Collection<Person> getAllUsers() {
@@ -128,33 +131,35 @@ public class SchoolManager {
 		return _school.getAllUsers(string);
 	}
 
-	/* TEACHER menu */
-
-	public Collection<Student> getStudents(String disciplineName) 
-		throws NoSuchDisciplineIdException {
-			
-		return ((Teacher) getLoggedUser()).getStudents(disciplineName);
-	}
-
 	public void createProject(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, DuplicateProjectIdException {
 
-		((Teacher) getLoggedUser()).createProject(disciplineName, projectName);
+		((Teacher) _loggedUser).createProject(disciplineName, projectName);
 	}
 
 	public void closeProject(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException {
 
-		((Teacher) getLoggedUser()).closeProject(disciplineName, projectName);
+		((Teacher) _loggedUser).closeProject(disciplineName, projectName);
 	}
 
-	/* STUDENT menu */
+	public Collection<Student> getStudents(String disciplineName) 
+		throws NoSuchDisciplineIdException {
+			
+		return ((Teacher) _loggedUser).getStudents(disciplineName);
+	}
+
+	public Project getProject(String disciplineName, String projectName)
+		throws NoSuchDisciplineIdException, NoSuchProjectIdException {
+
+		return ((Teacher) _loggedUser).getProject(disciplineName, projectName);
+	}
 
 	public void deliverProject(
 		String disciplineName, String projectName, String message) 
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException {
 
-		((Student) getLoggedUser()).deliverProject(
+		((Student) _loggedUser).deliverProject(
 			disciplineName, projectName, message);
 	}
 
@@ -163,7 +168,7 @@ public class SchoolManager {
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
 		CoreNoSurveyException {
 
-			((Student) getLoggedUser()).answerSurvey(
+			((Student) _loggedUser).answerSurvey(
 				disciplineName, projectName, hours, message);
 	}
 
@@ -171,14 +176,26 @@ public class SchoolManager {
 		String projectName) throws NoSuchDisciplineIdException,
 		NoSuchProjectIdException, CoreNoSurveyException {
 
-		return getLoggedUser().getSurveyResults(disciplineName, projectName);
+		if (isLoggedUserRepresentative()) {
+			Student user = (Student) _loggedUser;
+			try {
+				user.setRepresentative(false);
+				String results = user.getSurveyResults(disciplineName, projectName);
+				return results;
+			}
+			finally {
+				user.setRepresentative(true);
+			}
+		}
+		else
+			return _loggedUser.getSurveyResults(disciplineName, projectName);
 	}
 
 	public void createSurvey(String disciplineName, String projectName) 
 		throws NoSuchDisciplineIdException,	NoSuchProjectIdException,
 		CoreDuplicateSurveyException {
 
-		((Student) getLoggedUser()).createSurvey(disciplineName, projectName);
+		((Student) _loggedUser).createSurvey(disciplineName, projectName);
 	}
 
 	public void cancelSurvey(String disciplineName, String projectName)
@@ -186,33 +203,33 @@ public class SchoolManager {
 		CoreNoSurveyException, CoreNonEmptySurveyException,
 		CoreSurveyFinishedException {
 
-		((Student) getLoggedUser()).cancelSurvey(disciplineName, projectName);
+		((Student) _loggedUser).cancelSurvey(disciplineName, projectName);
 	}
 
 	public void openSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
 		CoreNoSurveyException, CoreOpeningSurveyException {
 
-		((Student) getLoggedUser()).openSurvey(disciplineName, projectName);
+		((Student) _loggedUser).openSurvey(disciplineName, projectName);
 	}
 
 	public void closeSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException,	NoSuchProjectIdException,
 		CoreNoSurveyException, CoreClosingSurveyException {
 
-		((Student) getLoggedUser()).closeSurvey(disciplineName, projectName);
+		((Student) _loggedUser).closeSurvey(disciplineName, projectName);
 	}
 
 	public void finishSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
 		CoreNoSurveyException, CoreFinishingSurveyException {
 
-		((Student) getLoggedUser()).finishSurvey(disciplineName, projectName);
+		((Student) _loggedUser).finishSurvey(disciplineName, projectName);
 	}
 
-	public Collection<Survey> getDisciplineSurveys(String disciplineName)
+	public Collection<String> getDisciplineSurveys(String disciplineName)
 		throws NoSuchDisciplineIdException {
 			
-		return ((Student) getLoggedUser()).getDisciplineSurveys(disciplineName);
+		return ((Student) _loggedUser).getDisciplineSurveys(disciplineName);
 	}
 }

@@ -19,7 +19,7 @@ public abstract class Subject implements Serializable {
 		_observers.remove(p);
 	}
 
-	public void notifyObserver(){
+	public void notifyObservers(){
 		for (Observer o: _observers) 
 			o.update(this);
 	}

@@ -51,11 +51,6 @@ public abstract class Person implements Serializable, Comparable<Person>,
 	void parseContext(String context, School school) throws BadEntryException {
 		throw new BadEntryException("Should not have extra context: " + context);
 	}
-	
-	public void update(Subject subject) {
-		Survey survey = (Survey) subject;
-		_notifications.add(survey.getNotification());
-	}
 
 	String getSurveyResults(String disciplineName, String projectName) 
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
@@ -68,6 +63,16 @@ public abstract class Person implements Serializable, Comparable<Person>,
 		return null;
 	}
 
+	public void update(Subject subject) {
+		Survey survey = (Survey) subject;
+		_notifications.add(survey.getNotification());
+	}
+
+	List<Notification> popNotifications() {
+		List<Notification> notifications = new ArrayList<>(_notifications);
+		_notifications.clear();
+		return notifications;
+	}
 
 	@Override
 	public String toString() {

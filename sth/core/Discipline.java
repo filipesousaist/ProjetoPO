@@ -68,7 +68,7 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 		return Collections.unmodifiableSet(_teachers);
 	}
 
-	private Project getProject(String projectName) 
+	Project getProject(String projectName) 
 		throws NoSuchProjectIdException {
 
 		for (Project p: _projects)
@@ -106,24 +106,13 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 	}
 
 	void closeProject(String projectName) throws NoSuchProjectIdException {
-		for (Project p: _projects){
-			if (p.getName().equals(projectName)){
-				p.close();
-				return;
-			}
-		}
-		throw new NoSuchProjectIdException(projectName);
+		getProject(projectName).close();
 	}
 
 	void deliverProject(Student s, String projectName, String message)
 		throws NoSuchProjectIdException {
 
-		for (Project p: _projects) {
-			if (p.getName().equals(projectName)) {
-				p.addSubmission(s, message);
-			}
-		}
-		throw new NoSuchProjectIdException(projectName);
+		getProject(projectName).addSubmission(s, message);
 	}
 
 	void createSurvey(String projectName) throws NoSuchProjectIdException,
@@ -164,18 +153,24 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 		getProject(projectName).answerSurvey(student, hours, message);
 	}
 
-	Collection<Survey> getSurveys() {
-		List<Survey> surveys = new ArrayList<>();
-		for(Project p: _projects)
-			if (p.hasSurvey())
-				surveys.add(p.getSurvey());
-		return surveys;
-	}
-
 	String getSurveyResultsFor(Person person, String projectName) 
 		throws NoSuchProjectIdException, CoreNoSurveyException {
 
 		return getProject(projectName).getSurveyResultsFor(person);
+	}
+
+	Collection<String> getSurveyResultsFor(Student student) {
+		try {
+			List<String> results = new ArrayList<>();
+			for (Project p: _projects)
+				if (p.hasSurvey())
+					results.add(p.getSurveyResultsFor(student));
+			return results;
+		}
+		catch (NoSuchProjectIdException | CoreNoSurveyException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override

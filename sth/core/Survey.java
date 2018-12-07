@@ -2,8 +2,6 @@ package sth.core;
 
 import java.io.Serializable;
 
-import java.lang.Comparable;
-
 import java.util.Set;
 import java.util.List;
 import java.util.HashSet;
@@ -16,8 +14,7 @@ import sth.core.exception.survey.CoreSurveyFinishedException;
 import sth.core.exception.survey.CoreNonEmptySurveyException;
 import sth.core.exception.survey.CoreNoSurveyException;
 
-public class Survey extends Subject 
-	implements Serializable, Comparable<Survey> {
+public class Survey extends Subject implements Serializable {
 
 	private static final long serialVersionUID = 201810051538L;
 
@@ -83,13 +80,11 @@ public class Survey extends Subject
 		int totalTime = 0;
 		for (Answer a: _answers) 
 			totalTime += a.getHours();
-		if (totalTime == 0) 
-			return totalTime;
-		return (int) totalTime / getNumberOfAnswers();
+		return (int) (totalTime / getNumberOfAnswers());
 	}
 
 	int getMinimumTime() {
-		int minTime = (_answers.size() != 0)?_answers.get(0).getHours() : 0;
+		int minTime = (_answers.size() != 0) ? _answers.get(0).getHours() : 0;
 		for (Answer a: _answers){
 			if (a.getHours() < minTime)
 				minTime = a.getHours();
@@ -98,7 +93,7 @@ public class Survey extends Subject
 	}
 
 	int getMaximumTime() {
-		int maxTime = (_answers.size() != 0)?_answers.get(0).getHours() : 0;
+		int maxTime = (_answers.size() != 0) ? _answers.get(0).getHours() : 0;
 		for (Answer a: _answers){
 			if (a.getHours() > maxTime)
 				maxTime = a.getHours();
@@ -109,23 +104,11 @@ public class Survey extends Subject
 	private abstract class State implements Serializable {
 		private static final long serialVersionUID = 201810051538L;
 
-		void open() throws CoreOpeningSurveyException {
-			_state = _open;
-		}
-
-		void close() throws CoreClosingSurveyException {
-			_state = _closed;
-		}
-
-		void finish() throws CoreFinishingSurveyException {
-			_state = _finished;
-		}
-
-		void cancel() throws CoreNonEmptySurveyException,
-			CoreSurveyFinishedException {
-
-			_project.deleteSurvey();
-		}
+		abstract void open() throws CoreOpeningSurveyException;
+		abstract void close() throws CoreClosingSurveyException;
+		abstract void finish() throws CoreFinishingSurveyException;
+		abstract void cancel() throws CoreNonEmptySurveyException,
+			CoreSurveyFinishedException;
 
 		void addAnswer(Student student, int hours, String message) 
 			throws CoreNoSurveyException {
@@ -150,14 +133,21 @@ public class Survey extends Subject
 	private class Created extends State {
 		private static final long serialVersionUID = 201810051538L;
 
-		@Override
+		void open() {
+			_state = _open;
+			notifyObservers();
+		}
+
 		void close() throws CoreClosingSurveyException {
 			throw new CoreClosingSurveyException();
 		}
 
-		@Override
 		void finish() throws CoreFinishingSurveyException {
 			throw new CoreFinishingSurveyException();
+		}
+
+		void cancel() {
+			_project.deleteSurvey();
 		}
 
 		@Override
@@ -176,17 +166,18 @@ public class Survey extends Subject
 	private class Open extends State {
 		private static final long serialVersionUID = 201810051538L;
 
-		@Override
 		void open() throws CoreOpeningSurveyException {
 			throw new CoreOpeningSurveyException();
 		}
 
-		@Override
+		void close() {
+			_state = _closed;
+		}
+
 		void finish() throws CoreFinishingSurveyException {
 			throw new CoreFinishingSurveyException();
 		}
 
-		@Override
 		void cancel() throws CoreNonEmptySurveyException {
 			if (! _answers.isEmpty())
 				throw new CoreNonEmptySurveyException();
@@ -198,10 +189,11 @@ public class Survey extends Subject
 			return super.getResultsFor(p) + " (aberto)";
 		}
 
+		@Override
 		Notification getNotification() {
 			Discipline d = _project.getDiscipline();
 
-			return new Notification("Pode preencher inquérito do projeto " + 
+			return new Notification("Pode preencher inquérito do projecto " + 
 				_project.getName() + " da disciplina " + d.getName());
 		}
 	}
@@ -209,22 +201,23 @@ public class Survey extends Subject
 	private class Closed extends State {
 		private static final long serialVersionUID = 201810051538L;
 
-		@Override
 		void open() {
 			_state = _open;
-			notifyObserver();
+			notifyObservers();
 		}
 
-		@Override
+		void close() {
+			/* Do nothing */
+		}
+
 		void finish() {
 			_state = _finished;
-			notifyObserver();
+			notifyObservers();
 		}
 
-		@Override
 		void cancel() {
 			_state = _open;
-			notifyObserver();
+			notifyObservers();
 		}
 
 		@Override
@@ -243,17 +236,18 @@ public class Survey extends Subject
 	private class Finished extends State {
 		private static final long serialVersionUID = 201810051538L;
 
-		@Override
 		void open() throws CoreOpeningSurveyException {
 			throw new CoreOpeningSurveyException();
 		}
 
-		@Override
 		void close() throws CoreClosingSurveyException {
 			throw new CoreClosingSurveyException();
 		}
-		
-		@Override
+
+		void finish() {
+			/* Do nothing */
+		}
+
 		void cancel() throws CoreSurveyFinishedException {
 			throw new CoreSurveyFinishedException();
 		}
@@ -273,13 +267,8 @@ public class Survey extends Subject
 
 		Notification getNotification() {
 			Discipline d = _project.getDiscipline();
-			return new Notification("Resultados do inquérito do projeto " + 
+			return new Notification("Resultados do inquérito do projecto " + 
 				_project.getName() + " da disciplina " + d.getName());
 		}
-	}
-
-	@Override
-	public int compareTo(Survey s) {
-		return _project.getName().compareTo(s._project.getName());
 	}
 }

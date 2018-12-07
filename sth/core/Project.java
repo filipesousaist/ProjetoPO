@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import java.util.Collections;
 import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -54,7 +56,7 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 		return _name;
 	}
 
-	public boolean hasSurvey() {
+	boolean hasSurvey() {
 		return _survey != null;
 	}
 
@@ -71,7 +73,7 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 	void close() {
 		_closed = true;
 		try {
-			if (_survey != null)
+			if (hasSurvey())
 				_survey.open();
 		}
 		catch (CoreOpeningSurveyException cose) {
@@ -99,7 +101,7 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 
 		if (_closed)
 			throw new NoSuchProjectIdException(_name);
-		else if (_survey != null)
+		else if (hasSurvey())
 			throw new CoreDuplicateSurveyException();
 
 		_survey = new Survey(this);
@@ -175,5 +177,16 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 	@Override
 	public int hashCode() {
 		return _name.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		List<Submission> submissions = new ArrayList<>(_submissions);
+		Collections.sort(submissions);
+
+		String string = _discipline.getName() + " - " + _name;
+		for (Submission s: submissions)
+			string += "\n* " + s.getStudent().getId() + " - " + s.getMessage();
+		return string;
 	}
 }

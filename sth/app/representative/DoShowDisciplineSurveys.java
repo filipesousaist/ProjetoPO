@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 import sth.core.SchoolManager;
-import sth.core.Survey;
 
 import sth.core.exception.NoSuchDisciplineIdException;
 
@@ -38,13 +37,13 @@ public class DoShowDisciplineSurveys extends Command<SchoolManager> {
 		String disciplineName = _disciplineNameInput.value();
 
 		try {
-			List<Survey> surveys = new ArrayList<>(
+			List<String> surveyResults = new ArrayList<>(
 				_receiver.getDisciplineSurveys(disciplineName));
 
-			Collections.sort(surveys);
+			Collections.sort(surveyResults);
 
-			for (Survey s: surveys)
-				_display.addLine(s.toString());
+			for (String s: surveyResults)
+				_display.addLine(s);
 			_display.display();
 		}
 		catch (NoSuchDisciplineIdException nsdie) {

@@ -46,8 +46,8 @@ public class Student extends Person {
 				_isRepresentative = rep;
 			return result;
 		}
-		catch (MaxRepresentativesException rlre) {
-			System.out.println(rlre.getMessage());
+		catch (MaxRepresentativesException mre) {
+			System.out.println(mre.getMessage());
 			return false;
 		}
 	}
@@ -75,56 +75,47 @@ public class Student extends Person {
 		return PersonType.STUDENT;
 	}
 
-	void deliverProject(String disciplineName, String projectName, String message)
-		throws NoSuchDisciplineIdException, NoSuchProjectIdException {
-
-		for (Discipline d: _disciplines)
-			if (d.getName().equals(disciplineName)) {
-				d.deliverProject(this, projectName, message);
-				return;
-			}
-		throw new NoSuchDisciplineIdException(disciplineName);
-	}
-
 	private Discipline getDiscipline(String disciplineName)
 		throws NoSuchDisciplineIdException {
 
-		for (Discipline disc: _disciplines)
-			if (disc.getName().equals(disciplineName))
-				return disc;
+		for (Discipline d: _disciplines)
+			if (d.getName().equals(disciplineName))
+				return d;
 		throw new NoSuchDisciplineIdException(disciplineName);
+	}
+
+	void deliverProject(String disciplineName, String projectName, String message)
+		throws NoSuchDisciplineIdException, NoSuchProjectIdException {
+
+		getDiscipline(disciplineName).deliverProject(this, projectName, message);
 	}
 
 	void createSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
 		CoreDuplicateSurveyException {
 
-			Discipline d = getDiscipline(disciplineName);
-			d.createSurvey(projectName);
+		getDiscipline(disciplineName).createSurvey(projectName);
 	}
 
 	void openSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
 		CoreNoSurveyException, CoreOpeningSurveyException {
 
-			Discipline d = getDiscipline(disciplineName);
-			d.openSurvey(projectName);
+		getDiscipline(disciplineName).openSurvey(projectName);
 	}
 
 	void closeSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
 		CoreNoSurveyException, CoreClosingSurveyException {
 
-			Discipline d = getDiscipline(disciplineName);
-			d.closeSurvey(projectName);
+		getDiscipline(disciplineName).closeSurvey(projectName);
 	}
 
 	void finishSurvey(String disciplineName, String projectName)
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
 		CoreNoSurveyException, CoreFinishingSurveyException {
 
-			Discipline d = getDiscipline(disciplineName);
-			d.finishSurvey(projectName);
+		getDiscipline(disciplineName).finishSurvey(projectName);
 	}
 
 	void cancelSurvey(String disciplineName, String projectName)
@@ -132,8 +123,7 @@ public class Student extends Person {
 		CoreNoSurveyException, CoreNonEmptySurveyException,
 		CoreSurveyFinishedException {
 
-			Discipline d = getDiscipline(disciplineName);
-			d.cancelSurvey(projectName);
+		getDiscipline(disciplineName).cancelSurvey(projectName);
 	}
 
 	void answerSurvey(String disciplineName, 
@@ -141,14 +131,14 @@ public class Student extends Person {
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
 		CoreNoSurveyException {
 
-		Discipline d = getDiscipline(disciplineName);
-		d.answerSurvey(this, projectName, hours, message);
+		getDiscipline(disciplineName).answerSurvey(
+			this, projectName, hours, message);
 	}
 
-	Collection<Survey> getDisciplineSurveys(String disciplineName)
+	Collection<String> getDisciplineSurveys(String disciplineName)
 		throws NoSuchDisciplineIdException {
 
-		return getDiscipline(disciplineName).getSurveys();
+		return getDiscipline(disciplineName).getSurveyResultsFor(this);
 	}
 
 	String getSurveyResults(String disciplineName, String projectName) 
@@ -161,8 +151,16 @@ public class Student extends Person {
 
 	String getFinishedSurveyResults(Project p) {
 		Survey s = p.getSurvey();
-		return " * Número de respostas: " + s.getNumberOfAnswers() + 
-			"\n * Tempo médio (horas): " + s.getAverageTime();
+
+		if (_isRepresentative) {
+			Discipline d = p.getDiscipline();
+			return d.getName() + " - " + p.getName() + " - " +
+				s.getNumberOfAnswers() + " respostas - " + 
+				s.getAverageTime() + " horas";
+		}
+		else
+			return " * Número de respostas: " + s.getNumberOfAnswers() + 
+				"\n * Tempo médio (horas): " + s.getAverageTime();
 	}
 
 	@Override

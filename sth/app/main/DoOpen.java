@@ -5,12 +5,16 @@ import java.io.ObjectInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import java.util.List;
+
 import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 
 import sth.core.SchoolManager;
 import sth.core.School;
+import sth.core.Notification;
+
 import sth.core.exception.NoSuchPersonIdException;
 
 import sth.app.exception.NoSuchPersonException;
@@ -39,6 +43,11 @@ public class DoOpen extends Command<SchoolManager> {
 			
 			_receiver.updateSchool((School) objInput.readObject());
 			_receiver.setSerialFilename(serialFilename);
+
+			List<Notification> notifications = _receiver.getNotifications();
+			for (Notification n: notifications)
+				_display.addLine(n.getMessage());
+			_display.display();
 		} 
 		catch (FileNotFoundException fnfe) {
 			_display.popup(Message.fileNotFound());
