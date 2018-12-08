@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Teacher extends Person implements CanGetSurveyResults {
+public class Teacher extends Person {
 	/** Serial number for serialization. */
 	private static final long serialVersionUID = 201810051538L;
 
@@ -71,7 +71,7 @@ public class Teacher extends Person implements CanGetSurveyResults {
 		return getDiscipline(disciplineName).getStudents();
 	}
 
-	public String getSurveyResults(String disciplineName, String projectName) 
+	String getSurveyResults(String disciplineName, String projectName) 
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
 		CoreNoSurveyException {
 
@@ -79,7 +79,7 @@ public class Teacher extends Person implements CanGetSurveyResults {
 			this, projectName);
 	}
 
-	public String getFinishedSurveyResults(Project p) {
+	String getFinishedSurveyResults(Project p) {
 		Survey s = p.getSurvey();
 		return " * Número de submissões: " + p.getNumberOfSubmissions() +
 			"\n * Número de respostas: " + s.getNumberOfAnswers() + 

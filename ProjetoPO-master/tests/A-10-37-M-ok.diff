@@ -1,0 +1,73 @@
+*** tests/A-10-37-M-ok.out	2018-12-06 14:18:49.570236467 +0000
+--- tests/A-10-37-M-ok.outhyp	2018-12-07 00:58:09.316034342 +0000
+***************
+*** 20,26 ****
+  5 - Finalizar inquérito
+  6 - Mostrar inquéritos de uma disciplina
+  0 - Sair
+! Escolha uma opção: Nome da disciplina: Nome do projecto: Portal do Delegado
+  1 - Criar inquérito
+  2 - Cancelar inquérito
+  3 - Abrir inquérito
+--- 20,27 ----
+  5 - Finalizar inquérito
+  6 - Mostrar inquéritos de uma disciplina
+  0 - Sair
+! Escolha uma opção: Nome da disciplina: Nome do projecto: Criar inquérito: Operação inválida: A disciplina 'D2' não existe ou não é válida para o utilizador em causa.
+! Portal do Delegado
+  1 - Criar inquérito
+  2 - Cancelar inquérito
+  3 - Abrir inquérito
+***************
+*** 28,34 ****
+  5 - Finalizar inquérito
+  6 - Mostrar inquéritos de uma disciplina
+  0 - Sair
+! Escolha uma opção: Nome da disciplina: Nome do projecto: Portal do Delegado
+  1 - Criar inquérito
+  2 - Cancelar inquérito
+  3 - Abrir inquérito
+--- 29,36 ----
+  5 - Finalizar inquérito
+  6 - Mostrar inquéritos de uma disciplina
+  0 - Sair
+! Escolha uma opção: Nome da disciplina: Nome do projecto: Cancelar inquérito: Operação inválida: A disciplina 'D2' não existe ou não é válida para o utilizador em causa.
+! Portal do Delegado
+  1 - Criar inquérito
+  2 - Cancelar inquérito
+  3 - Abrir inquérito
+***************
+*** 36,42 ****
+  5 - Finalizar inquérito
+  6 - Mostrar inquéritos de uma disciplina
+  0 - Sair
+! Escolha uma opção: Nome da disciplina: Nome do projecto: Portal do Delegado
+  1 - Criar inquérito
+  2 - Cancelar inquérito
+  3 - Abrir inquérito
+--- 38,45 ----
+  5 - Finalizar inquérito
+  6 - Mostrar inquéritos de uma disciplina
+  0 - Sair
+! Escolha uma opção: Nome da disciplina: Nome do projecto: Criar inquérito: Operação inválida: A disciplina 'D2' não existe ou não é válida para o utilizador em causa.
+! Portal do Delegado
+  1 - Criar inquérito
+  2 - Cancelar inquérito
+  3 - Abrir inquérito
+***************
+*** 44,50 ****
+  5 - Finalizar inquérito
+  6 - Mostrar inquéritos de uma disciplina
+  0 - Sair
+! Escolha uma opção: Nome da disciplina: Nome do projecto: Criar inquérito: Operação inválida: O projecto 'P3' da disciplina 'D2' já tem um inquérito associado.
+  Portal do Delegado
+  1 - Criar inquérito
+  2 - Cancelar inquérito
+--- 47,53 ----
+  5 - Finalizar inquérito
+  6 - Mostrar inquéritos de uma disciplina
+  0 - Sair
+! Escolha uma opção: Nome da disciplina: Nome do projecto: Criar inquérito: Operação inválida: A disciplina 'D2' não existe ou não é válida para o utilizador em causa.
+  Portal do Delegado
+  1 - Criar inquérito
+  2 - Cancelar inquérito

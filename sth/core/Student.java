@@ -19,7 +19,7 @@ import sth.core.exception.survey.CoreFinishingSurveyException;
 import sth.core.exception.survey.CoreNonEmptySurveyException;
 import sth.core.exception.survey.CoreSurveyFinishedException;
 
-public class Student extends Person implements CanGetSurveyResults {
+public class Student extends Person {
 	/** Serial number for serialization. */
 	private static final long serialVersionUID = 201810051538L;
 	
@@ -141,7 +141,7 @@ public class Student extends Person implements CanGetSurveyResults {
 		return _course.getDiscipline(disciplineName).getSurveyResultsFor(this);
 	}
 
-	public String getSurveyResults(String disciplineName, String projectName) 
+	String getSurveyResults(String disciplineName, String projectName) 
 		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
 		CoreNoSurveyException {
 
@@ -149,7 +149,7 @@ public class Student extends Person implements CanGetSurveyResults {
 			this, projectName);
 	}
 
-	public String getFinishedSurveyResults(Project p) {
+	String getFinishedSurveyResults(Project p) {
 		Survey s = p.getSurvey();
 
 		if (_isRepresentative) {

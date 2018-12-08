@@ -1,0 +1,19 @@
+*** tests/A-10-40-M-ok.out	2018-12-02 16:46:47.000000000 +0000
+--- tests/A-10-40-M-ok.outhyp	2018-12-02 23:27:43.000000000 +0000
+***************
+*** 40,46 ****
+  2 - Preencher inquérito
+  3 - Ver resultados de inquérito
+  0 - Sair
+! Escolha uma opção: Nome da disciplina: Nome do projecto: D1 - P1 (fechdo)
+  Portal do Estudante
+  1 - Entregar projecto
+  2 - Preencher inquérito
+--- 40,46 ----
+  2 - Preencher inquérito
+  3 - Ver resultados de inquérito
+  0 - Sair
+! Escolha uma opção: Nome da disciplina: Nome do projecto: D1 - P1 (fechado)
+  Portal do Estudante
+  1 - Entregar projecto
+  2 - Preencher inquérito
