@@ -153,7 +153,7 @@ public class Discipline implements Serializable, Comparable<Discipline> {
 		getProject(projectName).answerSurvey(student, hours, message);
 	}
 
-	String getSurveyResultsFor(Person person, String projectName) 
+	String getSurveyResultsFor(CanGetSurveyResults person, String projectName) 
 		throws NoSuchProjectIdException, CoreNoSurveyException {
 
 		return getProject(projectName).getSurveyResultsFor(person);

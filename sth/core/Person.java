@@ -52,17 +52,6 @@ public abstract class Person implements Serializable, Comparable<Person>,
 		throw new BadEntryException("Should not have extra context: " + context);
 	}
 
-	String getSurveyResults(String disciplineName, String projectName) 
-		throws NoSuchDisciplineIdException, NoSuchProjectIdException,
-		CoreNoSurveyException {
-		
-		return null;
-	}
-
-	String getFinishedSurveyResults(Project p) {
-		return null;
-	}
-
 	public void update(Subject subject) {
 		Survey survey = (Survey) subject;
 		_notifications.add(survey.getNotification());

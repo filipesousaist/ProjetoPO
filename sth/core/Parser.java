@@ -63,7 +63,8 @@ public class Parser {
 				break;
 
 			default:
-				throw new BadEntryException("Invalid token " + components[0] + "in line describing a person");
+				throw new BadEntryException("Invalid token " + components[0] +
+				"in line describing a person");
 		 }
 
 		_school.addPerson(_person);

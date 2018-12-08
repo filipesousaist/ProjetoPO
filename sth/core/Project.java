@@ -161,7 +161,7 @@ import sth.core.exception.survey.CoreDuplicateSurveyException;
 		return _submissions.size();
 	}
 
-	String getSurveyResultsFor(Person person)
+	String getSurveyResultsFor(CanGetSurveyResults person)
 		throws NoSuchProjectIdException, CoreNoSurveyException {
 
 		return getExistingSurvey().getResultsFor(person);

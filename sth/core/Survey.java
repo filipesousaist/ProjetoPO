@@ -65,12 +65,12 @@ public class Survey extends Subject implements Serializable {
 		_state.addAnswer(student, hours, message);
 	}
 
-	String getResultsFor(Person p) {
-		return _state.getResultsFor(p);
+	String getResultsFor(CanGetSurveyResults person) {
+		return _state.getResultsFor(person);
 	}
 
 	Notification getNotification() {
-		return _state.getNotification();
+		return ((CanGetNotification) _state).getNotification();
 	}
 
 	int getNumberOfAnswers() {
@@ -105,6 +105,10 @@ public class Survey extends Subject implements Serializable {
 		return maxTime;
 	}
 
+	private interface CanGetNotification {
+		Notification getNotification();
+	}
+
 	private abstract class State implements Serializable {
 		private static final long serialVersionUID = 201810051538L;
 
@@ -123,15 +127,10 @@ public class Survey extends Subject implements Serializable {
 			}
 		}
 
-		String getResultsFor(Person p) {
+		String getResultsFor(CanGetSurveyResults person) {
 			Discipline d = _project.getDiscipline();
 			return d.getName() + " - " + _project.getName();
 		}
-
-		Notification getNotification() {
-			return null;
-		}
-
 	}
 
 	private class Created extends State {
@@ -162,12 +161,12 @@ public class Survey extends Subject implements Serializable {
 		}
 
 		@Override 
-		String getResultsFor(Person p) {
-			return super.getResultsFor(p) + " (por abrir)";
+		String getResultsFor(CanGetSurveyResults person) {
+			return super.getResultsFor(person) + " (por abrir)";
 		}
 	}
 
-	private class Open extends State {
+	private class Open extends State implements CanGetNotification {
 		private static final long serialVersionUID = 201810051538L;
 
 		void open() throws CoreOpeningSurveyException {
@@ -189,12 +188,11 @@ public class Survey extends Subject implements Serializable {
 		}
 
 		@Override 
-		String getResultsFor(Person p) {
-			return super.getResultsFor(p) + " (aberto)";
+		String getResultsFor(CanGetSurveyResults person) {
+			return super.getResultsFor(person) + " (aberto)";
 		}
 
-		@Override
-		Notification getNotification() {
+		public Notification getNotification() {
 			Discipline d = _project.getDiscipline();
 
 			return new Notification("Pode preencher inquérito do projecto " + 
@@ -211,7 +209,7 @@ public class Survey extends Subject implements Serializable {
 		}
 
 		void close() {
-			/* Do nothing */
+			/* Keep state */
 		}
 
 		void finish() {
@@ -232,12 +230,12 @@ public class Survey extends Subject implements Serializable {
 		}
 
 		@Override 
-		String getResultsFor(Person p) {
-			return super.getResultsFor(p) + " (fechado)";
+		String getResultsFor(CanGetSurveyResults person) {
+			return super.getResultsFor(person) + " (fechado)";
 		}
 	}
 
-	private class Finished extends State {
+	private class Finished extends State implements CanGetNotification {
 		private static final long serialVersionUID = 201810051538L;
 
 		void open() throws CoreOpeningSurveyException {
@@ -249,7 +247,7 @@ public class Survey extends Subject implements Serializable {
 		}
 
 		void finish() {
-			/* Do nothing */
+			/* Keep state */
 		}
 
 		void cancel() throws CoreSurveyFinishedException {
@@ -263,13 +261,13 @@ public class Survey extends Subject implements Serializable {
 			throw new CoreNoSurveyException();
 		}
 
-		@Override 
-		String getResultsFor(Person p) {
-			return super.getResultsFor(p) + "\n" + 
-				p.getFinishedSurveyResults(_project);
+		@Override
+		String getResultsFor(CanGetSurveyResults person) {
+			return super.getResultsFor(person) + "\n" + 
+				person.getFinishedSurveyResults(_project);
 		}
 
-		Notification getNotification() {
+		public Notification getNotification() {
 			Discipline d = _project.getDiscipline();
 			return new Notification("Resultados do inquérito do projecto " + 
 				_project.getName() + " da disciplina " + d.getName());

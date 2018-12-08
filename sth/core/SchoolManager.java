@@ -176,19 +176,22 @@ public class SchoolManager {
 		String projectName) throws NoSuchDisciplineIdException,
 		NoSuchProjectIdException, CoreNoSurveyException {
 
+		CanGetSurveyResults user = (CanGetSurveyResults) _loggedUser;
+
 		if (isLoggedUserRepresentative()) {
-			Student user = (Student) _loggedUser;
+			Student student = (Student) user;
 			try {
-				user.setRepresentative(false);
-				String results = user.getSurveyResults(disciplineName, projectName);
+				student.setRepresentative(false);
+				String results = 
+					student.getSurveyResults(disciplineName, projectName);
 				return results;
 			}
 			finally {
-				user.setRepresentative(true);
+				student.setRepresentative(true);
 			}
 		}
 		else
-			return _loggedUser.getSurveyResults(disciplineName, projectName);
+			return user.getSurveyResults(disciplineName, projectName);
 	}
 
 	public void createSurvey(String disciplineName, String projectName) 
