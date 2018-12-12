@@ -81,11 +81,11 @@ public class Teacher extends Person {
 
 	String getFinishedSurveyResults(Project p) {
 		Survey s = p.getSurvey();
-		return " * Número de submissões: " + p.getNumberOfSubmissions() +
+		return "\n * Número de submissões: " + p.getNumberOfSubmissions() +
 			"\n * Número de respostas: " + s.getNumberOfAnswers() + 
 			"\n * Tempos de resolução (horas) (mínimo, médio, máximo): " + 
-			s.getMinimumTime() + ", " + s.getMaximumTime() + ", " + 
-			s.getAverageTime();
+			s.getMinimumTime() + ", " + s.getAverageTime() + ", " + 
+			s.getMaximumTime();
 	}
 
 	@Override

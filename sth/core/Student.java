@@ -154,12 +154,11 @@ public class Student extends Person {
 
 		if (_isRepresentative) {
 			Discipline d = p.getDiscipline();
-			return d.getName() + " - " + p.getName() + " - " +
-				s.getNumberOfAnswers() + " respostas - " + 
+			return " - " + s.getNumberOfAnswers() + " respostas - " + 
 				s.getAverageTime() + " horas";
 		}
 		else
-			return " * Número de respostas: " + s.getNumberOfAnswers() + 
+			return "\n * Número de respostas: " + s.getNumberOfAnswers() + 
 				"\n * Tempo médio (horas): " + s.getAverageTime();
 	}
 

@@ -265,7 +265,7 @@ public class Survey extends Subject implements Serializable {
 
 		@Override 
 		String getResultsFor(Person p) {
-			return super.getResultsFor(p) + "\n" + 
+			return super.getResultsFor(p) + 
 				p.getFinishedSurveyResults(_project);
 		}
 
